@@ -1,6 +1,3 @@
-
-
-
 import '../utils/export_files.dart';
 
 Future<void> init() async {
@@ -21,5 +18,30 @@ Future<void> init() async {
         sharedPreferences: Get.find<SharedPreferences>(),
       ));
 
- 
+  Get.lazyPut<AuthRepo>(() => AuthRepo(
+        sharedPreferences: Get.find<SharedPreferences>(),
+        apiClient: Get.find<ApiClient>(),
+      ));
+
+  Get.lazyPut<ProfileRepo>(() => ProfileRepo(
+        apiClient: Get.find<ApiClient>(),
+      ));
+
+  // Controller
+  Get.lazyPut<SplashController>(
+    () => SplashController(
+      splashRepo: Get.find<SplashRepo>(),
+    ),
+  );
+
+  Get.lazyPut<AuthController>(
+    () => AuthController(
+      sharedPreferences: Get.find<SharedPreferences>(),
+      authRepo: Get.find<AuthRepo>(),
+    ),
+  );
+
+  Get.lazyPut<ProfileController>(() => ProfileController(
+        profileRepo: Get.find<ProfileRepo>(),
+      ));
 }

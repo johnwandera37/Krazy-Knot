@@ -1,5 +1,3 @@
-
-
 import '../../../utils/export_files.dart';
 
 enum TextWeight { normal, semiBold, bold }
@@ -64,30 +62,28 @@ class CustomText extends StatelessWidget {
       textAlign = TextAlign.left;
     }
 
-    return Obx(
-      () => GestureDetector(
-        onTap: onTap == null
-            ? () {}
-            : () {
-                onTap!();
-              },
-        child: Container(
-          margin: EdgeInsets.only(
-            bottom: marginBottom ?? 0.0,
-            top: marginTop ?? 0.0,
-          ),
-          child: Text(
-            headingStr,
-            textAlign: textAlign,
-            maxLines: maxLines ?? 3, 
-            overflow: TextOverflow.ellipsis,
-            style: GoogleFonts.montserrat(
-              color: Colors.black,
-              fontSize: fontSize ?? 14,
-              fontWeight: fontWeight,
-              height: textHeight ?? 1.0,
-              decoration: textDecoration,
-            ),
+    return GestureDetector(
+      onTap: onTap == null
+          ? () {}
+          : () {
+              onTap!();
+            },
+      child: Container(
+        margin: EdgeInsets.only(
+          bottom: marginBottom ?? 0.0,
+          top: marginTop ?? 0.0,
+        ),
+        child: Text(
+          headingStr,
+          textAlign: textAlign,
+          maxLines: maxLines ?? 3,
+          overflow: TextOverflow.ellipsis,
+          style: GoogleFonts.montserrat(
+            color: Colors.black,
+            fontSize: fontSize ?? 14,
+            fontWeight: fontWeight,
+            height: textHeight ?? 1.0,
+            decoration: textDecoration,
           ),
         ),
       ),
