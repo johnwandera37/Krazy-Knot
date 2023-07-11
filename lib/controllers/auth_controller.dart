@@ -96,8 +96,10 @@ class AuthController extends GetxController implements GetxService {
         "SEND OTP RESPONSE STATUS CODE ::::::::: ${response.statusCode}");
     debugPrint("SEND OTP RESPONSE BODY ::::::::: ${response.body}");
     if (response.statusCode == 200) {
+      loading(false);
       Get.toNamed(RouteHelper.getEnterOtpRoute());
     } else {
+      loading(false);
       ApiChecker.checkApi(response);
     }
     loading(false);
@@ -113,7 +115,7 @@ class AuthController extends GetxController implements GetxService {
     loading(true);
     Response response = await getForgotOtpData();
     if (response.statusCode == 200) {
-     // Get.to(const ForgotOtpScreen());
+       Get.to(const ForgotOtpScreen());
     } else {
       ApiChecker.checkApi(response);
     }
@@ -129,6 +131,7 @@ class AuthController extends GetxController implements GetxService {
     loading(true);
     Response response = await getOtpPhoneData();
     if (response.statusCode == 200) {
+      loading(false);
       // CREATE ACCOUNT
       registration();
     } else {
@@ -146,8 +149,10 @@ class AuthController extends GetxController implements GetxService {
     loading(true);
     Response response = await getChangePassOtpPhoneData();
     if (response.statusCode == 200) {
-     // Get.to(const NewPasswordScreen());
+      loading(false);
+       Get.to(const NewPasswordScreen());
     } else {
+      loading(false);
       ApiChecker.checkApi(response);
     }
     loading(false);
@@ -162,7 +167,8 @@ class AuthController extends GetxController implements GetxService {
     loading(true);
     Response response = await getChangeUserPassword();
     if (response.statusCode == 200) {
-     // Get.to(const PasswordChangeSuccess());
+      loading(false);
+       Get.to(const PasswordChangeSuccess());
     } else {
       ApiChecker.checkApi(response);
     }
@@ -194,6 +200,7 @@ class AuthController extends GetxController implements GetxService {
     } else {
       loginPasswordController.clear();
       _isLoading = false;
+      loading(false);
       ApiChecker.checkApi(response);
     }
     loading(false);
@@ -268,8 +275,10 @@ class AuthController extends GetxController implements GetxService {
       signUpEmailController.text.trim(),
     );
     if (response.statusCode == 200) {
+      loading(false);
       return response;
     } else {
+      loading(false);
       ApiChecker.checkApi(response);
     }
     loading(false);
@@ -284,6 +293,7 @@ class AuthController extends GetxController implements GetxService {
       signUpEmailController.text.trim(),
     );
     if (response.statusCode == 200) {
+      loading(false);
       return response;
     } else {
       ApiChecker.checkApi(response);
@@ -339,6 +349,7 @@ class AuthController extends GetxController implements GetxService {
       changePassOtpController.text.trim(),
     );
     if (response.statusCode == 200) {
+      loading(false);
       return response;
     } else {
       ApiChecker.checkApi(response);
@@ -359,6 +370,7 @@ class AuthController extends GetxController implements GetxService {
       newPasswordController.text.trim(),
     );
     if (response.statusCode == 200) {
+      loading(false);
       return response;
     } else {
       ApiChecker.checkApi(response);

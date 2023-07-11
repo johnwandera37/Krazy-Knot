@@ -44,4 +44,6 @@ Future<void> init() async {
   Get.lazyPut<ProfileController>(() => ProfileController(
         profileRepo: Get.find<ProfileRepo>(),
       ));
+
+  Get.lazyPut<ThemeController>(() => ThemeController());
 }

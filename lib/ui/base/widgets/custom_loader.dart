@@ -12,7 +12,7 @@ class CustomLoader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CircularProgressIndicator(     
-      color: myColor ?? Colors.white,      
+      color: myColor ?? Colors.black,      
       strokeWidth: size ?? 1.5,   
     );
   }

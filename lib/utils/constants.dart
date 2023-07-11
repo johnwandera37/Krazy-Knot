@@ -4,7 +4,10 @@ abstract class Constants {
   static const noInternetMessage =
       'Connection to API server failed due to internet connection';
 
-  static const welcomeStr = 'Welcome';
+  static const welcomeStr = 'Welcome,';
+   static const gladToSeeYou = 'Glad to see you!';
+   static const createAccountStr = 'Create Account';
+   static const toGetStartedStr = 'to get started now!';
   static const dashboard = 'Dashboard';
   static const alertStr = 'Alert';
   static const account = 'ACCOUNT:';
@@ -77,6 +80,8 @@ abstract class Constants {
   static const poweredByStr = 'Powered by CodersAfrica';
   static const splashStr = 'splash';
   static const loginStr = 'login';
+  static const loginNowStr = 'Login Now';
+  static const signNowStr = 'Sign Up Now';
   static const homeStr = 'home';
   static const signUp2Str = 'sign up';
   static const forgotPasswordStr = 'forgotPassword';

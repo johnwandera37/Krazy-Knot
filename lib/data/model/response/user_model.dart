@@ -15,8 +15,6 @@ class UserModel {
     String email;
     String phone;
     List<Subscription> subscriptions;
-    List<dynamic> speedTests;
-    List<dynamic> bills;
     ServerInformation serverInformation;
     RequesterInformation requesterInformation;
 
@@ -27,8 +25,6 @@ class UserModel {
         required this.email,
         required this.phone,
         required this.subscriptions,
-        required this.speedTests,
-        required this.bills,
         required this.serverInformation,
         required this.requesterInformation,
     });
@@ -40,8 +36,6 @@ class UserModel {
         email: json["email"],
         phone: json["phone"],
         subscriptions: List<Subscription>.from(json["subscriptions"].map((x) => Subscription.fromJson(x))),
-        speedTests: List<dynamic>.from(json["speedTests"].map((x) => x)),
-        bills: List<dynamic>.from(json["bills"].map((x) => x)),
         serverInformation: ServerInformation.fromJson(json["serverInformation"]),
         requesterInformation: RequesterInformation.fromJson(json["requesterInformation"]),
     );
@@ -53,8 +47,6 @@ class UserModel {
         "email": email,
         "phone": phone,
         "subscriptions": List<dynamic>.from(subscriptions.map((x) => x.toJson())),
-        "speedTests": List<dynamic>.from(speedTests.map((x) => x)),
-        "bills": List<dynamic>.from(bills.map((x) => x)),
         "serverInformation": serverInformation.toJson(),
         "requesterInformation": requesterInformation.toJson(),
     };

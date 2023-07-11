@@ -24,17 +24,25 @@ export 'package:photomanager/data/repo/profile_repo.dart';
 export 'package:photomanager/controllers/auth_controller.dart';
 export 'package:photomanager/controllers/profile_controller.dart';
 export 'package:photomanager/controllers/splash_controller.dart';
+export 'package:photomanager/controllers/theme_controller.dart';
 
 // MODEL
 export 'package:photomanager/data/model/response/user_model.dart';
 export 'package:photomanager/ui/base/widgets/custom_loader.dart';
+export 'package:photomanager/ui/base/widgets/custom_input.dart';
+export 'package:photomanager/ui/base/widgets/custom_button.dart';
 
 // SCREEN
 export 'package:photomanager/ui/authentication/enterOtpScreen.dart';
 export 'package:photomanager/ui/authentication/enterPhoneScreen.dart';
 export 'package:photomanager/ui/authentication/loginscreen.dart';
 export 'package:photomanager/ui/authentication/signupscreen.dart';
+export 'package:photomanager/ui/authentication/forgot_otp_screen.dart';
+export 'package:photomanager/ui/authentication/password_changed_success.dart';
+export 'package:photomanager/ui/authentication/new_pass_screen.dart';
 
+ // UTILS
+ export 'package:photomanager/utils/dimensions.dart';
 export 'package:photomanager/helper/route_helper.dart';
 
 export 'package:photomanager/data/api/handle_response.dart';
