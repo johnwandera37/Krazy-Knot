@@ -21,7 +21,7 @@ class SplashController extends GetxController implements GetxService {
   }
 
   Future<bool> removeSharedData() {
-    return splashRepo.removeSharedData();
+    return splashRepo.removeSharedData(); 
   }
 
   void route() {
@@ -40,7 +40,7 @@ class SplashController extends GetxController implements GetxService {
       await profileController.profileData();
       return profileController.userInfo == null;
     });
-    await Get.offNamed(RouteHelper.getHOmeRoute());
+    await Get.offNamed(RouteHelper.getLandingRoute());
   }
 
   String getCustomerEmail() {

@@ -1,6 +1,3 @@
-
-
-
 import '../../../utils/export_files.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -13,16 +10,21 @@ class SplashScreen extends StatelessWidget {
       body: Stack(
         children: [
           //LOGO
-          // Center(
-          //   child: Container(
-          //     margin: const EdgeInsets.only(bottom: 30),
-          //     child: CustomImage(
-          //       image: themeController.logoIcon(),
-          //       imageHeight: Get.height * .4,
-          //       imageWidth: Get.width * .65,
-          //     ),
-          //   ),
-          // ),
+          Center(
+            child: Container(
+              margin: const EdgeInsets.only(bottom: 30),
+              child: Text(
+                Constants.appName,
+                overflow: TextOverflow.ellipsis,
+                style: GoogleFonts.sacramento(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 30,
+                  height: 1.3,
+                ),
+              ),
+            ),
+          ),
 
           // LOADER
           Container(

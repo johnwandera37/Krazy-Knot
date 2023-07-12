@@ -4,12 +4,12 @@ Future<void> init() async {
   // Core
   await Get.putAsync<SharedPreferences>(() => SharedPreferences.getInstance());
   Get.lazyPut<ApiClient>(() => ApiClient(
-        appBaseUrl: Environment.baseUrl,
+        appBaseUrl: Constants.baseUrl,
         sharedPreferences: Get.find<SharedPreferences>(),
       ));
 
   Get.lazyPut<ApiClient>(() => ApiClient(
-        appBaseUrl: Environment.baseUrl,
+        appBaseUrl: Constants.baseUrl,
         sharedPreferences: Get.find<SharedPreferences>(),
       ));
 

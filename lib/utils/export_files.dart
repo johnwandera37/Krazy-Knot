@@ -11,9 +11,14 @@ export 'package:flutter_dotenv/flutter_dotenv.dart';
 export 'package:lottie/lottie.dart';
 export 'package:url_strategy/url_strategy.dart';
 export 'package:photomanager/ui/base/widgets/custom_text.dart';
+export 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_notch_bottom_bar.dart';
+export 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 //UI
 export 'package:photomanager/ui/authentication/splashscreen.dart';
+export 'package:photomanager/ui/home/tab/add_photo.dart';
+export 'package:photomanager/ui/home/tab/home_tab.dart';
+export 'package:photomanager/ui/home/tab/profile_tab.dart';
 
 // REPO
 export 'package:photomanager/data/repo/splash_repo.dart';
@@ -54,7 +59,6 @@ export 'package:photomanager/utils/styles.dart';
 export 'package:photomanager/data/api/api_client.dart';
 
 export 'package:photomanager/data/model/response/error_response.dart';
-export 'package:photomanager/utils/environment.dart';
 export 'package:photomanager/data/api/api_checker.dart';
 export 'package:photomanager/utils/my_utils.dart';
 

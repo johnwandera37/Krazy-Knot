@@ -1,5 +1,9 @@
 
 
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
+
 import '../utils/export_files.dart';
 
 class ProfileController extends GetxController implements GetxService {
@@ -12,6 +16,20 @@ class ProfileController extends GetxController implements GetxService {
   UserModel? get userInfo => _userModel;
 
   RxBool loading = false.obs;
+
+  RxList<File> selectedImages = <File>[].obs;
+
+  void pickImages() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.image,
+      allowMultiple: true,
+    );
+
+    if (result != null) {
+      List<File> files = result.paths.map((path) => File(path!)).toList();
+      selectedImages.value = files;
+    }
+  }
 
   // EDIT-TEXT-CONTROLLER
   var editFirstNameController = TextEditingController();

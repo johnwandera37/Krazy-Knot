@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import '../../utils/export_files.dart';
 
 class ApiClient extends GetxService {
-  late String appBaseUrl = Environment.baseUrl;
+  late String appBaseUrl = Constants.baseUrl;
   late SharedPreferences sharedPreferences;
   final int timeoutInSeconds = 30;
 

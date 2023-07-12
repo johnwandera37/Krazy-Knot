@@ -13,7 +13,7 @@ class AuthRepo extends GetxService {
     required String password,
   }) async {
     return await apiClient.postWithParamsData(
-      Environment.baseUrl + Environment.loginUrl,
+      Constants.baseUrl + Constants.loginUrl,
       queryParams: {
         Constants.phoneStr: phone,
         Constants.passwordStr: password,
@@ -23,14 +23,14 @@ class AuthRepo extends GetxService {
 
   Future<Response> registration(Map<String, String> customerInfo) async {
     return await apiClient.postWithParamsData(
-      Environment.baseUrl + Environment.registerUrl,
+      Constants.baseUrl + Constants.registerUrl,
       queryParams: customerInfo ?? {},
     );
   }
 
   Future<Response> getUserInfo() async {
     return await apiClient.getData(
-      Environment.baseUrl,
+      Constants.baseUrl,
       query: {},
       headers: {},
     );
@@ -41,7 +41,7 @@ class AuthRepo extends GetxService {
     String userEmail,
   ) async {
     return await apiClient.postWithParamsData(
-      Environment.baseUrl + Environment.sendOtpUrl,
+      Constants.baseUrl + Constants.sendOtpUrl,
       queryParams: {
         Constants.phoneStr: Constants.defaultCountryCode + userPhone,
         Constants.emailStr: userEmail,
@@ -54,7 +54,7 @@ class AuthRepo extends GetxService {
     String userEmail,
   ) async {
     return await apiClient.postWithParamsData(
-      Environment.baseUrl + Environment.sendForgotOtpUrl,
+      Constants.baseUrl + Constants.sendForgotOtpUrl,
       queryParams: {
         Constants.phoneStr: Constants.defaultCountryCode + userPhone,
         Constants.emailStr: userEmail,
@@ -64,7 +64,7 @@ class AuthRepo extends GetxService {
 
   Future<Response> getOtpFogortPassApi(String userPhone) async {
     return await apiClient.postWithParamsData(
-      Environment.baseUrl + Environment.changePasswordUrl,
+      Constants.baseUrl + Constants.changePasswordUrl,
       queryParams: {
         Constants.phoneStr: Constants.defaultCountryCode + userPhone,
       },
@@ -74,7 +74,7 @@ class AuthRepo extends GetxService {
   Future<Response> postOtpAndPasswordApi(
       String userPhone, String password) async {
     return await apiClient.postWithParamsData(
-      Environment.baseUrl + Environment.changePasswordUrl,
+      Constants.baseUrl + Constants.changePasswordUrl,
       queryParams: {
         Constants.phoneStr: userPhone,
         Constants.passwordStr: password,
@@ -85,7 +85,7 @@ class AuthRepo extends GetxService {
   Future<Response> checkIfOtpPhoneIsVerifiedApi(
       String userPhone, String otp) async {
     return await apiClient.postWithParamsData(
-      Environment.baseUrl + Environment.sendOtpUrl,
+      Constants.baseUrl + Constants.sendOtpUrl,
       queryParams: {
         Constants.phoneStr: Constants.defaultCountryCode + userPhone,
         Constants.otpStr: otp,    

@@ -5,15 +5,8 @@ import 'helper/get_di.dart' as di;
 
 void main() async {
   setPathUrlStrategy();
-  await dotenv.load(
-    fileName: Environment.fileName,
-  );
 
   await di.init();
-
-  if (kDebugMode) {
-    print(Environment.baseUrl);
-  }
 
   runApp(const MyApp());
 }

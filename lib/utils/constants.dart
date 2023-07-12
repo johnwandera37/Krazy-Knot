@@ -80,6 +80,7 @@ abstract class Constants {
   static const poweredByStr = 'Powered by CodersAfrica';
   static const splashStr = 'splash';
   static const loginStr = 'login';
+  static const landingStr = 'landing';
   static const loginNowStr = 'Login Now';
   static const signNowStr = 'Sign Up Now';
   static const homeStr = 'home';
@@ -126,6 +127,7 @@ abstract class Constants {
   static const oopsRoute = '/oops_route';
   static const profileRoute = '/profile';
   static const enterPhoneRoute = '/enter_phone';
+  static const landingRoute = '/';
 
   // ERRORS
   static const enterValueError = 'Please enter a value';
@@ -164,4 +166,16 @@ abstract class Constants {
 
   // URL
   static const inetTermsUrl = 'https://inet.africa/terms-of-use/';
+
+  static String get fileName =>
+       "http://smb.inet.africa:8080/api";
+  static String get baseUrl => "http://smb.inet.africa:8080/api/";
+  static String get loginUrl => "login";
+  static String get userInfoUrl => "user";
+  static String get editUserInfoUrl => "login";
+  static String get sendOtpUrl => "verify";
+  static String get registerUrl => "register";
+  static String get changePasswordUrl => "change";
+  static String get sendForgotOtpUrl => "login";
+  static String get speedTestUrl => "login";
 }

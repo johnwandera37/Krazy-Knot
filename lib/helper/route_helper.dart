@@ -1,5 +1,4 @@
-
-
+import 'package:photomanager/ui/home/landingScreen.dart';
 
 import '../utils/export_files.dart';
 
@@ -16,9 +15,11 @@ class RouteHelper {
   static const String oops = Constants.oopsRoute;
   static const String profile = Constants.profileRoute;
   static const String enterPhone = Constants.enterPhoneRoute;
+  static const String landing = Constants.landingRoute;
 
   static getSplashRoute() => Constants.splashStr;
-   static getLoginRoute() => Constants.loginStr;
+  static getLoginRoute() => Constants.loginStr;
+  static getLandingRoute() => Constants.landingStr;
   static getSignUpRoute() => Constants.signUp2Str;
   static getHOmeRoute() => Constants.homeStr;
   static getForgotPassRoute() => Constants.forgotPasswordStr;
@@ -35,6 +36,6 @@ class RouteHelper {
     GetPage(name: signup, page: () => const SignUpScreen()),
     GetPage(name: enterOtp, page: () => const EnterOtpScreen()),
     GetPage(name: enterPhone, page: () => const EnterPhoneScreen()),
-    
+    GetPage(name: landing, page: () => const LandingPage()),
   ];
 }

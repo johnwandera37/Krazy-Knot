@@ -7,7 +7,7 @@ class ProfileRepo {
 
   Future<Response> getProfileDataApi(String userPhone) async {
     return await apiClient.getWithParamData(
-      Environment.baseUrl + Environment.userInfoUrl,
+      Constants.baseUrl + Constants.userInfoUrl,
       queryParams: {
         Constants.phoneStr: userPhone,
       },
@@ -23,7 +23,7 @@ class ProfileRepo {
     
     return await apiClient.putData(
       // TODO: BE CHANGED
-      Environment.baseUrl + Environment.editUserInfoUrl,
+      Constants.baseUrl + Constants.editUserInfoUrl,
       {
         Constants.userIdStr: userId,
         Constants.emailStr: userEmail,
