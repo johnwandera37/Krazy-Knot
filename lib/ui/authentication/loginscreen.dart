@@ -1,3 +1,5 @@
+import 'package:photomanager/ui/authentication/forgot_pass_screen.dart';
+
 import '../../utils/export_files.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -27,8 +29,8 @@ class LoginScreen extends StatelessWidget {
               ),
               sizedHeight(20),
               CustomInput(
-                hintText: Constants.enterPhoneStr,
-                textEditingController: authController.loginPhoneController,
+                hintText: Constants.enterEmailStr,
+                textEditingController: authController.loginEmailController,
               ),
               sizedHeight(10),
               CustomInput(
@@ -37,7 +39,7 @@ class LoginScreen extends StatelessWidget {
               ),
 
               // FORGOT PASS
-              sizedHeight(15),
+             sizedHeight(15),
 
               Row(
                 children: [
@@ -48,7 +50,7 @@ class LoginScreen extends StatelessWidget {
                     weight: TextWeight.semiBold,
                     decoration: TextDecorationOption.underline,
                     onTap: () {
-                      Get.toNamed(RouteHelper.forgotPassword);
+                      Get.to(ForgotPasswordScreen());
                     },
                   ),
                   sizedWidth(40),

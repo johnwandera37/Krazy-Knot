@@ -24,29 +24,29 @@ class MyUtils {
 
   String isStrongPassword(String password) {
     // Check the length of the password
-    if (password.length < 8) {
-      return 'Password should be at least 8 characters long.';
+    if (password.length < 4) {
+      return 'Password should be at least 4 characters long.';
     }
 
-    // Check for uppercase letters
-    if (!password.contains(RegExp(r'[A-Z]'))) {
-      return 'Password should contain at least one uppercase letter.';
-    }
+    // // Check for uppercase letters
+    // if (!password.contains(RegExp(r'[A-Z]'))) {
+    //   return 'Password should contain at least one uppercase letter.';
+    // }
 
-    // Check for lowercase letters
-    if (!password.contains(RegExp(r'[a-z]'))) {
-      return 'Password should contain at least one lowercase letter.';
-    }
+    // // Check for lowercase letters
+    // if (!password.contains(RegExp(r'[a-z]'))) {
+    //   return 'Password should contain at least one lowercase letter.';
+    // }
 
-    // Check for numbers
-    if (!password.contains(RegExp(r'[0-9]'))) {
-      return 'Password should contain at least one number.';
-    }
+    // // Check for numbers
+    // if (!password.contains(RegExp(r'[0-9]'))) {
+    //   return 'Password should contain at least one number.';
+    // }
 
-    // Check for special characters
-    if (!password.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
-      return 'Password should contain at least one special character.';
-    }
+    // // Check for special characters
+    // if (!password.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
+    //   return 'Password should contain at least one special character.';
+    // }
 
     // The password is strong
     return '';

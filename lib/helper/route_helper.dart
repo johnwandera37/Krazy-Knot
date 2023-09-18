@@ -1,4 +1,5 @@
 import 'package:photomanager/ui/home/landingScreen.dart';
+import 'package:photomanager/ui/profile/preview_screen.dart';
 
 import '../utils/export_files.dart';
 
@@ -16,6 +17,7 @@ class RouteHelper {
   static const String profile = Constants.profileRoute;
   static const String enterPhone = Constants.enterPhoneRoute;
   static const String landing = Constants.landingRoute;
+  static const String preview = Constants.previewRoute;
 
   static getSplashRoute() => Constants.splashStr;
   static getLoginRoute() => Constants.loginStr;
@@ -29,6 +31,7 @@ class RouteHelper {
   static getNewPasswordRoute() => Constants.newPasswordStr;
   static getOopsRoute() => Constants.oops;
   static getProfileRoute() => Constants.profileStr;
+  static getPreviewRoute() => Constants.previewStr;
 
   static List<GetPage> routes = [
     GetPage(name: splash, page: () => const SplashScreen()),
@@ -37,5 +40,6 @@ class RouteHelper {
     GetPage(name: enterOtp, page: () => const EnterOtpScreen()),
     GetPage(name: enterPhone, page: () => const EnterPhoneScreen()),
     GetPage(name: landing, page: () => const LandingPage()),
+    GetPage(name: preview, page: () =>  PreviewScreen()),
   ];
 }

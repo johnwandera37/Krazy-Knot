@@ -27,12 +27,11 @@ export 'package:photomanager/data/repo/profile_repo.dart';
 
 // CONTROLLERS
 export 'package:photomanager/controllers/auth_controller.dart';
-export 'package:photomanager/controllers/profile_controller.dart';
 export 'package:photomanager/controllers/splash_controller.dart';
 export 'package:photomanager/controllers/theme_controller.dart';
 
 // MODEL
-export 'package:photomanager/data/model/response/user_model.dart';
+
 export 'package:photomanager/ui/base/widgets/custom_loader.dart';
 export 'package:photomanager/ui/base/widgets/custom_input.dart';
 export 'package:photomanager/ui/base/widgets/custom_button.dart';

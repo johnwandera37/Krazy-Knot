@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:photomanager/controllers/profile_controller.dart';
+
 import '../utils/export_files.dart';
 
 class SplashController extends GetxController implements GetxService {

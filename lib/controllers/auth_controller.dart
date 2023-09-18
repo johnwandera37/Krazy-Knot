@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:photomanager/controllers/profile_controller.dart';
+
 import '../utils/export_files.dart';
 
 class AuthController extends GetxController implements GetxService {
@@ -18,7 +20,7 @@ class AuthController extends GetxController implements GetxService {
   /// ********** TEXT EDITING CONTROLLERS
 
   // LOGIN
-  var loginPhoneController = TextEditingController();
+  var loginEmailController = TextEditingController();
   var loginPasswordController = TextEditingController();
 
   // SIGN-UP
@@ -48,9 +50,9 @@ class AuthController extends GetxController implements GetxService {
   // LOGIN PROCESS
   void initLoginProcess() {
     // Login Validation
-    if (loginPhoneController.text.isEmpty ||
-        !GetUtils.isPhoneNumber(loginPhoneController.text)) {
-      MyStyles().showSnackBar(messageText: Constants.validPhoneError);
+    if (loginEmailController.text.isEmpty ||
+        !GetUtils.isEmail(loginEmailController.text)) {
+      MyStyles().showSnackBar(messageText: Constants.validEmailError);
       return;
     }
     if (loginPasswordController.text.isEmpty) {
@@ -62,8 +64,7 @@ class AuthController extends GetxController implements GetxService {
       print('*************************************Init Login Process');
     }
     login(
-      phone: MyUtils().processPhoneNumber(
-          removeCountryCode(loginPhoneController.text.trim())),
+      email: loginEmailController.text.trim(),
       password: loginPasswordController.text.trim(),
     );
   }
@@ -107,15 +108,25 @@ class AuthController extends GetxController implements GetxService {
 
   void initChangePassword() async {
     // Change Password Validation
-    if (signUpPhoneController.text.isEmpty ||
-        !GetUtils.isPhoneNumber(signUpPhoneController.text)) {
-      MyStyles().showSnackBar(messageText: Constants.validPhoneError);
+    if (loginEmailController.text.isEmpty ||
+        !GetUtils.isEmail(loginEmailController.text)) {
+      MyStyles().showSnackBar(messageText: Constants.validEmailError);
+      return;
+    }
+    if (newPasswordController.text.isEmpty) {
+      MyStyles().showSnackBar(messageText: Constants.validPassError);
+      return;
+    }
+    String strongPassword =
+        MyUtils().isStrongPassword(newPasswordController.text.trim());
+    if (strongPassword.isNotEmpty) {
+      MyStyles().showSnackBar(messageText: strongPassword);
       return;
     }
     loading(true);
-    Response response = await getForgotOtpData();
+    Response response = await getChangeUserPassword();
     if (response.statusCode == 200) {
-       Get.to(const ForgotOtpScreen());
+      Get.to(const PasswordChangeSuccess());
     } else {
       ApiChecker.checkApi(response);
     }
@@ -140,23 +151,7 @@ class AuthController extends GetxController implements GetxService {
     }
   }
 
-  void initChangePasswordOtp() async {
-    // Otp Form Validation
-    if (changePassOtpController.text.isEmpty) {
-      MyStyles().showSnackBar(messageText: Constants.validOtpError);
-      return;
-    }
-    loading(true);
-    Response response = await getChangePassOtpPhoneData();
-    if (response.statusCode == 200) {
-      loading(false);
-       Get.to(const NewPasswordScreen());
-    } else {
-      loading(false);
-      ApiChecker.checkApi(response);
-    }
-    loading(false);
-  }
+
 
   void initChangeUserPassword() async {
     // Form Validation
@@ -168,7 +163,7 @@ class AuthController extends GetxController implements GetxService {
     Response response = await getChangeUserPassword();
     if (response.statusCode == 200) {
       loading(false);
-       Get.to(const PasswordChangeSuccess());
+      Get.to(const PasswordChangeSuccess());
     } else {
       ApiChecker.checkApi(response);
     }
@@ -177,14 +172,14 @@ class AuthController extends GetxController implements GetxService {
 
   // LOGIN
   Future<Response> login({
-    required String phone,
+    required String email,
     required String password,
   }) async {
     _isLoading = true;
     loading(true);
     update();
     Response response = await authRepo.login(
-      phone: '${Constants.defaultCountryCode}$phone',
+      email: email,
       password: password,
     );
 
@@ -192,7 +187,8 @@ class AuthController extends GetxController implements GetxService {
       loginPasswordController.clear();
       authRepo.saveUserToken(response.body[Constants.token]);
       setCustomerEmail(response.body[Constants.emailStr]);
-      setCustomerPhone(response.body[Constants.phoneStr]);
+      setCustomerId(response.body['id']);
+      //setCustomerPhone(response.body[Constants.phoneStr]);
       await Get.find<SplashController>().initUserInfo();
       Get.offAllNamed(RouteHelper.getHOmeRoute());
 
@@ -234,7 +230,7 @@ class AuthController extends GetxController implements GetxService {
       MyStyles().showSnackBar(messageText: strongPassword);
       return;
     }
-    Get.toNamed(RouteHelper.getEnterPhoneRoute());
+    registration();
   }
 
   // REGISTRATION
@@ -247,9 +243,6 @@ class AuthController extends GetxController implements GetxService {
       Constants.firstName:
           signUpFullNameController.text.trim().split(' ').first,
       Constants.lastName: signUpFullNameController.text.trim().split(' ').last,
-      Constants.phoneStr: Constants.defaultCountryCode +
-          removeCountryCode(
-              MyUtils().processPhoneNumber(signUpPhoneController.text.trim())),
       Constants.passwordStr: signUpPasswordController.text.trim(),
     };
 
@@ -342,31 +335,12 @@ class AuthController extends GetxController implements GetxService {
     return response;
   }
 
-  Future<Response> getChangePassOtpPhoneData() async {
-    loading(true);
-    Response response = await authRepo.checkIfOtpPhoneIsVerifiedApi(
-      MyUtils().processPhoneNumber(signUpPhoneController.text.trim()),
-      changePassOtpController.text.trim(),
-    );
-    if (response.statusCode == 200) {
-      loading(false);
-      return response;
-    } else {
-      ApiChecker.checkApi(response);
-    }
-    loading(false);
-    return response;
-  }
+ 
 
   Future<Response> getChangeUserPassword() async {
     loading(true);
     Response response = await authRepo.postOtpAndPasswordApi(
-      Constants.defaultCountryCode +
-          removeCountryCode(
-            MyUtils().processPhoneNumber(
-              signUpPhoneController.text.trim(),
-            ),
-          ),
+      loginEmailController.text.trim(),
       newPasswordController.text.trim(),
     );
     if (response.statusCode == 200) {
@@ -383,12 +357,20 @@ class AuthController extends GetxController implements GetxService {
     authRepo.saveUserEmail(email);
   }
 
+  void setCustomerId(String id) {
+    authRepo.saveUserId(id);
+  }
+
   void setCustomerPhone(String phone) {
     authRepo.saveUserPhone(phone);
   }
 
   String getCustomerEmail() {
     return authRepo.getCustomerEmail();
+  }
+
+  String getCustomerId() {
+    return authRepo.getUserId();
   }
 
   String getCustomerPhone() {

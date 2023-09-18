@@ -1,11 +1,9 @@
-
-
 import 'utils/export_files.dart';
 import 'helper/get_di.dart' as di;
 
 void main() async {
   setPathUrlStrategy();
-
+  WidgetsFlutterBinding.ensureInitialized();
   await di.init();
 
   runApp(const MyApp());

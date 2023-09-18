@@ -87,7 +87,7 @@ class ForgotOtpScreen extends StatelessWidget {
                         : CustomButton(
                             buttonStr: Constants.submitStr,
                             onTap: () {
-                              authController.initChangePasswordOtp();
+                             // authController.initChangePasswordOtp();
                             },
                           );
                   }),

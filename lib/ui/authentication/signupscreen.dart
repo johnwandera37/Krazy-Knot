@@ -56,7 +56,7 @@ class SignUpScreen extends StatelessWidget {
                         )
                       : Center(
                           child: CustomButton(
-                            buttonStr: Constants.signInStr.toUpperCase(),
+                            buttonStr: Constants.signUpStr.toUpperCase(),
                             vertMargin: 35,
                             onTap: () {
                               authController.initSignUpProcess();

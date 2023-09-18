@@ -5,9 +5,9 @@ abstract class Constants {
       'Connection to API server failed due to internet connection';
 
   static const welcomeStr = 'Welcome,';
-   static const gladToSeeYou = 'Glad to see you!';
-   static const createAccountStr = 'Create Account';
-   static const toGetStartedStr = 'to get started now!';
+  static const gladToSeeYou = 'Glad to see you!';
+  static const createAccountStr = 'Create Account';
+  static const toGetStartedStr = 'to get started now!';
   static const dashboard = 'Dashboard';
   static const alertStr = 'Alert';
   static const account = 'ACCOUNT:';
@@ -39,6 +39,7 @@ abstract class Constants {
   static const successStr = 'Success';
   static const settingsStr = 'Settings';
   static const profileStr = 'Profile';
+  static const previewStr = 'Preview';
   static const myProfileStr = 'My Profile';
   static const logOutStr = 'Log Out';
   static const firstName = 'first_name';
@@ -48,7 +49,8 @@ abstract class Constants {
   static const networkHealth = 'Network Health';
   static const allLinksOnlineStr = 'ALL LINKS ARE ONLINE';
   static const letsGetStartedStr = 'Let’s get started';
-  static const enterPhoneStr = 'Enter your number';   
+  static const enterPhoneStr = 'Enter your number';
+  static const enterEmailStr = 'Enter your email';
   static const hashStr = '  *   *   *   *  ';
   static const enterPhoneOtpStr = 'enter_phone';
   static const enter_OtpStr = 'enter_otp';
@@ -60,7 +62,8 @@ abstract class Constants {
   static const yourNameHereStr = 'Your first & last name here';
   static const yourEmailHereStr = 'Your email here';
   static const yourPassHereStr = 'Your password here';
-  static const yourPassStr = 'Your password'; 
+  static const yourNewPassStr = 'Your New password';
+  static const yourPassStr = 'Your password';
   static const forgotPassStr = 'Forgot Password?';
   static const termsStr = 'terms and conditions';
   static const agreeToTermsStr = 'I agree to all ';
@@ -91,7 +94,7 @@ abstract class Constants {
   static const otpExpStr =
       'Please input OTP code sent to the number you provided';
   static const forgotPassExpStr =
-      'By typing your number, you will agree with our terms of service';
+      'By typing your email, you will agree with our terms of service';
   static const newPassExpStr = 'Enter your new password below to continue';
   static const submitStr = 'SUBMIT';
   static const speedTeestNowStr = 'Speed Test Now';
@@ -128,6 +131,7 @@ abstract class Constants {
   static const profileRoute = '/profile';
   static const enterPhoneRoute = '/enter_phone';
   static const landingRoute = '/';
+  static const previewRoute = '/preview';
 
   // ERRORS
   static const enterValueError = 'Please enter a value';
@@ -164,18 +168,16 @@ abstract class Constants {
   static const zohoAndroidAccessKey =
       "VXYedrQX8SnzHsZ53UT04ILm8bnYhFg3Re4dfDzsidVOFkiyIrH1c6WojkJ3lLdr%2F1kxbct5EvslpvlAnE7rTRbi8DRlwqK5jMILITsVryLOTc69%2BNo9RwAScVlganB9";
 
-  // URL
-  static const inetTermsUrl = 'https://inet.africa/terms-of-use/';
-
-  static String get fileName =>
-       "http://smb.inet.africa:8080/api";
-  static String get baseUrl => "http://smb.inet.africa:8080/api/";
+  static String get fileName => "https://smb.inet.africa:8080/api/";
+  static String get baseUrl => "https://smb.inet.africa:8080/api/";
   static String get loginUrl => "login";
   static String get userInfoUrl => "user";
   static String get editUserInfoUrl => "login";
-  static String get sendOtpUrl => "verify";
+  static String get sendOtpUrl => "user/otp/register";
   static String get registerUrl => "register";
-  static String get changePasswordUrl => "change";
-  static String get sendForgotOtpUrl => "login";
+  static String get dayImageUrl => "images/";
+  static String get changePasswordUrl => "user/changePassword";
+  static String get sendForgotOtpUrl => "user/otp/verify";
   static String get speedTestUrl => "login";
+  static String get likeImageUrl => "image/like";
 }

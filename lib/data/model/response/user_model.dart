@@ -9,129 +9,101 @@ UserModel userModelFromJson(String str) => UserModel.fromJson(json.decode(str));
 String userModelToJson(UserModel data) => json.encode(data.toJson());
 
 class UserModel {
-    String id;
-    String email;
     String firstName;
     String lastName;
-    String phone;
-    String token;
-    ServerInformation serverInformation;
-    RequesterInformation requesterInformation;
+    String email;
+    List<zImage> images;
+    DateTime createdAt;
+    String id;
 
     UserModel({
-        required this.id,
-        required this.email,
         required this.firstName,
         required this.lastName,
-        required this.phone,
-        required this.token,
-        required this.serverInformation,
-        required this.requesterInformation,
+        required this.email,
+        required this.images,
+        required this.createdAt,
+        required this.id,
     });
 
     factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
-        id: json["id"],
-        email: json["email"],
         firstName: json["first_name"],
         lastName: json["last_name"],
-        phone: json["phone"],
-        token: json["token"],
-        serverInformation: ServerInformation.fromJson(json["serverInformation"]),
-        requesterInformation: RequesterInformation.fromJson(json["requesterInformation"]),
+        email: json["email"],
+        images: List<zImage>.from(json["images"].map((x) => zImage.fromJson(x))).reversed.toList(),
+        createdAt: DateTime.parse(json["created_at"]),
+        id: json["id"],
     );
 
     Map<String, dynamic> toJson() => {
-        "id": id,
-        "email": email,
         "first_name": firstName,
         "last_name": lastName,
-        "phone": phone,
-        "token": token,
-        "serverInformation": serverInformation.toJson(),
-        "requesterInformation": requesterInformation.toJson(),
-    };
-}
-
-class RequesterInformation {
-    String id;
-    String fingerprint;
-    String messageId;
-    String remoteIp;
-    ReceivedParams receivedParams;
-
-    RequesterInformation({
-        required this.id,
-        required this.fingerprint,
-        required this.messageId,
-        required this.remoteIp,
-        required this.receivedParams,
-    });
-
-    factory RequesterInformation.fromJson(Map<String, dynamic> json) => RequesterInformation(
-        id: json["id"],
-        fingerprint: json["fingerprint"],
-        messageId: json["messageId"],
-        remoteIp: json["remoteIP"],
-        receivedParams: ReceivedParams.fromJson(json["receivedParams"]),
-    );
-
-    Map<String, dynamic> toJson() => {
+        "email": email,
+        "images": List<dynamic>.from(images.map((x) => x.toJson())),
+        "created_at": createdAt.toIso8601String(),
         "id": id,
-        "fingerprint": fingerprint,
-        "messageId": messageId,
-        "remoteIP": remoteIp,
-        "receivedParams": receivedParams.toJson(),
     };
 }
 
-class ReceivedParams {
-    String phone;
-    String password;
-    String action;
+class zImage {
+    String id;
+    ImageDetails imageDetails;
+    List<String> users;
+    String comment;
+    DateTime createdAt;
+    DateTime updatedAt;
+    int v;
 
-    ReceivedParams({
-        required this.phone,
-        required this.password,
-        required this.action,
+    zImage({
+        required this.id,
+        required this.imageDetails,
+        required this.users,
+        required this.comment,
+        required this.createdAt,
+        required this.updatedAt,
+        required this.v,
     });
 
-    factory ReceivedParams.fromJson(Map<String, dynamic> json) => ReceivedParams(
-        phone: json["phone"],
-        password: json["password"],
-        action: json["action"],
+    factory zImage.fromJson(Map<String, dynamic> json) => zImage(
+        id: json["_id"],
+        imageDetails: ImageDetails.fromJson(json["image_details"]),
+        users: List<String>.from(json["users"].map((x) => x)),
+        comment: json["comment"],
+        createdAt: DateTime.parse(json["created_at"]),
+        updatedAt: DateTime.parse(json["updatedAt"]),
+        v: json["__v"],
     );
 
     Map<String, dynamic> toJson() => {
-        "phone": phone,
-        "password": password,
-        "action": action,
+        "_id": id,
+        "image_details": imageDetails.toJson(),
+        "users": List<dynamic>.from(users.map((x) => x)),
+        "comment": comment,
+        "created_at": createdAt.toIso8601String(),
+        "updatedAt": updatedAt.toIso8601String(),
+        "__v": v,
     };
 }
 
-class ServerInformation {
-    String serverName;
-    String apiVersion;
-    int requestDuration;
-    int currentTime;
+class ImageDetails {
+    String fileName;
+    String filePath;
+    String id;
 
-    ServerInformation({
-        required this.serverName,
-        required this.apiVersion,
-        required this.requestDuration,
-        required this.currentTime,
+    ImageDetails({
+        required this.fileName,
+        required this.filePath,
+        required this.id,
     });
 
-    factory ServerInformation.fromJson(Map<String, dynamic> json) => ServerInformation(
-        serverName: json["serverName"],
-        apiVersion: json["apiVersion"],
-        requestDuration: json["requestDuration"],
-        currentTime: json["currentTime"],
+    factory ImageDetails.fromJson(Map<String, dynamic> json) => ImageDetails(
+        fileName: json["file_name"],
+        filePath: json["file_path"],
+        id: json["_id"],
     );
 
     Map<String, dynamic> toJson() => {
-        "serverName": serverName,
-        "apiVersion": apiVersion,
-        "requestDuration": requestDuration,
-        "currentTime": currentTime,
+        "file_name": fileName,
+        "file_path": filePath,
+        "_id": id,
     };
 }

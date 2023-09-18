@@ -9,13 +9,13 @@ class AuthRepo extends GetxService {
   });
 
   Future<Response> login({
-    required String phone,
+    required String email,
     required String password,
   }) async {
     return await apiClient.postWithParamsData(
       Constants.baseUrl + Constants.loginUrl,
       queryParams: {
-        Constants.phoneStr: phone,
+        Constants.emailStr: email,
         Constants.passwordStr: password,
       },
     );
@@ -76,7 +76,7 @@ class AuthRepo extends GetxService {
     return await apiClient.postWithParamsData(
       Constants.baseUrl + Constants.changePasswordUrl,
       queryParams: {
-        Constants.phoneStr: userPhone,
+        Constants.emailStr: userPhone,
         Constants.passwordStr: password,
       },
     );
@@ -114,9 +114,20 @@ class AuthRepo extends GetxService {
       rethrow;
     }
   }
+  Future<void> saveUserId(String id) async {
+    try {
+      await sharedPreferences.setString(Constants.userIdStr, id);
+    } catch (e) {
+      rethrow;
+    }
+  }
 
   String getUserToken() {
     return sharedPreferences.getString(Constants.token) ?? '';
+  }
+
+  String getUserId() {
+    return sharedPreferences.getString(Constants.userIdStr) ?? '';
   }
 
   String getCustomerEmail() {
@@ -144,6 +155,7 @@ class AuthRepo extends GetxService {
   }
 
   void removeCustomerToken() async {
+    await sharedPreferences.remove(Constants.token);
     await sharedPreferences.remove(Constants.token);
   }
 }

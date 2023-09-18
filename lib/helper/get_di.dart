@@ -1,3 +1,5 @@
+import 'package:photomanager/controllers/profile_controller.dart';
+
 import '../utils/export_files.dart';
 
 Future<void> init() async {

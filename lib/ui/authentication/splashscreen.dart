@@ -19,7 +19,7 @@ class SplashScreen extends StatelessWidget {
                 style: GoogleFonts.sacramento(
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
-                  fontSize: 30,
+                  fontSize: 40,
                   height: 1.3,
                 ),
               ),
@@ -27,10 +27,12 @@ class SplashScreen extends StatelessWidget {
           ),
 
           // LOADER
-          Container(
-            margin: EdgeInsets.only(top: Get.width),
-            child: CustomLoader(
-              size: 30,
+          Center(
+            child: Container(
+              margin: EdgeInsets.only(top: Get.width),
+              child:const CustomLoader(
+                size: 3,
+              ),
             ),
           ),
 
@@ -41,7 +43,7 @@ class SplashScreen extends StatelessWidget {
               margin: const EdgeInsets.only(bottom: 20),
               child: const CustomText(
                 headingStr: Constants.poweredByStr,
-                fontSize: 11,
+                fontSize: 10,
                 weight: TextWeight.semiBold,
               ),
             ),

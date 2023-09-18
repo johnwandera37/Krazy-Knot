@@ -9,8 +9,16 @@ class ProfileRepo {
     return await apiClient.getWithParamData(
       Constants.baseUrl + Constants.userInfoUrl,
       queryParams: {
-        Constants.phoneStr: userPhone,
+        Constants.userIdStr: userPhone,
       },
+    );
+  }
+
+  Future<Response> getDayImages(String day) async {
+    return await apiClient.getData(
+      Constants.dayImageUrl + day,
+      headers: {},
+      query: {},
     );
   }
 
@@ -20,7 +28,6 @@ class ProfileRepo {
     required String userFName,
     required String userLName,
   }) async {
-    
     return await apiClient.putData(
       // TODO: BE CHANGED
       Constants.baseUrl + Constants.editUserInfoUrl,
@@ -29,6 +36,18 @@ class ProfileRepo {
         Constants.emailStr: userEmail,
         Constants.firstName: userFName,
         Constants.lastName: userLName,
+      },
+    );
+  }
+
+  Future<Response> likeImage({
+    required String imageId,
+  }) async {
+    return await apiClient.putData(
+      // TODO: BE CHANGED
+      Constants.baseUrl + Constants.likeImageUrl,
+      {
+        "image_id": imageId,
       },
     );
   }

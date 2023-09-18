@@ -15,7 +15,7 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var themeController = Get.find<ThemeController>();
+    var themeController = Get.put(ThemeController());
     return GestureDetector(
           onTap: () {
             onTap();
