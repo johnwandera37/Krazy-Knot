@@ -68,3 +68,18 @@ class MyStyles {
   }
 
 }
+
+//shadow box decorations
+     inputDecoration() =>
+        BoxDecoration(
+        color:  HexColor("FBFBFB"),
+        borderRadius: BorderRadius.circular(9),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.shade200, // Shadow color
+            // spreadRadius: 2,
+            blurRadius: 10, // Spread of the shadow
+            offset: Offset(10, 10), // Offset of the shadow
+          ),
+        ],
+      );

@@ -34,6 +34,16 @@ class Images {
 
   static const String cardiogramIcon = 'assets/images/cardiogram.png';
 
+    //event type
+  static const String technology = 'assets/images/technology.png';
+  static const String education = 'assets/images/education.png';
+  static const String business = 'assets/images/business.png';
+  static const String wedding = 'assets/images/wedding.png';
+  static const String sports = 'assets/images/sports.png';
+  static const String food = 'assets/images/food.png';
+  static const String event = 'assets/images/event.png';
+
+
   // JSON
   static const String cardiogramJson = 'assets/json/cardiogram.json';  
   

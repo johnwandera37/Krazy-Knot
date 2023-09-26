@@ -23,8 +23,9 @@ class _LandingPageState extends State<LandingPage> {
 
   /// widget list
   final List<Widget> bottomBarPages = [
-    const ProfileTab(),
+    const EventTab(),
     const HomeTab(),
+    const ProfileTab(),
     ViewQrScreen()
   ];
   @override
@@ -134,6 +135,7 @@ class _LandingPageState extends State<LandingPage> {
                     profileController.userInfo == null
                         ? Container()
                         : sizedHeight(Get.height * .03),
+                        //menu items
                     ListTile(
                       leading: Icon(Icons.home),
                       title: CustomText(
@@ -153,13 +155,22 @@ class _LandingPageState extends State<LandingPage> {
                       onTap: () => _onDrawerItemTap(1),
                     ),
                     ListTile(
-                      leading: Icon(Icons.qr_code),
+                      leading: Icon(Icons.picture_in_picture_alt),
                       title: CustomText(
-                          headingStr: 'Scan QR',
+                          headingStr: 'Social Gallery',
                           onTap: () => _onDrawerItemTap(
                                 2,
                               )),
                       onTap: () => _onDrawerItemTap(2),
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.qr_code),
+                      title: CustomText(
+                          headingStr: 'Scan QR',
+                          onTap: () => _onDrawerItemTap(
+                                3,
+                              )),
+                      onTap: () => _onDrawerItemTap(3),
                     ),
                     ListTile(
                       leading: const Icon(
@@ -180,14 +191,14 @@ class _LandingPageState extends State<LandingPage> {
                 title: Text(
                   Constants.appName,
                   overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.sacramento(
+                  style: GoogleFonts.karla(
                     color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 30,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 23,
                     height: 1.3,
                   ),
                 ),
-                backgroundColor: Colors.white,
+                backgroundColor: HexColor("F7F7F7"),
                 actions: [
                   // IconButton(
                   //   icon: Icon(

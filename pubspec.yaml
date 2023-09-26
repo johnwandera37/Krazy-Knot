@@ -32,6 +32,7 @@ dependencies:
   image_picker:
   platform_file: ^0.0.1
   qr_flutter: ^4.1.0
+  hexcolor: ^3.0.1
 
 
 dev_dependencies:
