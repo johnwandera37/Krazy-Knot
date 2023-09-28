@@ -82,6 +82,7 @@ class EventTab extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.white,
         onPressed: () {
+          Get.to(CreateEvent());
         },
         child:const Icon(
           Icons.add,

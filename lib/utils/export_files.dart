@@ -21,6 +21,10 @@ export 'package:photomanager/ui/home/tab/add_photo.dart';
 export 'package:photomanager/ui/home/tab/home_tab.dart';
 export 'package:photomanager/ui/home/tab/profile_tab.dart';
 export 'package:photomanager/ui/home/tab/event_tab.dart';
+export 'package:photomanager/ui/event_creation/event_creation.dart';
+export 'package:photomanager/ui/base/widgets/event_input.dart';
+export 'package:photomanager/ui/event_creation/widget/date_time.dart';
+
 
 // REPO
 export 'package:photomanager/data/repo/splash_repo.dart';
