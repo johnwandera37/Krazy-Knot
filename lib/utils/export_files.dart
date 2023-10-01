@@ -24,17 +24,20 @@ export 'package:photomanager/ui/home/tab/event_tab.dart';
 export 'package:photomanager/ui/event_creation/event_creation.dart';
 export 'package:photomanager/ui/base/widgets/event_input.dart';
 export 'package:photomanager/ui/event_creation/widget/date_time.dart';
+export 'package:photomanager/ui/event_creation/widget/map_picker.dart';
 
 
 // REPO
 export 'package:photomanager/data/repo/splash_repo.dart';
 export 'package:photomanager/data/repo/auth_repo.dart';
 export 'package:photomanager/data/repo/profile_repo.dart';
+export 'package:photomanager/data/repo/events_repo.dart';
 
 // CONTROLLERS
 export 'package:photomanager/controllers/auth_controller.dart';
 export 'package:photomanager/controllers/splash_controller.dart';
 export 'package:photomanager/controllers/theme_controller.dart';
+export 'package:photomanager/controllers/map_address.dart';
 
 // MODEL
 

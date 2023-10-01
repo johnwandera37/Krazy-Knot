@@ -73,7 +73,7 @@ class MyStyles {
      inputDecoration() =>
         BoxDecoration(
         color:  HexColor("FBFBFB"),
-        borderRadius: BorderRadius.circular(9),
+        borderRadius: BorderRadius.circular(14),
         boxShadow: [
           BoxShadow(
             color: Colors.grey.shade200, // Shadow color

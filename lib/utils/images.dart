@@ -42,6 +42,7 @@ class Images {
   static const String sports = 'assets/images/sports.png';
   static const String food = 'assets/images/food.png';
   static const String event = 'assets/images/event.png';
+  static const String location = 'assets/images/location.png';
 
 
   // JSON

@@ -1,6 +1,3 @@
-
-
-import 'package:photomanager/ui/base/widgets/custom_image.dart';
 import 'package:photomanager/utils/export_files.dart';
 
 class Eventnput extends StatelessWidget {
@@ -13,6 +10,9 @@ class Eventnput extends StatelessWidget {
   final List<String>? dropdownItems;
   final String? selectedDropdownValue;
   final void Function(String?)? onDropdownChanged;
+  final bool readOnly;
+  final String? initialValue;
+  
 
   const Eventnput({
     super.key,
@@ -24,7 +24,9 @@ class Eventnput extends StatelessWidget {
     this.dropdownItems,
     this.selectedDropdownValue,
     this.onDropdownChanged,
-    this.maxLines
+    this.maxLines,
+    this.readOnly = false,
+    this.initialValue,
   });
 
   @override
@@ -32,63 +34,70 @@ class Eventnput extends StatelessWidget {
     double errorFontSize = 11;
       final isDescriptionInput = maxLines != null && maxLines! > 1;
 
-    return Container(
-      height:isDescriptionInput ? null : 50,
-      width: Get.width,
-      margin: EdgeInsets.symmetric(
-        horizontal: horizPadding ?? 15,
-        vertical: vertPadding ?? 0.0,
-      ),
-      padding: const EdgeInsets.symmetric(
-        horizontal: 0,
-      ),
-      child: Center(
-        child:
-        dropdownItems != null? // Check if dropdown items are provided
-        DropdownButtonFormField<String>(
-                      value: selectedDropdownValue,
-                      onChanged: onDropdownChanged,
-                      items: [
-                         DropdownMenuItem<String>(
-                          value: null,
-                          child: CustomText(headingStr: 'Select type of event', fontColor: HexColor("9A9A9A"),), // Placeholder text
-                        ),
-                        ...dropdownItems!.map((String item) {
-                        return DropdownMenuItem<String>(
-                          value: item,
-                          child: Text(item),
-                        );
-                      })
-                      ],
-                      decoration:inputDecoration(errorFontSize: errorFontSize),
-                      style: inputTextStyle(),
-                      // icon: MyNeumorphicIcon(
-                      // iconColor: themeController.fontColor,
-                      // iconData: Icons.arrow_drop_down,
-                      // size: 25,
+    return 
+      Container(
+        height:isDescriptionInput ? null : 50,
+        width: Get.width,
+        margin: EdgeInsets.symmetric(
+          horizontal: horizPadding ?? 15,
+          vertical: vertPadding ?? 0.0,
+        ),
+        padding: const EdgeInsets.symmetric(
+          horizontal: 0,
+        ),
+        child: Center(
+          child:
+          
+          dropdownItems != null? // Check if dropdown items are provided
+          DropdownButtonFormField<String>(
+                        value: selectedDropdownValue,
+                        onChanged: onDropdownChanged,
+                        items: [
+                           DropdownMenuItem<String>(
+                            value: null,
+                            child: CustomText(headingStr: 'Select type of event', fontColor: HexColor("9A9A9A"),), // Placeholder text
+                          ),
+                          ...dropdownItems!.map((String item) {
+                          return DropdownMenuItem<String>(
+                            value: item,
+                            child: Text(item),
+                          );
+                        })
+                        ],
+                        decoration:inputDecoration(errorFontSize: errorFontSize),
+                        style: inputTextStyle(),
+                        // icon: MyNeumorphicIcon(
+                        // iconColor: themeController.fontColor,
+                        // iconData: Icons.arrow_drop_down,
+                        // size: 25,
+                        // ),
+                        // dropdownColor: themeController.backgroundColor, 
                       // ),
-                      // dropdownColor: themeController.backgroundColor, 
-                    // ),
-                  ):
-        suffixIconPath != null
-            ? TextFormField(
-                  controller: textEditingController,
-                  decoration:
-                      inputDecorationWithSuffix(errorFontSize: errorFontSize),
-                  style: inputTextStyle(),
-                  maxLines: maxLines?? 1,
-                )
-              
-            // NO PREFIX ICON
-            : TextFormField(
-                  controller: textEditingController,
-                  decoration: inputDecoration(errorFontSize: errorFontSize),
-                  style: inputTextStyle(),
-                  maxLines: maxLines?? 1,
-                ),
-              
-      ),
-    );
+                    ):
+          //with suffix
+          suffixIconPath != null
+              ? TextFormField(
+                    controller: textEditingController,
+                    decoration:
+                        inputDecorationWithSuffix(errorFontSize: errorFontSize),
+                    style: inputTextStyle(),
+                    maxLines: maxLines?? 1,
+                    readOnly: readOnly,
+                    initialValue: initialValue,
+                  )
+                
+              // NO PREFIX ICON
+              : TextFormField(
+                    controller: textEditingController,
+                    decoration: inputDecoration(errorFontSize: errorFontSize),
+                    style: inputTextStyle(),
+                    maxLines: maxLines?? 1,
+                    readOnly: readOnly,
+                    initialValue: initialValue,
+                  ),
+                
+        ),
+      );
   }
 
   inputTextStyle({Color? color, double? size}) => GoogleFonts.karla(
@@ -152,8 +161,8 @@ focusedBorder()=>OutlineInputBorder(
           child: 
           Image.asset(
             suffixIconPath ?? '',
-            width: 24,
-            height: 24,
+            width: 30,
+            height: 18,
             fit: BoxFit.fill,
           ),
         ),

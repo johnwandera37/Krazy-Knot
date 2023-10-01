@@ -51,7 +51,7 @@ class EventTab extends StatelessWidget {
               ],),
             sizedHeight(20),
             //all events come here
-           Center(
+           Container(
   child: dummyEventList.isEmpty
       ? const SizedBox(
                 height: 100,
