@@ -1,6 +1,5 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:io';
 import 'package:photomanager/controllers/profile_controller.dart';
-import 'dart:html' as html;
 import '../../utils/export_files.dart';
 
 class PreviewScreen extends StatelessWidget {
@@ -9,9 +8,9 @@ class PreviewScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () async{
+      onWillPop: () async {
         await Get.offNamed(RouteHelper.getLandingRoute());
-       Get.find<ProfileController>().profileData();
+        Get.find<ProfileController>().profileData();
         return false;
       },
       child: Scaffold(
@@ -91,8 +90,9 @@ class PreviewScreen extends StatelessWidget {
                                       margin: EdgeInsets.only(right: 10),
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.circular(10),
-                                        child: Image.network(
-                                          html.Url.createObjectUrl(imageFile),
+                                        child: Image.file(
+                                          File(imageFile
+                                              .path), // Use File class here
                                           fit: BoxFit.cover,
                                         ),
                                       ),

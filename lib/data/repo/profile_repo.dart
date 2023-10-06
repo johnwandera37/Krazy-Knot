@@ -35,7 +35,7 @@ class ProfileRepo {
         Constants.userIdStr: userId,
         Constants.emailStr: userEmail,
         Constants.firstName: userFName,
-        Constants.lastName: userLName,
+        Constants.lastName: userLName,  
       },
     );
   }
@@ -51,4 +51,10 @@ class ProfileRepo {
       },
     );
   }
+  Future<Response> postFormData(FormData formData) async {
+  return await apiClient.postFormData(
+    '${Constants.baseUrl}user/upload',
+    formData: formData,
+  );
+}
 }

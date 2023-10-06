@@ -30,7 +30,7 @@ class EventController extends GetxController {
   //getEvents
   Future<void> fetchEvents() async {
     final data = await ApiService().fetchEventsData();
-    print(data);
+    debugPrint('$data');
     // Convert the JSON data into Event objects using the model
     final eventList = (data['events'] as List)
         .map((eventData) => Event.fromJson(eventData))
@@ -46,7 +46,7 @@ final DateTime endTime = dateTimeController.selectedEndDateTime.value;
 
     final event = Event(
       id: "",
-      eventOwner: "65080d2a44dbbead5990e351",
+      eventOwner: "65081b6f44dbbead5990e40a",
       eventName: eventTitle.text,
       eventType:  selectType.text,
       eventVenue: mapPickerController.address.value, 
@@ -60,7 +60,7 @@ final DateTime endTime = dateTimeController.selectedEndDateTime.value;
       await ApiService().addEvent(event);
       fetchEvents();
     } catch (e) {
-      print('Failed to create event: $e');
+      debugPrint('Failed to create event: $e');
     }
 }
 
@@ -73,8 +73,8 @@ Future<void> editEvent() async {
 
   final DateTime startTime = dateTimeController.selectedDateTime.value;
   final DateTime endTime = dateTimeController.selectedEndDateTime.value;
-  print("/////////////////////////////////////////this is my event id");
-  print(eventId);
+  debugPrint("/////////////////////////////////////////this is my event id");
+  debugPrint(eventId);
   // Create an instance of the Event model to encapsulate the updated data
   final updatedEventData = PutEvent (
     eventId: eventId,
@@ -97,9 +97,9 @@ Future<void> editEvent() async {
 
     await ApiService().updateEvent(requestBody);
      fetchEvents();
-    print('Event updated successfully');
+    debugPrint('Event updated successfully');
   } catch (e) {
-    print('Failed to update event: $e');
+    debugPrint('Failed to update event: $e');
   }
 }
 
@@ -170,9 +170,9 @@ Future<void> editEvent() async {
 // try {
 //   // final updatedEventDataMap = requestBody;
 //   await ApiService().updateEvent(requestBody);
-//   print('[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[Event updated successfully');
+//   debugPrint('[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[Event updated successfully');
 // } catch (e) {
-//   print('[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[Failed to update event: $e');
+//   debugPrint('[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[Failed to update event: $e');
 // }
 // }
 
@@ -189,9 +189,9 @@ Future<void> editEvent() async {
 //      if (response.statusCode == 200) {
 //       final data = json.decode(response.body);
 //       ownerID = data['user_id'] as String;
-//       print({"==================================================>>>>>>>>>OWNERID"});
-//       print(ownerID);
-//       print({"==================================================>>>>>>>>>OWNERID"});
+//       debugPrint({"==================================================>>>>>>>>>OWNERID"});
+//       debugPrint(ownerID);
+//       debugPrint({"==================================================>>>>>>>>>OWNERID"});
 //     }
 //     return response;
 //   }
