@@ -77,8 +77,15 @@ List<Event> filterFeaturedEvents(List<Event> allEvents) {
                     child: eventTile(eventType: event.eventType,
                     eventTitle: event.eventName,
                     eventDate: '${formatDateTime(event.eventStartDate!)} - ${formatDateTime(event.eventEndDate!)}',
-                    eventId: event.id.toString(), 
-                    eventDescription: event.eventDescription),
+                    eventDescription: event.eventDescription,
+                    //edit event inputs
+                    eventStrId: event.id.toString(),                  
+                    eventStrStatus: event.eventStatus, 
+                    evenStrVenue: event.eventVenue, 
+                    eventEndDateStr: event.eventEndDate, 
+                    eventStartDateStr: event.eventStartDate, 
+                    eventStrOwner: event.eventOwner, context: context,
+                    ),
                     
                   );
                 },
@@ -121,8 +128,13 @@ List<Event> filterFeaturedEvents(List<Event> allEvents) {
                 eventType: event.eventType,
                 eventTitle: event.eventName,
                 eventDate:'${formatDateTime(event.eventStartDate!)} - ${formatDateTime(event.eventEndDate!)}',
-                eventId: event.id.toString(), 
-                eventDescription: event.eventDescription,//get each event id
+                eventDescription: event.eventDescription,
+                eventStrId: event.id.toString(), 
+                eventStrStatus: event.eventStatus,
+                evenStrVenue: event.eventVenue, 
+                eventEndDateStr: event.eventEndDate, 
+                eventStartDateStr: event.eventStartDate, 
+                eventStrOwner: event.eventOwner, context: context,//for the dialog
               ),
             );
           }).toList(),
@@ -150,14 +162,19 @@ List<Event> filterFeaturedEvents(List<Event> allEvents) {
 
 //event tile
 Widget eventTile({
+  required BuildContext context,
     required eventType,
     required eventTitle,
     required eventDate,
+    required String eventDescription,
     VoidCallback? onTap,
-    // required VoidCallback onEdit, // Add the onEdit callback
-    required String eventId,
-    required String eventDescription
-  
+    //for edit endpoint
+    required String eventStrId,
+    required String eventStrStatus,
+    required String eventStrOwner,
+    required String evenStrVenue,
+    required String eventStartDateStr,
+    required String eventEndDateStr,
    }){
     //map that maps event types to image paths
     final Map<String, String> eventTypeToImage = {
@@ -190,7 +207,18 @@ Widget eventTile({
           CustomText(headingStr: eventType, fontSize: 16, weight: TextWeight.semiBold,)
           ],),
           const Spacer(),
-          Container(child: PopUpMenu(eventId: eventId.toString()))//onEdit: () => onEdit(),
+          Container(child: PopUpMenu(
+            eventId: eventStrId.toString(), 
+            status: eventStrStatus, 
+            venue: evenStrVenue, 
+            type: eventType, 
+            owner: eventStrOwner, 
+            title: eventTitle, 
+            description: eventDescription, 
+            startDate: eventStartDateStr, 
+            endDate: eventEndDateStr,
+            context: context,
+             ))
         ],),
         //event title
         Container(
@@ -205,8 +233,14 @@ Widget eventTile({
         //date
         Align(
           heightFactor: 2,
-           alignment: Alignment.bottomLeft, 
-          child: CustomText(headingStr: eventDate, fontColor: HexColor("151515"), fontSize: 11,))
+        child:Row(
+          children: [
+              CustomText(headingStr: eventDate, fontColor: HexColor("151515"), fontSize: 11,),
+              Spacer(),
+              CustomText(headingStr: eventStrStatus, fontColor: HexColor("151515"), fontSize: 11,)
+          ],
+        )
+        )
       ]),
       ),
 
@@ -216,19 +250,38 @@ Widget eventTile({
 
 //PopUPMenu
 Widget PopUpMenu({
-  // required VoidCallback onEdit, // Add the onEdit callback
-  required String eventId, // Add eventId parameter
+  required String eventId,
+  required String status,
+  required String title,
+  required String owner,
+  required String type,
+  required String venue,
+  required String description,
+  required String startDate,
+  required String endDate,
+  required BuildContext context,
 })=> PopupMenuButton<String>(
       iconSize: 17,
       splashRadius: 16,  
       onSelected: (String choice) {
         // Handle the choice selected from the menu
         if (choice == 'Edit') {
-          // onEdit(eventId); 
           Get.to(EditEvent(eventId: eventId));
           
         } else if (choice == 'Update Status') {
-          
+          //this function event data that is fetched from getEvents
+           openAnimatedDialog(
+            context: context,
+            type: type, 
+            owner: owner, 
+            title: title, 
+            venue: venue, 
+            description: 
+            description, 
+            eventId: eventId, 
+            startDate: startDate, 
+            endDate: startDate, 
+            status: status,);//call dialog
         }
         else if (choice == 'Cancel Event') {
           
@@ -242,7 +295,7 @@ Widget PopUpMenu({
           ),
           const PopupMenuItem<String>(
             value: 'Update Status',
-            child: Text('Update Status'),
+            child: Text('Update status'),
           ),
             const PopupMenuItem<String>(
             value: 'Cancel',

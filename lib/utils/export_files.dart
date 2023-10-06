@@ -26,6 +26,7 @@ export 'package:photomanager/ui/event_creation/event_edit.dart';
 export 'package:photomanager/ui/base/widgets/event_input.dart';
 export 'package:photomanager/ui/event_creation/widget/date_time.dart';
 export 'package:photomanager/ui/event_creation/widget/map_picker.dart';
+export 'package:photomanager/ui/base/widgets/modal_dialog.dart';
 
 
 // REPO

@@ -65,8 +65,6 @@ final DateTime endTime = dateTimeController.selectedEndDateTime.value;
 }
 
 
-
-
 Future<void> editEvent() async {
   // final eventId = "651e7f3125aecdf0cb978d54";
    String eventId = eventIdController.eventId.value;
@@ -97,6 +95,47 @@ Future<void> editEvent() async {
 
     await ApiService().updateEvent(requestBody);
      fetchEvents();
+    print('Event updated successfully');
+  } catch (e) {
+    print('Failed to update event: $e');
+  }
+}
+
+
+//update status
+Future<void> updateStatus({
+  required String eventId,
+  required String eventTitle,
+  required String eventType,
+  required String eventVenue,
+  required String eventDescription,
+  required String eventStatus,
+  required String eventStartDate,
+  required String eventEndDate,
+}) async {
+  
+  // Create an instance of the Event model to encapsulate the updated data
+  final updatedEventData = PutEvent(
+    eventId: eventId,
+    eventName: eventTitle,
+    eventOwner: "65080d2a44dbbead5990e351",
+    eventType: eventType,
+    eventVenue: eventVenue,
+    eventDescription: eventDescription,
+    eventStatus: eventStatus,
+    eventStartDate: eventStartDate,
+    eventEndDate: eventEndDate,
+  );
+
+  try {
+    // Convert the Event object to a map before sending it in the request body
+    final requestBody = {
+      "eventId": updatedEventData.eventId,
+      "updatedEventData": updatedEventData.toMap(),
+    };
+
+    await ApiService().updateEvent(requestBody);
+    fetchEvents();
     print('Event updated successfully');
   } catch (e) {
     print('Failed to update event: $e');
