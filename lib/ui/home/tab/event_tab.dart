@@ -2,13 +2,35 @@ import 'package:photomanager/ui/base/widgets/custom_image.dart';
 import 'package:photomanager/utils/images.dart';
 
 import '../../../utils/export_files.dart';
+import 'package:intl/intl.dart';
+
 
 class EventTab extends StatelessWidget {
-  const EventTab({super.key});
+
+  
+  EventTab({super.key});
+    final EventController eventController = Get.put(EventController());
+    final now = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+
+//using a function to filter events
+List<Event> filterFeaturedEvents(List<Event> allEvents) {
+  final now = DateTime.now();
+  final startOfWeek = DateTime(now.year, now.month, now.day);
+  final endOfWeek = startOfWeek.add(Duration(days: 7));
+  // Filter the events that fall within the upcoming week
+  final featuredEvents = allEvents.where((event) {
+    final eventDate = DateTime.parse(event.eventStartDate); // Parse the event date
+    return eventDate.isAfter(startOfWeek) && eventDate.isBefore(endOfWeek);
+  }).toList();
+  return featuredEvents;
+}
+
+    return 
+    Obx(() =>
+    Scaffold(
       backgroundColor: HexColor("F7F7F7"),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -21,25 +43,43 @@ class EventTab extends StatelessWidget {
             //title my events
             const Center(child: CustomText(headingStr: "My Events", fontSize: 16, weight: TextWeight.bold,)),
             sizedHeight(10),
+
             //featured events section
             const CustomText(headingStr: 'Featured Events', fontSize: 16, weight: TextWeight.semiBold,),
             sizedHeight(20),
-            dummyEventList.isEmpty
-              ? const Center(child: SizedBox(
-                height: 100,
-                child: Align(
-                  alignment: Alignment.center,
-                  child: CustomText(headingStr: "Your featured events will appear here", fontSize: 15))))
+            filterFeaturedEvents(eventController.events).isEmpty
+              ?  Center(child:Container(
+                width: 100,
+                height: 190,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                    CustomText(headingStr: "Your featured events will appear here", fontSize: 15),
+                    sizedHeight(20),
+                    Image.asset(
+                      Images.featured,
+                      width: 100,
+                      height: 100,
+                      fit: BoxFit.fill,
+                      )
+                  ],)
+                 
+                  ))
               :Container(
-                height: 150,
+                height: 200,
                child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: 4,
+                itemCount: filterFeaturedEvents(eventController.events).length,
                 itemBuilder: (BuildContext context, int index) {
-                  final event = dummyEventList[index];
+                  final event = filterFeaturedEvents(eventController.events)[index];
                   return Container(
                     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                    child: eventTile(eventType: event['eventType'], eventTitle: event['eventTitle'], eventDate: event['eventDate']),
+                    child: eventTile(eventType: event.eventType,
+                    eventTitle: event.eventName,
+                    eventDate: '${formatDateTime(event.eventStartDate!)} - ${formatDateTime(event.eventEndDate!)}',
+                    eventId: event.id.toString(), 
+                    eventDescription: event.eventDescription),
+                    
                   );
                 },
                 ),
@@ -50,45 +90,60 @@ class EventTab extends StatelessWidget {
                CustomText(headingStr: 'Events', fontSize: 16, weight: TextWeight.semiBold,),
               ],),
             sizedHeight(20),
+
             //all events come here
            Container(
-  child: dummyEventList.isEmpty
-      ? const SizedBox(
-                height: 100,
-                child: Align(
-                  alignment: Alignment.center,
-                  child: CustomText(headingStr: "You don't have any events created", fontSize: 15)))
+  child: eventController.events.isEmpty
+      ? Center(
+        child: Container(
+                  height: 200,
+                    child: Column(
+                       mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CustomText(headingStr: "You don't have any events created", fontSize: 15),
+                        sizedHeight(20),
+                         Image.asset(Images.empty,
+                        width: 100,
+                        height: 100,
+                        fit: BoxFit.fill,
+                         )
+                      ],
+                    )
+                    ),
+      )
       : Wrap(
           spacing: 24.0,
           runSpacing: 24.0,
-          children: dummyEventList.map((event) {
-            return SizedBox(
-              width: Get.width * 0.195, // Set the desired width for each eventTile
+          children: eventController.events.map((event) {
+            return  Container(
+              // width: Get.width * 0.195, // Set the desired width for each eventTile
               child: eventTile(
-                eventType: event['eventType']!,
-                eventTitle: event['eventTitle']!,
-                eventDate: event['eventDate']!,
+                eventType: event.eventType,
+                eventTitle: event.eventName,
+                eventDate:'${formatDateTime(event.eventStartDate!)} - ${formatDateTime(event.eventEndDate!)}',
+                eventId: event.id.toString(), 
+                eventDescription: event.eventDescription,//get each event id
               ),
             );
           }).toList(),
         ),
 )
 
-
             ],
           ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.blue,
         onPressed: () {
           Get.to(CreateEvent());
         },
         child:const Icon(
           Icons.add,
-          color: Colors.black,
+          color: Colors.white,
         ),
       ),
+    )
     );
   }
 }
@@ -98,7 +153,10 @@ Widget eventTile({
     required eventType,
     required eventTitle,
     required eventDate,
-     VoidCallback? onTap,
+    VoidCallback? onTap,
+    // required VoidCallback onEdit, // Add the onEdit callback
+    required String eventId,
+    required String eventDescription
   
    }){
     //map that maps event types to image paths
@@ -116,8 +174,8 @@ Widget eventTile({
     onTap: onTap,
     child:
    Container(
-    width: Get.width * .195,
-    height: Get.width * .1,
+    width: Get.width * .3,//.195,
+    height: Get.width * .15,//1
     decoration: inputDecoration(),
     child: Padding(
       padding: EdgeInsets.symmetric(vertical: 8, horizontal: 13),
@@ -132,12 +190,18 @@ Widget eventTile({
           CustomText(headingStr: eventType, fontSize: 16, weight: TextWeight.semiBold,)
           ],),
           const Spacer(),
-          Container(child: PopUpMenu())
+          Container(child: PopUpMenu(eventId: eventId.toString()))//onEdit: () => onEdit(),
         ],),
         //event title
         Container(
           height: 43,
           child: CustomText(headingStr: eventTitle, fontSize: 15,)),
+
+          //event descsiption
+          Container(
+             height: 50,
+            child:  CustomText(headingStr: eventDescription, fontSize: 15,)
+          ,),
         //date
         Align(
           heightFactor: 2,
@@ -151,17 +215,22 @@ Widget eventTile({
    }
 
 //PopUPMenu
-Widget PopUpMenu()=> PopupMenuButton<String>(
+Widget PopUpMenu({
+  // required VoidCallback onEdit, // Add the onEdit callback
+  required String eventId, // Add eventId parameter
+})=> PopupMenuButton<String>(
       iconSize: 17,
       splashRadius: 16,  
       onSelected: (String choice) {
         // Handle the choice selected from the menu
         if (choice == 'Edit') {
+          // onEdit(eventId); 
+          Get.to(EditEvent(eventId: eventId));
           
         } else if (choice == 'Update Status') {
           
         }
-        else if (choice == 'Cancel') {
+        else if (choice == 'Cancel Event') {
           
         }
       },
@@ -183,63 +252,13 @@ Widget PopUpMenu()=> PopupMenuButton<String>(
       },
     );
 
-
-// eventTile(eventType: "Technology", eventTittle: "The Ultimate Hackathon Challenge", eventDate: "26 Sep 2023"),
-//my dummy list testing
-List<Map<String, String>> dummyEventList = [
-  {
-    'eventType': 'Education',
-    'eventTitle': 'Where Education Meets Fun',
-    'eventDate': '27 Oct 2023',
-  },
-  {
-    'eventType': 'Technology',
-    'eventTitle': 'Tech Expo 2023',
-    'eventDate': '15 Nov 2023',
-  },
-  {
-    'eventType': 'Music',
-    'eventTitle': 'Music Festival',
-    'eventDate': '5 Dec 2023',
-  },
-  {
-    'eventType': 'Sports',
-    'eventTitle': 'Sports Championship',
-    'eventDate': '20 Jan 2024',
-  },
-  {
-    'eventType': 'Food',
-    'eventTitle': 'Food Festival',
-    'eventDate': '10 Feb 2024',
-  },
-  {
-    'eventType': 'Business',
-    'eventTitle': 'Business Conference',
-    'eventDate': '5 Mar 2024',
-  },
-  {
-    'eventType': 'Wedding',
-    'eventTitle': 'Wedding Expo',
-    'eventDate': '15 Apr 2024',
-  },
-  {
-    'eventType': 'Sports',
-    'eventTitle': 'Sports Championship',
-    'eventDate': '20 Jan 2024',
-  },
-  {
-    'eventType': 'Food',
-    'eventTitle': 'Food Festival',
-    'eventDate': '10 Feb 2024',
-  },
-  {
-    'eventType': 'Business',
-    'eventTitle': 'Business Conference',
-    'eventDate': '5 Mar 2024',
-  },
-  {
-    'eventType': 'Wedding',
-    'eventTitle': 'Wedding Expo',
-    'eventDate': '15 Apr 2024',
-  },
-];
+String formatDateTime(String date) {
+  try {
+    final parsedDate = DateTime.parse(date);
+    final formattedDate = DateFormat('MMM dd yyyy HH:mm').format(parsedDate);
+    return formattedDate;
+  } catch (e) {
+    //unexpected date format
+    return 'Invalid Date ${date}';
+  }
+}

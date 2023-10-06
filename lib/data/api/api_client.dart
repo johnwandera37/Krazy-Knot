@@ -6,7 +6,7 @@ import '../../utils/export_files.dart';
 
 class ApiClient extends GetxService {
   late String appBaseUrl = Constants.baseUrl;
-  late String eventsBaseUrl = Constants.eventsUrl;//events base url
+  // late String? eventsBaseUrl = Constants.eventsUrl;//events base url
   late SharedPreferences sharedPreferences;
   final int timeoutInSeconds = 30;
 
@@ -16,6 +16,7 @@ class ApiClient extends GetxService {
   ApiClient({
     required this.appBaseUrl,
     required this.sharedPreferences,
+    // this.eventsBaseUrl,
   }) {
     debugPrint(
         " token.............................................${getUserToken()}");
@@ -74,6 +75,10 @@ class ApiClient extends GetxService {
         print('====> GetX Base URL: $appBaseUrl');
         print('====> GetX Call: $uri');
       }
+      //get owner id
+      String? userId = queryParams["user_id"];
+      print("User ID john: $userId");
+        //get owner id
       http.Response response = await http
           .get(
             Uri.parse(uri).replace(queryParameters: queryParams),
@@ -290,18 +295,5 @@ class ApiClient extends GetxService {
       );
     }
   }
-
-//event data
-Future<http.Response> fetchEventsData() async {
-  try {
-     debugPrint(
-          '====> Event API Call: $eventsBaseUrl/getEvents');
-    final response = await http.get(Uri.parse('$eventsBaseUrl/getEvents'));
-    return response;
-  } catch (e) {
-    print('Error fetching event data: $e');
-    throw e;
-  }
-}
 
 }

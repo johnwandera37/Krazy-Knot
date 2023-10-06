@@ -22,6 +22,7 @@ export 'package:photomanager/ui/home/tab/home_tab.dart';
 export 'package:photomanager/ui/home/tab/profile_tab.dart';
 export 'package:photomanager/ui/home/tab/event_tab.dart';
 export 'package:photomanager/ui/event_creation/event_creation.dart';
+export 'package:photomanager/ui/event_creation/event_edit.dart';
 export 'package:photomanager/ui/base/widgets/event_input.dart';
 export 'package:photomanager/ui/event_creation/widget/date_time.dart';
 export 'package:photomanager/ui/event_creation/widget/map_picker.dart';
@@ -31,19 +32,24 @@ export 'package:photomanager/ui/event_creation/widget/map_picker.dart';
 export 'package:photomanager/data/repo/splash_repo.dart';
 export 'package:photomanager/data/repo/auth_repo.dart';
 export 'package:photomanager/data/repo/profile_repo.dart';
-export 'package:photomanager/data/repo/events_repo.dart';
 
 // CONTROLLERS
 export 'package:photomanager/controllers/auth_controller.dart';
 export 'package:photomanager/controllers/splash_controller.dart';
 export 'package:photomanager/controllers/theme_controller.dart';
-export 'package:photomanager/controllers/map_address.dart';
+export 'package:photomanager/controllers/map_address.dart';//map
+export 'package:photomanager/controllers/dateController.dart';//date
+export 'package:photomanager/controllers/event_controller.dart';//evet_controller
+export 'package:photomanager/controllers/edit_event_data_controller.dart';//edit event controller
 
 // MODEL
+export 'package:photomanager/data/model/events/event_model.dart';
+export 'package:photomanager/data/model/events/put_event.dart';
 
 export 'package:photomanager/ui/base/widgets/custom_loader.dart';
 export 'package:photomanager/ui/base/widgets/custom_input.dart';
 export 'package:photomanager/ui/base/widgets/custom_button.dart';
+
 
 // SCREEN
 export 'package:photomanager/ui/authentication/enterOtpScreen.dart';
@@ -69,6 +75,8 @@ export 'package:photomanager/data/api/api_client.dart';
 export 'package:photomanager/data/model/response/error_response.dart';
 export 'package:photomanager/data/api/api_checker.dart';
 export 'package:photomanager/utils/my_utils.dart';
+export 'package:photomanager/data/event_api/event_api_service.dart';//event api service
+
 
 
 

@@ -48,4 +48,6 @@ Future<void> init() async {
       ));
 
   Get.lazyPut<ThemeController>(() => ThemeController());
+
+  Get.lazyPut<EventController>(() => EventController());
 }

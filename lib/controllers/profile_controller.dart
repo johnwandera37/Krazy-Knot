@@ -337,6 +337,7 @@ class ProfileController extends GetxController implements GetxService {
       final formData = html.FormData();
 
       formData.append('user_id', userInfo!.id);
+      
       formData.append('comment', commentController.text);
 
       // Append each selected file to the FormData object

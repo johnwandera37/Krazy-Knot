@@ -2,25 +2,28 @@ import 'package:photomanager/utils/images.dart';
 
 import '../../../utils/export_files.dart';
 
-class CreateEvent extends StatefulWidget {
-  const CreateEvent({super.key});
+class EditEvent extends StatefulWidget {
+  // const EditEvent({super.key});
+  final String eventId;
+   EditEvent({required this.eventId, Key? key}) : super(key: key);
 
   @override
-  State<CreateEvent> createState() => _CreateEventState();
+  State<EditEvent> createState() => _EditEventState();
 }
 
-class _CreateEventState extends State<CreateEvent> {
+class _EditEventState extends State<EditEvent> {
  final MapPickerController mapPickerController = Get.put(MapPickerController());
   late final ApiService apiService;
   final EventController eventController = Get.put(EventController());//for the events api
   final DateTimeController dateTimeController = Get.put(DateTimeController());//for the selected date variable
+  final EventIdController eventIdController = Get.put(EventIdController());//for PUT reqquest data
 
 
   @override
   void initState() {
     super.initState();
     apiService = ApiService();//for the http APIs
-    
+     eventIdController.setEventId(widget.eventId);
   }
 
 //the drop down
@@ -49,7 +52,7 @@ class _CreateEventState extends State<CreateEvent> {
       appBar: AppBar(
       elevation: 0,
       backgroundColor: HexColor("F7F7F7"),
-      title: const Center(child: CustomText(headingStr: "Create Event", fontSize: 18, weight: TextWeight.semiBold,)),
+      title: const Center(child: CustomText(headingStr: "Edit Event", fontSize: 18, weight: TextWeight.semiBold,)),
       ),
       body:SingleChildScrollView(
         child: 
@@ -58,7 +61,7 @@ class _CreateEventState extends State<CreateEvent> {
           child: Column(
             children: [
               //Fill description
-              const CustomText(headingStr: "Fill the following details to create an event", fontSize: 16, weight: TextWeight.semiBold,),
+              const CustomText(headingStr: "Fill the following details to edit an event", fontSize: 16, weight: TextWeight.semiBold,),
               sizedHeight(20),
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 15),
@@ -146,16 +149,16 @@ class _CreateEventState extends State<CreateEvent> {
                 decoration: inputDecoration(),
                 child: Column(children: [
                 
-               Eventnput(hintText: "Enter event description", maxLines: 5, textEditingController: eventController.eventDescription,)
+               Eventnput(hintText: "Enter event description", maxLines: 5, textEditingController: eventController.eventDescription,),
                 ]),
               ),
 
               sizedHeight(30),
               //create button
-              CustomButton(buttonStr: "Create event", btncolor: Colors.blue, onTap: () async {
+              CustomButton(buttonStr: "Edit event", btncolor: Colors.blue, onTap: () async {
                 //apiService.addEvent(request);
-                // eventController.editEvent();
-                eventController.createEvent();//create event
+                eventController.editEvent();
+                // eventController.createEvent();//create event
                  Get.delete<MapPickerController>();
                  Get.delete< DateTimeController>();
                 

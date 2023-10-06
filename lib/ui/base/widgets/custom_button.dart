@@ -6,11 +6,13 @@ class CustomButton extends StatelessWidget {
   final String buttonStr;
   final double? vertMargin;
   final Function onTap;
+  final Color? btncolor;
   const CustomButton({
     super.key,
     required this.buttonStr,
     this.vertMargin,
     required this.onTap,
+    this.btncolor,
   });
 
   @override
@@ -20,14 +22,27 @@ class CustomButton extends StatelessWidget {
           onTap: () {
             onTap();
           },
-          
-          child:Container(
-           padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-            decoration: inputDecoration(),
-            child: GestureDetector( 
-              onTap: () {
-                onTap();    
-              },
+          child: NeumorphicButton(
+            margin: EdgeInsets.symmetric(
+              vertical: vertMargin ?? 0.0,
+            ),
+            onPressed: () {
+              onTap();     
+            },
+            style: NeumorphicStyle(
+              shape: NeumorphicShape.flat,
+              color: btncolor ?? themeController.backgroundColor,
+              shadowLightColor: themeController.shadowLightColor, //Color(0xFF333333),
+              boxShape: NeumorphicBoxShape.roundRect(
+                BorderRadius.circular(30),           
+              ),
+              //border: NeumorphicBorder()
+            ),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 50,
+              vertical: 18,
+            ),
+         
               child: Text(
                 buttonStr,
                 style: GoogleFonts.karla(
@@ -37,7 +52,6 @@ class CustomButton extends StatelessWidget {
                   height: 1.0,
                 ),
               ),
-            ),
           )
         );
       
@@ -47,25 +61,25 @@ class CustomButton extends StatelessWidget {
 
 
 // child: NeumorphicButton(
-          //   margin: EdgeInsets.symmetric(
-          //     vertical: vertMargin ?? 0.0,
-          //   ),
-          //   onPressed: () {
-          //     onTap();     
-          //   },
-          //   style: NeumorphicStyle(
-          //     shape: NeumorphicShape.flat,
-          //     color: themeController.backgroundColor,
-          //     shadowLightColor: themeController.shadowLightColor, //Color(0xFF333333),
-          //     boxShape: NeumorphicBoxShape.roundRect(
-          //       BorderRadius.circular(30),           
-          //     ),
-          //     //border: NeumorphicBorder()
-          //   ),
-          //   padding: const EdgeInsets.symmetric(
-          //     horizontal: 50,
-          //     vertical: 18,
-          //   ),
+//             margin: EdgeInsets.symmetric(
+//               vertical: vertMargin ?? 0.0,
+//             ),
+//             onPressed: () {
+//               onTap();     
+//             },
+//             style: NeumorphicStyle(
+//               shape: NeumorphicShape.flat,
+//               color: themeController.backgroundColor,
+//               shadowLightColor: themeController.shadowLightColor, //Color(0xFF333333),
+//               boxShape: NeumorphicBoxShape.roundRect(
+//                 BorderRadius.circular(30),           
+//               ),
+//               //border: NeumorphicBorder()
+//             ),
+//             padding: const EdgeInsets.symmetric(
+//               horizontal: 50,
+//               vertical: 18,
+//             ),
 
 
           // ),

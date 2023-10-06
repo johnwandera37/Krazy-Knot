@@ -11,7 +11,8 @@ class Eventnput extends StatelessWidget {
   final String? selectedDropdownValue;
   final void Function(String?)? onDropdownChanged;
   final bool readOnly;
-  final String? initialValue;
+  // final String? initialValue;
+    final VoidCallback? onTap;
   
 
   const Eventnput({
@@ -26,7 +27,8 @@ class Eventnput extends StatelessWidget {
     this.onDropdownChanged,
     this.maxLines,
     this.readOnly = false,
-    this.initialValue,
+    // this.initialValue,
+     this.onTap,
   });
 
   @override
@@ -83,7 +85,8 @@ class Eventnput extends StatelessWidget {
                     style: inputTextStyle(),
                     maxLines: maxLines?? 1,
                     readOnly: readOnly,
-                    initialValue: initialValue,
+                    // initialValue: initialValue,
+                    onTap: onTap,
                   )
                 
               // NO PREFIX ICON
@@ -93,7 +96,8 @@ class Eventnput extends StatelessWidget {
                     style: inputTextStyle(),
                     maxLines: maxLines?? 1,
                     readOnly: readOnly,
-                    initialValue: initialValue,
+                    // initialValue: initialValue,
+                    onTap: onTap,
                   ),
                 
         ),

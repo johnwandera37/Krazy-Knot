@@ -69,39 +69,35 @@ class _DateTimePickerState extends State<DateTimePicker> {
     return Row(
       children: [
         Expanded(
-          child: InkWell(
-            onTap: () => _selectDate(context),
-            child: InputDecorator(
-              decoration: const InputDecoration(
-                filled: true,
-                  fillColor: Colors.white,
-                labelText: 'Date',
-                border: OutlineInputBorder(),
-              ),
-              child: CustomText(headingStr:
-                "${_selectedDateTime.toLocal()}".split(' ')[0], fontSize: 16,
-              ),
-            ),
-          ),
+          child: inputDec(dateTimevalue: "${_selectedDateTime.toLocal()}".split(' ')[0], labelText: 'Date', onTap: () { _selectDate(context); }, onTextTap: () {  _selectDate(context); }),
         ),
         const SizedBox(width: 8),
         Expanded(
-          child: InkWell(
-            onTap: () => _selectTime(context),
-            child: InputDecorator(
-              decoration: const InputDecoration(
-                fillColor: Colors.white,
-                filled: true,
-                labelText: 'Time',
-                border: OutlineInputBorder(),
-              ),
-              child: CustomText(
-                headingStr: "${_selectedDateTime.toLocal().toLocal()}".split(' ')[1], fontSize: 16, 
-              ),
-            ),
-          ),
+          child: 
+          inputDec(dateTimevalue: "${_selectedDateTime.toLocal().toLocal()}".split(' ')[1], labelText: 'Time', onTap: () {_selectTime(context);}, onTextTap: () { _selectTime(context); }),
         ),
       ],
     );
   }
 }
+
+  inputDec({
+    required dateTimevalue,
+    required String labelText,
+    required VoidCallback onTap,
+    required VoidCallback onTextTap
+  }) =>    InkWell(
+    onTap: onTap,
+    child: InputDecorator(
+      decoration: InputDecoration(
+        fillColor: Colors.white,
+        filled: true,
+        labelText: labelText,
+        border: OutlineInputBorder(),
+      ),
+      child: CustomText(
+        headingStr: dateTimevalue, fontSize: 16,
+        onTap: onTextTap,
+      ),
+    ),
+  );

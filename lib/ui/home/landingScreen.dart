@@ -23,7 +23,7 @@ class _LandingPageState extends State<LandingPage> {
 
   /// widget list
   final List<Widget> bottomBarPages = [
-    const EventTab(),
+    EventTab(),
     const HomeTab(),
     const ProfileTab(),
     ViewQrScreen()
