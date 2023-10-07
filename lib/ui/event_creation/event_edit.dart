@@ -46,128 +46,133 @@ class _EditEventState extends State<EditEvent> {
   @override
   Widget build(BuildContext context) {
     return 
-    Obx(() => 
-    Scaffold(
-      backgroundColor: HexColor("F7F7F7"),
-      appBar: AppBar(
-      elevation: 0,
-      backgroundColor: HexColor("F7F7F7"),
-      title: const Center(child: CustomText(headingStr: "Edit Event", fontSize: 18, weight: TextWeight.semiBold,)),
-      ),
-      body:SingleChildScrollView(
-        child: 
-        Container(
-          margin: EdgeInsets.only(bottom: 50),
-          child: Column(
-            children: [
-              //Fill description
-              const CustomText(headingStr: "Fill the following details to edit an event", fontSize: 16, weight: TextWeight.semiBold,),
-              sizedHeight(20),
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 15),
-                padding: const EdgeInsets.all(20),
-                decoration: inputDecoration(),
-                child: Column(children: [
-                  //title
-                  Eventnput(hintText: "Enter event title", vertPadding: 8, textEditingController: eventController.eventTitle,),
-                  //select type
-                  Eventnput(hintText: "Select type of event",
-                  textEditingController: eventController.selectType,
-                  dropdownItems: dropdownItems, 
-                  selectedDropdownValue: selectedDropdownValue, 
-                  onDropdownChanged: handleDropdownChange,
-                  ),
-                   sizedHeight(20),
-                  //location
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 15),
-                    child: InkWell(
-                      onTap: ()=>Get.to(MapPicker()),
-                      child: InputDecorator(
-                          decoration: InputDecoration(
-                            fillColor: Colors.white,
-                            filled: true,
-                            labelText: 'Select Location',
-                            border: OutlineInputBorder(
-                              borderRadius:  BorderRadius.circular(10)
-                            ),
-                          ),
-                          child: CustomText(
-                            headingStr: mapPickerController.address.value, fontSize: 16,
-                            onTap: () => Get.to(MapPicker()
-                          ),
-                        ),
-                        ),
-                    ),
-                  ),
-                  sizedHeight(20),
-                ]),
+    Obx(
+      () => Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.white,
+          title: Center(
+            child: Text(
+              "Edit Event",
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
               ),
-              sizedHeight(20),
-              //date and time
-                 Container(
-                margin: const EdgeInsets.symmetric(horizontal: 15),
-                padding: const EdgeInsets.all(20),
-                decoration: inputDecoration(),
-                child: Column(children: [
-                CustomText(headingStr: "From"),
-                sizedHeight(20),
-                DateTimePicker(
-                  initialDateTime: selectedDateTime,
-                  onChanged: (dateTime) {
-                    setState(() {
-                      selectedDateTime = dateTime;
-                      dateTimeController.updateSelectedDateTimeStart(selectedDateTime);
-                      print('==========================================FROM DATE');
-                      print(selectedDateTime);
-                    });
-                  },
-                ),
-                 sizedHeight(20),
-                 CustomText(headingStr: "To"),
-                 sizedHeight(20),
-                DateTimePicker(
-                  initialDateTime: selectedDateTime,
-                  onChanged: (dateTime) {
-                    setState(() {
-                      selectedDateTime = dateTime;
-                      dateTimeController.updateSelectedDateTimeEnd(selectedDateTime);
-                       print('==========================================TO DATE');
-                      print(selectedDateTime);
-                    });
-                  },
-                ),
-        
-                ]),
-              ),
-        
-                sizedHeight(20),
-                //description
-                 Container(
-                margin: const EdgeInsets.symmetric(horizontal: 15),
-                padding: const EdgeInsets.all(20),
-                decoration: inputDecoration(),
-                child: Column(children: [
-                
-               Eventnput(hintText: "Enter event description", maxLines: 5, textEditingController: eventController.eventDescription,),
-                ]),
-              ),
-
-              sizedHeight(30),
-              //create button
-              CustomButton(buttonStr: "Edit event", btncolor: Colors.blue, onTap: () async {
-                //apiService.addEvent(request);
-                eventController.editEvent();
-                // eventController.createEvent();//create event
-                 Get.delete<MapPickerController>();
-                 Get.delete< DateTimeController>();
-                
-              })
-            ],
+            ),
           ),
         ),
-      )
-    )
+        body: SingleChildScrollView(
+          child: Container(
+            margin: EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(
+                  "Fill the following details to edit the event",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
+                SizedBox(height: 20),
+                InputField(
+                  hintText: "Enter event title",
+                  controller: eventController.eventTitle,
+                ),
+                SizedBox(height: 20),
+                DropdownButtonFormField<String>(
+                  value: selectedDropdownValue,
+                  items: dropdownItems.map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  onChanged: handleDropdownChange,
+                  decoration: InputDecoration(
+                    labelText: 'Select type of event',
+                    border: OutlineInputBorder(),
+                    filled: true,
+                    fillColor: Colors.white,
+                  ),
+                ),
+                SizedBox(height: 20),
+                InkWell(
+                  onTap: () => Get.to(MapPicker()),
+                  child: InputDecorator(
+                    decoration: InputDecoration(
+                      labelText: 'Select Location',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      child: Text(
+                        mapPickerController.address.value,
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20),
+                CustomText(headingStr: "From"),
+                SizedBox(height: 20),
+                DateTimePicker(
+                  initialDateTime: selectedDateTime,
+                  onChanged: (dateTime) {
+                    setState(() {
+                      selectedDateTime = dateTime;
+                      dateTimeController
+                          .updateSelectedDateTimeStart(selectedDateTime);
+                    });
+                  },
+                ),
+                SizedBox(height: 20),
+                CustomText(headingStr: "To"),
+                SizedBox(height: 20),
+                DateTimePicker(
+                  initialDateTime: selectedDateTime,
+                  onChanged: (dateTime) {
+                    setState(() {
+                      selectedDateTime = dateTime;
+                      dateTimeController
+                          .updateSelectedDateTimeEnd(selectedDateTime);
+                    });
+                  },
+                ),
+                SizedBox(height: 20),
+                InputField(
+                  hintText: "Enter event description",
+                  maxLines: 5,
+                  controller: eventController.eventDescription,
+                ),
+                SizedBox(height: 30),
+                FractionallySizedBox(
+                  widthFactor: 0.6, // Set to 60% of the screen width
+                  child: Center(
+                    child: CustomButton(
+                      buttonStr: "Edit Event",
+                      btncolor: Colors.blue,
+                      onTap: () async {
+                        eventController.editEvent();
+                        Get.delete<MapPickerController>();
+                        Get.delete<DateTimeController>();
+                      },
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
