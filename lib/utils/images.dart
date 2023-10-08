@@ -45,6 +45,7 @@ class Images {
   static const String location = 'assets/images/location.png';
   static const String empty= 'assets/images/empty.png';
   static const String featured = 'assets/images/featured.png';
+  static const String joinus = 'assets/images/join_us.png';
 
 
   // JSON

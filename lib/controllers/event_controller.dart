@@ -4,19 +4,22 @@ import '../utils/export_files.dart';
 import 'package:photomanager/data/model/response/user_model.dart';
 
 class EventController extends GetxController {
-  final events = <Event>[].obs;
+  final events = <Event>[].obs;//capture events data
+  final attendees = <Attendees>[].obs;//capture attendees data
    final MapPickerController mapPickerController = Get.put(MapPickerController());//for location
    final DateTimeController dateTimeController = Get.put(DateTimeController()); //for the dates
    final EventIdController eventIdController = Get.put(EventIdController()); //for the PUT request data
-
-  //  late final ApiClient apiClient;
    
-   String? ownerID;
+   String? ownerID;//to get owner ID
  
-   // Capture values from input fields
+   // Capture values events inputs
       var eventTitle = TextEditingController();
       var eventDescription = TextEditingController();
       var selectType = TextEditingController();
+
+   //capture vattendees details
+    var attendeeNameStr = TextEditingController();
+    var attendeePhoneNo= TextEditingController();
 
 
    @override
@@ -64,9 +67,8 @@ final DateTime endTime = dateTimeController.selectedEndDateTime.value;
     }
 }
 
-
+//edit event process
 Future<void> editEvent() async {
-  // final eventId = "651e7f3125aecdf0cb978d54";
    String eventId = eventIdController.eventId.value;
 
   final DateTime startTime = dateTimeController.selectedDateTime.value;
@@ -81,7 +83,7 @@ Future<void> editEvent() async {
     eventType: selectType.text,
     eventVenue: mapPickerController.address.value,
     eventDescription: eventDescription.text,
-    eventStatus: "pending",
+    eventStatus: "Pending",
     eventStartDate: startTime.toString(),
     eventEndDate: endTime.toString(),
   );
@@ -102,7 +104,7 @@ Future<void> editEvent() async {
 }
 
 
-//update status
+//update status alone process
 Future<void> updateStatus({
   required String eventId,
   required String eventTitle,
@@ -136,11 +138,45 @@ Future<void> updateStatus({
 
     await ApiService().updateEvent(requestBody);
     fetchEvents();
-    print('Event updated successfully');
+    print('Event status updated successfully');
   } catch (e) {
-    print('Failed to update event: $e');
+    print('Failed to update event status: $e');
   }
 }
+
+
+
+  //getEvents
+  Future<void> fetchMembers() async {
+    final data = await ApiService().fetchAttendeesData();
+    print('=======================================================Attendees data');
+    print(data);
+    // Convert the JSON data into Event objects using the model
+    final attendeesList = (data['guest'] as List)
+        .map((attendeestData) => Attendees.fromJson(attendeestData))
+        .toList();
+    attendees.value = attendeesList;// Update the 'attendees' observable list with the fetched data
+  }
+
+
+
+//add attendess to database process
+Future<void> addAttendeesData() async {
+  //should come from form
+    final attendee = Attendees(
+      eventId: "0701643848",//should be come from the event
+      attendeeName: attendeeNameStr.text,//attendeeNameStr.text
+      attendeePhone: attendeePhoneNo.text , //wants as int //attendeePhoneNo.text
+    );
+
+    try {
+      await ApiService().addPeople(attendee);
+      fetchMembers();
+    } catch (e) {
+      print('Failed to add attendee code error: $e');
+    }
+}
+
 
 }
 

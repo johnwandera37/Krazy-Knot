@@ -49,7 +49,6 @@ List<Event> filterFeaturedEvents(List<Event> allEvents) {
             sizedHeight(20),
             filterFeaturedEvents(eventController.events).isEmpty
               ?  Center(child:Container(
-                width: 100,
                 height: 190,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -85,6 +84,18 @@ List<Event> filterFeaturedEvents(List<Event> allEvents) {
                     eventEndDateStr: event.eventEndDate, 
                     eventStartDateStr: event.eventStartDate, 
                     eventStrOwner: event.eventOwner, context: context,
+                     onTap: (){
+                      popUpCard(
+                    context: context, 
+                    title: event.eventName, 
+                    venue: event.eventVenue, 
+                    type: event.eventType, 
+                    status: event.eventStatus, 
+                    description: event.eventDescription, 
+                    startDate: event.eventStartDate, 
+                    endDate: event.eventEndDate, 
+                    );
+                     }
                     ),
                     
                   );
@@ -121,7 +132,9 @@ List<Event> filterFeaturedEvents(List<Event> allEvents) {
       : Wrap(
           spacing: 24.0,
           runSpacing: 24.0,
-          children: eventController.events.map((event) {
+          children: eventController.events.
+          where((event)=>event.eventStatus != "Cancelled").
+          map((event) {
             return  Container(
               // width: Get.width * 0.195, // Set the desired width for each eventTile
               child: eventTile(
@@ -134,7 +147,24 @@ List<Event> filterFeaturedEvents(List<Event> allEvents) {
                 evenStrVenue: event.eventVenue, 
                 eventEndDateStr: event.eventEndDate, 
                 eventStartDateStr: event.eventStartDate, 
-                eventStrOwner: event.eventOwner, context: context,//for the dialog
+                eventStrOwner: event.eventOwner, context: context,//for confirmation the dialog
+                onTap: (){
+                  if(event.eventStatus == "Ready"){
+                     popUpCard(
+                    context: context,  
+                    status: event.eventStatus, 
+                    );
+                  }else{
+                    //display snack bar
+                     ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Event venue is not ready.'),
+                    ),
+                  ); 
+                  }
+                 
+                
+                }
               ),
             );
           }).toList(),
@@ -224,7 +254,7 @@ Widget eventTile({
         Container(
           height: 43,
           child: CustomText(headingStr: eventTitle, fontSize: 15,)),
-
+   
           //event descsiption
           Container(
              height: 50,
@@ -243,8 +273,8 @@ Widget eventTile({
         )
       ]),
       ),
-
-)
+   
+   )
     );
    }
 
@@ -283,25 +313,48 @@ Widget PopUpMenu({
             endDate: startDate, 
             status: status,);//call dialog
         }
-        else if (choice == 'Cancel Event') {
-          
+        else if (choice == 'Cancel') {
+          cancelEvent(
+            context: context,
+            type: type, 
+            owner: owner, 
+            title: title, 
+            venue: venue, 
+            description: 
+            description, 
+            eventId: eventId, 
+            startDate: startDate, 
+            endDate: startDate, 
+            status: status,);//call dialog
         }
       },
       itemBuilder: (BuildContext context) {
-        return [
-          const PopupMenuItem<String>(
-            value: 'Edit',
-            child: Text('Edit'),
-          ),
-          const PopupMenuItem<String>(
-            value: 'Update Status',
-            child: Text('Update status'),
-          ),
-            const PopupMenuItem<String>(
-            value: 'Cancel',
-            child: Text('Cancel'),
-          ),
-        ];
+        if (status == 'Cancelled') {
+      // Only show 'Update Status' if the event is cancelled
+      return [
+        PopupMenuItem<String>(
+          value: 'Update Status',
+          child: Text('Update status'),
+        ),
+      ];
+    } else {
+      // Show all options if the event is not cancelled
+      return [
+        PopupMenuItem<String>(
+          value: 'Edit',
+          child: Text('Edit'),
+        ),
+        PopupMenuItem<String>(
+          value: 'Update Status',
+          child: Text('Update status'),
+        ),
+        PopupMenuItem<String>(
+          value: 'Cancel',
+          child: Text('Cancel event'),
+        ),
+      ];
+    }
+
       },
     );
 

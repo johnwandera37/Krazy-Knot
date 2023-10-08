@@ -26,6 +26,7 @@ class _LandingPageState extends State<LandingPage> {
     EventTab(),
     const HomeTab(),
     const ProfileTab(),
+    CancelledEvents(),
     ViewQrScreen()
   ];
   @override
@@ -164,13 +165,22 @@ class _LandingPageState extends State<LandingPage> {
                       onTap: () => _onDrawerItemTap(2),
                     ),
                     ListTile(
-                      leading: Icon(Icons.qr_code),
+                      leading: Icon(Icons.cancel),
                       title: CustomText(
-                          headingStr: 'Scan QR',
+                          headingStr: 'Cancelled Events',
                           onTap: () => _onDrawerItemTap(
                                 3,
                               )),
                       onTap: () => _onDrawerItemTap(3),
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.qr_code),
+                      title: CustomText(
+                          headingStr: 'Scan QR',
+                          onTap: () => _onDrawerItemTap(
+                                4,
+                              )),
+                      onTap: () => _onDrawerItemTap(4),
                     ),
                     ListTile(
                       leading: const Icon(
@@ -200,6 +210,20 @@ class _LandingPageState extends State<LandingPage> {
                 ),
                 backgroundColor: HexColor("F7F7F7"),
                 actions: [
+                   IconButton(
+                    icon: Icon(
+                      Icons.edit,
+                      color: Colors.black,
+                    ),
+                    onPressed: () {
+                       Get.to(InvitationForm());
+                    },
+                  ),
+                  SizedBox(
+                    width: 6,
+                  ),
+
+
                   // IconButton(
                   //   icon: Icon(
                   //     Icons.qr_code,

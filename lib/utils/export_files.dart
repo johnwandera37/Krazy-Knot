@@ -27,6 +27,9 @@ export 'package:photomanager/ui/base/widgets/event_input.dart';
 export 'package:photomanager/ui/event_creation/widget/date_time.dart';
 export 'package:photomanager/ui/event_creation/widget/map_picker.dart';
 export 'package:photomanager/ui/base/widgets/modal_dialog.dart';
+export 'package:photomanager/ui/popupcard/popup_card.dart';
+export 'package:photomanager/ui/attendeesfillform/attendees_form.dart';
+export 'package:photomanager/ui/cancelledevents/cancelled_events.dart';
 
 
 // REPO
@@ -46,6 +49,7 @@ export 'package:photomanager/controllers/edit_event_data_controller.dart';//edit
 // MODEL
 export 'package:photomanager/data/model/events/event_model.dart';
 export 'package:photomanager/data/model/events/put_event.dart';
+export 'package:photomanager/data/model/events/attendees_model.dart';
 
 export 'package:photomanager/ui/base/widgets/custom_loader.dart';
 export 'package:photomanager/ui/base/widgets/custom_input.dart';

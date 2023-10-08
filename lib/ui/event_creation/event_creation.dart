@@ -1,6 +1,6 @@
 import 'package:photomanager/utils/images.dart';
 
-import '../../../utils/export_files.dart';
+import '../../utils/export_files.dart';
 
 class CreateEvent extends StatefulWidget {
   const CreateEvent({super.key});
@@ -154,7 +154,8 @@ class _CreateEventState extends State<CreateEvent> {
               //create button
               CustomButton(buttonStr: "Create event", btncolor: Colors.blue, onTap: () async {
                 //apiService.addEvent(request);
-                // eventController.editEvent();
+                // eventController. addAttendeesData();//just a test
+                // eventController. fetchMembers();//just a test
                 eventController.createEvent();//create event
                  Get.delete<MapPickerController>();
                  Get.delete< DateTimeController>();

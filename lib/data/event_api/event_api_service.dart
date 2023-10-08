@@ -1,30 +1,10 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
 import '../../utils/export_files.dart';
 
 class ApiService {
   final String eventsBaseUrl = Constants.eventsUrl;
-
-  // Future<http.Response> fetchEventsData() async {
-  //   try {
-  //     final response = await http.get(Uri.parse('http://localhost:8080/api/getEvents'));
-
-  //     if (response.statusCode == 200) {
-  //       // HTTP 200 OK
-  //        final data = jsonDecode(response.body);
-  //        print(data);
-  //       return response;
-  //     } else {
-  //       debugPrint('HTTP Error: ${response.statusCode}');
-  //       return http.Response('Error', response.statusCode);
-  //     }
-  //   } catch (e) {
-  //     debugPrint('Error Fetching Event Data: $e');
-  //     throw e;
-  //   }
-  // }
-
+//Fetch events
   Future<Map<String, dynamic>> fetchEventsData() async {
   const uri = "http://localhost:8080/api/getEvents/?eventOwner=65080d2a44dbbead5990e351";
   final response = await http.get(Uri.parse(uri));
@@ -41,7 +21,7 @@ class ApiService {
   }
 }
 
-
+//Add events
 Future<void> addEvent(Event event) async {
   final response = await http.post(
     Uri.parse('http://localhost:8080/api/addEvent'),
@@ -52,19 +32,14 @@ Future<void> addEvent(Event event) async {
   );
   if (response.statusCode == 200) {
     print('=====================>Event created successfully');
-    print("=================================>created event");
-    // print('=====================>Event created successfully');
-  
-    // print("=================================>created event");
   } else {
     print('Failded to add an event');
     throw Exception('Create event error code: ${response.statusCode}');
   }
 }
 
-//String eventId
+
 //update events
-// $eventId
 Future<void> updateEvent(Map<String, dynamic> updatedEventData) async {
   final response = await http.put(
     Uri.parse('http://localhost:8080/api/updateEvent'), // Include the eventId in the URL
@@ -81,5 +56,39 @@ Future<void> updateEvent(Map<String, dynamic> updatedEventData) async {
   }
 }
 
+//fetch attendee data
+  Future<Map<String, dynamic>> fetchAttendeesData() async {
+  const uri = "http://localhost:8080/api/getPeople?eventId=0701643848";
+  final response = await http.get(Uri.parse(uri));
+
+  if (response.statusCode == 200) {
+    final data = jsonDecode(response.body);
+    print("======================================> this is my attendees' data");
+    print(data);
+      print("====================================> this is my attendees' data");
+    return data;
+  } else {
+    print('Attendees fetch API Error: ${response.statusCode}');
+    return {'error': 'API Error: ${response.statusCode}'};
+  }
+}
+
+
+//Adding people
+Future<void> addPeople(Attendees attendee) async {
+  final response = await http.post(
+    Uri.parse('http://localhost:8080/api/addPeople'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(attendee.toJson()), //a 'toJson' method exists in the Event model
+  );
+  if (response.statusCode == 200) {
+    print('======================================================>Atteendee created successfully');
+  } else {
+    print('Failded to add an attendee');
+    throw Exception('Failed to add attendee error code: ${response.statusCode}');
+  }
+}
 
 }
