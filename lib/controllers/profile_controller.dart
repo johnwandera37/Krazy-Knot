@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
+// import 'dart:typed_data';
 export 'package:photomanager/data/model/response/user_model.dart';
-import 'package:http_parser/http_parser.dart';
-// import 'package:file_picker/file_picker.dart';
+// import 'package:http_parser/http_parser.dart';
+import 'package:file_picker/file_picker.dart';
 // import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart' as path;
+// import 'package:path/path.dart' as path;
 import 'package:photomanager/data/model/response/day_five_image_model.dart';
 import 'package:photomanager/data/model/response/day_four_image_model.dart';
 import 'package:photomanager/data/model/response/day_three_image_model.dart';
@@ -14,7 +14,7 @@ import 'package:photomanager/data/model/response/single_image_model.dart';
 import 'package:photomanager/data/model/response/user_model.dart';
 import '../utils/export_files.dart';
 import 'package:http/http.dart' as http;
-import 'dart:html' as html;
+import 'package:http_parser/http_parser.dart';
 
 class ProfileController extends GetxController implements GetxService {
   final ProfileRepo profileRepo;
@@ -48,13 +48,7 @@ class ProfileController extends GetxController implements GetxService {
 
   var commentController = TextEditingController();
 
-  // void pickImages() async {
-  //   List<XFile>? imageFiles = await ImagePicker().pickMultiImage();
-  //   if (imageFiles != null) {
-  //     selectedImages.value =
-  //         imageFiles.map((imageFile) => File(imageFile.path)).toList();
-  //   }
-  // }
+  final url = 'https://smb.inet.africa:8080/api/user/upload';
 
   // EDIT-TEXT-CONTROLLER
   var editFirstNameController = TextEditingController();
@@ -183,7 +177,6 @@ class ProfileController extends GetxController implements GetxService {
   }
 
   Future<void> uploadFile(List<int> fileBytes, String comment) async {
-    const url = 'https://smb.inet.africa:8080/api/user/upload';
     final request = http.MultipartRequest('POST', Uri.parse(url));
 
     // Add file part
@@ -201,11 +194,11 @@ class ProfileController extends GetxController implements GetxService {
     final response = await request.send();
     if (response.statusCode == 200) {
       // Upload successful
-      print('Image uploaded successfully!');
+      debugPrint('Image uploaded successfully!');
       MyStyles().showSnackBarGreen(messageText: 'Image uploaded successfully!');
     } else {
       // Upload failed
-      print('Image upload failed. Status code: ${response.statusCode}');
+      debugPrint('Image upload failed. Status code: ${response.statusCode}');
     }
   }
 
@@ -218,7 +211,7 @@ class ProfileController extends GetxController implements GetxService {
       var request = http.MultipartRequest(
         'POST',
         Uri.parse(
-          'https://smb.inet.africa:8080/api/user/upload',
+          url,
         ),
       );
 
@@ -248,124 +241,115 @@ class ProfileController extends GetxController implements GetxService {
       var responseBody = await response.stream.bytesToString();
 
       var parsedData = json.decode(responseBody);
-      debugPrint('error message: ${parsedData}');
+      debugPrint('error message: $parsedData');
       MyStyles().showSnackBar(messageText: parsedData);
     }
 
     imageuploading(false);
   }
 
-  // FOR WEB
-  RxList<html.File> selectedImagesWeb = <html.File>[].obs;
+  RxList<File> selectedImagesWeb = <File>[].obs;
 
-  void pickImages() {
-    html.InputElement uploadInput =
-        html.document.createElement('input') as html.InputElement;
-    uploadInput
-      ..type = 'file'
-      ..multiple = true;
-    uploadInput.click();
+  void pickImages() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      allowMultiple: true,
+      type:
+          FileType.image, // Specify the file types you want to pick (optional)
+    );
 
-    uploadInput.onChange.listen((e) {
-      final files = uploadInput.files;
-      if (files != null) {
-        selectedImagesWeb.value = files;
-      }
-    });
+    if (result != null) {
+      List<File> files = result.paths.map((path) => File(path!)).toList();
+      selectedImages.assignAll(files);
+    }
   }
 
-  newFileUpload() {
+  void newFileUpload() async {
     imageuploading(true);
-    //late html.HttpRequest request;
-    for (int i = 0; i < selectedImagesWeb.length; i++) {
-      final formData = html.FormData();
 
-      formData.append('user_id', userInfo!.id);
-      formData.append('comment',
-          commentController.text.isEmpty ? '' : commentController.text);
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      allowMultiple: true,
+      type:
+          FileType.image, // Specify the file types you want to pick (optional)
+    );
 
-      // Append each selected file to the FormData object
+    
+    if (result != null) {
+      List<File> selectedImagesMobile =
+          result.paths.map((path) => File(path!)).toList();
 
-      final file = selectedImagesWeb[i];
-      formData.appendBlob('fileUpload', file);
+      for (int i = 0; i < selectedImagesMobile.length; i++) {
+        final file = selectedImagesMobile[i];
+        final formData = FormData({
+          'user_id': userInfo!.id,
+          'comment':
+              commentController.text.isNotEmpty ? commentController.text : '',
+          'fileUpload': MultipartFile(
+            'fileUpload', filename: '',
+          ),
+        });
 
-      // Send the FormData object to the server using an HTTP POST request
-      html.HttpRequest.request(
-        'https://smb.inet.africa:8080/api/user/upload', // Replace with your server URL
-        method: 'POST',
-        sendData: formData,
-      ).then((request) {
-        // Handle the response from the server
-        if (request.status == 200) {
-          // Upload successful
+        Response response = await profileRepo.postFormData(formData);
 
-          selectedImagesWeb.value = <html.File>[];
-          commentController.clear();
-          debugPrint('Images uploaded successfully!');
-          // MyStyles()
-          //     .showSnackBarGreen(messageText: 'Image uploaded successfully!');
-          profileData();
-          imageuploading(false);
-          Get.offNamed(RouteHelper.getLandingRoute());
+        if (response.statusCode == 200) {
+          debugPrint('Image uploaded successfully!');
         } else {
-          // Upload failed
-
-          debugPrint('error status code: ${request.status}');
+          debugPrint('Upload failed. Status code: ${response.statusCode}');
           MyStyles().showSnackBar(messageText: 'Upload failed');
-          debugPrint('Error uploading images.');
-          imageuploading(false);
         }
-      });
+      }
+
+      commentController.clear();
+      selectedImages.value = <File>[];
+      imageuploading(false);
+      Get.offNamed(RouteHelper.getLandingRoute());
+    } else {
+      // User canceled the file picking
+      imageuploading(false);
     }
-    imageuploading(false);
   }
 
   void uploadImagesToServer() async {
-    // Create an input element of type 'file'
-    html.FileUploadInputElement uploadInput = html.FileUploadInputElement()
-      ..multiple = true;
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      allowMultiple: true,
+      type:
+          FileType.image, // Specify the file types you want to pick (optional)
+    );
 
-    // Trigger the file picker dialog
-    uploadInput.click();
+    if (result != null) {
+      imageuploading(true);
 
-    // Listen for file selection
-    uploadInput.onChange.listen((event) {
-      // Retrieve selected files
-      final selectedImagesWeb = uploadInput.files;
+      List<File> selectedImagesMobile =
+          result.paths.map((path) => File(path!)).toList();
 
-      // Create a FormData object
-      final formData = html.FormData();
+      for (int i = 0; i < selectedImagesMobile.length; i++) {
+        final file = selectedImagesMobile[i];
 
-      formData.append('user_id', userInfo!.id);
-      
-      formData.append('comment', commentController.text);
+        // Create FormData instance
+        final formData = FormData({
+          'user_id': userInfo!.id,
+          'comment': commentController.text,
+          'fileUpload': MultipartFile(
+            file,
+            filename:
+                'image.jpg', // Provide a default filename or get it from file.path
+            contentType:
+                'image/jpeg', // Specify the correct content type for the image
+          ),
+        });
 
-      // Append each selected file to the FormData object
-      for (var i = 0; i < selectedImagesWeb!.length; i++) {
-        final file = selectedImagesWeb[i];
-        formData.appendBlob('fileUpload', file);
+        Response response = await profileRepo.postFormData(formData);
+
+        if (response.statusCode == 200) {
+          debugPrint('Image uploaded successfully!');
+        } else {
+          debugPrint('Upload failed. Status code: ${response.statusCode}');
+          MyStyles().showSnackBar(messageText: 'Upload failed');
+        }
       }
 
-      // Send the FormData object to the server using an HTTP POST request
-      html.HttpRequest.request(
-        'https://smb.inet.africa:8080/api/user/upload', // Replace with your server URL
-        method: 'POST',
-        sendData: formData,
-      ).then((html.HttpRequest request) {
-        // Handle the response from the server
-        if (request.status == 200) {
-          // Upload successful
-          debugPrint('Images uploaded successfully!');
-        } else {
-          // Upload failed
-
-          debugPrint('error status code: ${request.status}');
-          MyStyles().showSnackBar(messageText: 'Upload failed');
-          debugPrint('Error uploading images.');
-        }
-      });
-    });
-    await profileData();
-    await Get.offNamed(RouteHelper.getLandingRoute());
+      commentController.clear();
+      selectedImages.value = <File>[];
+      imageuploading(false);
+    }
   }
 }

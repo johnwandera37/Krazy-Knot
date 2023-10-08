@@ -15,18 +15,18 @@ class _MapPickerState extends State<MapPicker> {
   Widget build(BuildContext context) {
    return Scaffold(
     body: OpenStreetMapSearchAndPick(
-        center: LatLong(23, 89),
+        center: const LatLong(23, 89),
         buttonColor: Colors.blue,
-        buttonText: 'Select location',
-        hintText: 'Search event  location',
+        buttonText: 'Confirm location',
+        hintText: 'Search location',
         onPicked: (pickedData) {
           setState(() {
             String address = pickedData.address.toString();
            mapPickerController.setAddress(address); // Update address using GetX
           });
-          print('latitude ********************* ${pickedData.latLong.latitude}');
-          print('logitude *********************${pickedData.latLong.longitude}');
-          print('address *********************${pickedData.address}');
+          debugPrint('latitude ********************* ${pickedData.latLong.latitude}');
+          debugPrint('logitude *********************${pickedData.latLong.longitude}');
+          debugPrint('address *********************${pickedData.address}');
            Navigator.of(context).pop();//navigate back
         }),
         );

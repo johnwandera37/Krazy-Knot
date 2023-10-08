@@ -296,4 +296,5 @@ class ApiClient extends GetxService {
     }
   }
 
+  postFormData(String s, {required FormData formData}) {}
 }

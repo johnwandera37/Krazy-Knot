@@ -4,9 +4,10 @@ import '../../utils/export_files.dart';
 
 class ApiService {
   final String eventsBaseUrl = Constants.eventsUrl;
+  var event_owner = '65081b6f44dbbead5990e40a';
 //Fetch events
   Future<Map<String, dynamic>> fetchEventsData() async {
-  const uri = "http://localhost:8080/api/getEvents/?eventOwner=65080d2a44dbbead5990e351";
+  final uri = "$eventsBaseUrl/getEvents/?eventOwner=$event_owner";
   final response = await http.get(Uri.parse(uri));
 
   if (response.statusCode == 200) {
@@ -24,7 +25,7 @@ class ApiService {
 //Add events
 Future<void> addEvent(Event event) async {
   final response = await http.post(
-    Uri.parse('http://localhost:8080/api/addEvent'),
+    Uri.parse('$eventsBaseUrl/addEvent'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -42,7 +43,7 @@ Future<void> addEvent(Event event) async {
 //update events
 Future<void> updateEvent(Map<String, dynamic> updatedEventData) async {
   final response = await http.put(
-    Uri.parse('http://localhost:8080/api/updateEvent'), // Include the eventId in the URL
+    Uri.parse('$eventsBaseUrl/updateEvent'), // Include the eventId in the URL
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -58,7 +59,7 @@ Future<void> updateEvent(Map<String, dynamic> updatedEventData) async {
 
 //fetch attendee data
   Future<Map<String, dynamic>> fetchAttendeesData() async {
-  const uri = "http://localhost:8080/api/getPeople?eventId=0701643848";
+  final uri = "$eventsBaseUrl/getPeople?eventId=0701643848";
   final response = await http.get(Uri.parse(uri));
 
   if (response.statusCode == 200) {
@@ -77,7 +78,7 @@ Future<void> updateEvent(Map<String, dynamic> updatedEventData) async {
 //Adding people
 Future<void> addPeople(Attendees attendee) async {
   final response = await http.post(
-    Uri.parse('http://localhost:8080/api/addPeople'),
+    Uri.parse('$eventsBaseUrl/addPeople'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
