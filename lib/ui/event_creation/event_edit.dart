@@ -196,6 +196,8 @@ class _EditEventState extends State<EditEvent> {
                       selectedDateTime = dateTime;
                       dateTimeController
                           .updateSelectedDateTimeEnd(selectedDateTime);
+                      dateTimeController
+                          .updateSelectedDateTimeEnd(selectedDateTime);
                     });
                   },
                 ),

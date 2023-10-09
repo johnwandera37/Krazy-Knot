@@ -38,6 +38,7 @@ dependencies:
   google_maps_flutter: ^2.3.0
   open_street_map_search_and_pick: ^0.1.0
   equatable: ^2.0.5
+  http_parser: ^4.0.0 
   # flutter_map:
   # geocoding:
 google_maps_flutter: ^2.1.3
