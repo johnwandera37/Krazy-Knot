@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:photomanager/controllers/profile_controller.dart';
+
 import '../utils/export_files.dart';
 import 'package:photomanager/data/model/response/user_model.dart';
 
@@ -51,6 +53,11 @@ class EventController extends GetxController {
 
     var event_owner = '65081b6f44dbbead5990e40a';
 
+    final ProfileRepo _profileRepo = ProfileRepo(apiClient: Get.find());
+    final ProfileController _profileController =
+        ProfileController(profileRepo: _profileRepo);
+    // var event_owner = _profileController.userInfo!.id;
+    debugPrint('================> my id is: $event_owner');
     final event = Event(
       id: "",
       eventOwner: event_owner,

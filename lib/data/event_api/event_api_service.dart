@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+// import 'package:photomanager/controllers/backup.dart';
+import '../../controllers/profile_controller.dart';
 import '../../utils/export_files.dart';
 
 class ApiService {
@@ -22,10 +24,10 @@ class ApiService {
   }
 }
 
-//Add events
+
 Future<void> addEvent(Event event) async {
   final response = await http.post(
-    Uri.parse('$eventsBaseUrl/addEvent'),
+    Uri.parse('http://localhost:8080/api/addEvent'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -33,6 +35,10 @@ Future<void> addEvent(Event event) async {
   );
   if (response.statusCode == 200) {
     print('=====================>Event created successfully');
+    print("=================================>created event");
+    // print('=====================>Event created successfully');
+  
+    // print("=================================>created event");
   } else {
     print('Failded to add an event');
     throw Exception('Create event error code: ${response.statusCode}');
