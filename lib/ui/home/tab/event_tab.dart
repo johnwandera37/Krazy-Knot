@@ -417,7 +417,7 @@ Widget PopUpMenu({
           return [
             const PopupMenuItem<String>(
               value: 'Update Status',
-              child: Text('Update status'),
+              child: Text('Restore Event'),
             ),
           ];
         } else {

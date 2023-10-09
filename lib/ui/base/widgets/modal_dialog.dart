@@ -99,11 +99,13 @@ void openAnimatedDialog({
                       eventEndDate: tomorrow.toIso8601String());
                   debugPrint(
                       '######################################################################### nice this data for status was executed ${new_status}');
+                  eventController.fetchEvents();
                 }
                 Navigator.of(context).pop();
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text('Event status restored and set for tomorrow.'),
+                    content:
+                        Text('Event status restored and set for tomorrow.'),
                   ),
                 );
               },

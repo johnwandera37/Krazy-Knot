@@ -15,7 +15,7 @@ class ApiService {
   if (response.statusCode == 200) {
     final data = jsonDecode(response.body);
     debugPrint("======================================> this is my data");
-    debugPrint(data);
+    debugPrint('$data');
       debugPrint("====================================> this is my data");
     return data;
   } else {
@@ -27,7 +27,7 @@ class ApiService {
 
 Future<void> addEvent(Event event) async {
   final response = await http.post(
-    Uri.parse('http://localhost:8080/api/addEvent'),
+    Uri.parse('$eventsBaseUrl/addEvent'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
