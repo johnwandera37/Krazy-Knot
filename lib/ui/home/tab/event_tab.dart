@@ -285,7 +285,7 @@ Widget eventTile({
                 Row(
                   children: [
                     CustomImage(
-                        image: imagePath, imageWidth: 24, imageHeight: 24),
+                        image: imagePath, imageWidth: 35, imageHeight: 35),
                     sizedWidth(8),
                     CustomText(
                       headingStr: eventType,
@@ -316,6 +316,7 @@ Widget eventTile({
                 child: CustomText(
                   headingStr: eventTitle,
                   fontSize: 15,
+                  weight: TextWeight.bold,
                 )),
 
             //event descsiption

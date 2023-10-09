@@ -27,13 +27,13 @@ import '../../../utils/export_files.dart';
         child: AlertDialog(
           title: const CustomText(headingStr: 'Event is ready', fontSize: 17, weight: TextWeight.bold,),
           content: 
-          Container(
+          SizedBox(
             width: Get.width * .5,
             child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              CustomText(headingStr: "Share the link to to invite memberst to your event", fontSize: 15,),
+              const CustomText(headingStr: "Share the link to to invite memberst to your event", fontSize: 15,),
               sizedHeight(20),
               Center(child: CustomButton(buttonStr: "share link", onTap: (){}),)
             ],
@@ -42,7 +42,7 @@ import '../../../utils/export_files.dart';
           shape: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide.none),
           actions: [
                           TextButton(
-                child: Text('Close'),
+                child: const Text('Close'),
                 onPressed: () {
                   Get.back();
                 },

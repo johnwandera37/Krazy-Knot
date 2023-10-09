@@ -12,20 +12,24 @@ class LoginScreen extends StatelessWidget {
       body: Center(
         child: SizedBox(
           width: phoneMaxWidth,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+          child: ListView(
+            padding: const EdgeInsets.all(16.0),
             children: [
               sizedHeight(Get.height * .15),
-              const CustomText(
-                headingStr: Constants.welcomeStr,
-                weight: TextWeight.bold,
-                fontSize: 20,
+              const Center(
+                child: CustomText(
+                  headingStr: Constants.welcomeStr,
+                  weight: TextWeight.bold,
+                  fontSize: 20,
+                ),
               ),
-              const CustomText(
-                headingStr: Constants.gladToSeeYou,
-                weight: TextWeight.normal,
-                textHeight: 1.4,
-                fontSize: 21,
+              const Center(
+                child: CustomText(
+                  headingStr: Constants.gladToSeeYou,
+                  weight: TextWeight.normal,
+                  textHeight: 1.4,
+                  fontSize: 21,
+                ),
               ),
               sizedHeight(20),
               CustomInput(
@@ -37,10 +41,8 @@ class LoginScreen extends StatelessWidget {
                 hintText: Constants.yourPassStr,
                 textEditingController: authController.loginPasswordController,
               ),
-
               // FORGOT PASS
-             sizedHeight(15),
-
+              sizedHeight(15),
               Row(
                 children: [
                   Expanded(child: Container()),
@@ -50,13 +52,12 @@ class LoginScreen extends StatelessWidget {
                     weight: TextWeight.semiBold,
                     decoration: TextDecorationOption.underline,
                     onTap: () {
-                      Get.to(ForgotPasswordScreen());
+                      Get.to(const ForgotPasswordScreen());
                     },
                   ),
                   sizedWidth(40),
                 ],
               ),
-
               // SIGN IN BUTTON
               Obx(
                 () {
@@ -78,11 +79,7 @@ class LoginScreen extends StatelessWidget {
                         );
                 },
               ),
-
-              Expanded(
-                child: Container(),
-              ),
-
+              sizedHeight(30),
               // SIGN UP LINK
               Center(
                 child: Row(
@@ -105,9 +102,7 @@ class LoginScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              sizedHeight(
-                30,
-              ),
+              sizedHeight(30),
             ],
           ),
         ),
