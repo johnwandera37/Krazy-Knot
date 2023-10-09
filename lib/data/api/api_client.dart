@@ -3,12 +3,14 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import '../../utils/export_files.dart';
+// import 'package:dio/dio.dart' hide Response, FormData;
 
 class ApiClient extends GetxService {
   late String appBaseUrl = Constants.baseUrl;
   // late String? eventsBaseUrl = Constants.eventsUrl;//events base url
   late SharedPreferences sharedPreferences;
   final int timeoutInSeconds = 30;
+  // Dio dio = Dio();
 
   String token = '';
   late Map<String, String> _mainHeaders;
@@ -26,7 +28,6 @@ class ApiClient extends GetxService {
       Constants.authorization: '${Constants.bearer} ${getUserToken()}',
     };
   }
-
 
   void updateHeader(String token) {
     _mainHeaders = {
@@ -72,13 +73,13 @@ class ApiClient extends GetxService {
       debugPrint(
           '====> API Call: $uri\nHeader: $_mainHeaders\nParams: $queryParams');
       if (kDebugMode) {
-        print('====> GetX Base URL: $appBaseUrl');
-        print('====> GetX Call: $uri');
+        debugPrint('====> GetX Base URL: $appBaseUrl');
+        debugPrint('====> GetX Call: $uri');
       }
       //get owner id
       String? userId = queryParams["user_id"];
-      print("User ID john: $userId");
-        //get owner id
+      debugPrint("User ID john: $userId");
+      //get owner id
       http.Response response = await http
           .get(
             Uri.parse(uri).replace(queryParameters: queryParams),
@@ -86,7 +87,7 @@ class ApiClient extends GetxService {
           )
           .timeout(Duration(seconds: timeoutInSeconds));
       if (kDebugMode) {
-        print(
+        debugPrint(
             '====> API Response: [${response.statusCode}] $uri\n${response.body}');
       }
       return HandleResponse().handleResponse(response, uri);
@@ -107,9 +108,9 @@ class ApiClient extends GetxService {
         debugPrint(
             '====> API Call: $uri\nHeader: $_mainHeaders\nParams: $queryParams');
         if (kDebugMode) {
-          print('====> GetX Base URL: $appBaseUrl');
-          print('====> GetX Call: $uri');
-          print(
+          debugPrint('====> GetX Base URL: $appBaseUrl');
+          debugPrint('====> GetX Call: $uri');
+          debugPrint(
               "====> GetX Full Url: ${Uri.parse(uri).replace(queryParameters: queryParams)}");
         }
 
@@ -127,7 +128,7 @@ class ApiClient extends GetxService {
         );
 
         if (kDebugMode) {
-          print(
+          debugPrint(
               '====> API Response: [${response.statusCode}] $uri\n${response.body}');
         }
         return response;
@@ -136,7 +137,7 @@ class ApiClient extends GetxService {
       }
     } catch (e) {
       debugPrint("++++++++++++>>>===== ERROR ${e.toString()}");
-       
+
       MyStyles().showSnackBar(messageText: e.toString());
       return const Response(
         statusCode: 1,
@@ -149,9 +150,9 @@ class ApiClient extends GetxService {
       {Map<String, String>? headers}) async {
     try {
       if (kDebugMode) {
-        print('====> GetX Base URL: $appBaseUrl');
-        print('====> GetX Call: $uri');
-        print('====> GetX Body: $body');
+        debugPrint('====> GetX Base URL: $appBaseUrl');
+        debugPrint('====> GetX Call: $uri');
+        debugPrint('====> GetX Body: $body');
       }
       http.Response response0 = await http
           .post(
@@ -167,12 +168,11 @@ class ApiClient extends GetxService {
       );
 
       if (kDebugMode) {
-        print(
+        debugPrint(
             '====> API Response: [${response.statusCode}] $uri\n${response.body}');
       }
       return response;
     } catch (e) {
-       
       MyStyles().showSnackBar(messageText: e.toString());
 
       return const Response(
@@ -189,9 +189,9 @@ class ApiClient extends GetxService {
   ) async {
     try {
       if (kDebugMode) {
-        print('====> GetX Base URL: $appBaseUrl');
-        print('====> GetX Call: $uri');
-        print('====> GetX Body: $body');
+        debugPrint('====> GetX Base URL: $appBaseUrl');
+        debugPrint('====> GetX Call: $uri');
+        debugPrint('====> GetX Body: $body');
       }
       http.Response response0 = await http
           .post(
@@ -207,12 +207,11 @@ class ApiClient extends GetxService {
       );
 
       if (kDebugMode) {
-        print(
+        debugPrint(
             '====> API Response: [${response.statusCode}] $uri\n${response.body}');
       }
       return response;
     } catch (e) {
-       
       MyStyles().showSnackBar(messageText: e.toString());
 
       return const Response(
@@ -226,9 +225,9 @@ class ApiClient extends GetxService {
       {Map<String, String>? headers}) async {
     try {
       if (kDebugMode) {
-        print('====> GetX Base URL: $appBaseUrl');
-        print('====> GetX Call: $uri');
-        print('====> GetX Body: $body');
+        debugPrint('====> GetX Base URL: $appBaseUrl');
+        debugPrint('====> GetX Call: $uri');
+        debugPrint('====> GetX Body: $body');
       }
       http.Response response0 = await http
           .put(
@@ -243,12 +242,11 @@ class ApiClient extends GetxService {
         uri,
       );
       if (kDebugMode) {
-        print(
+        debugPrint(
             '====> API Response: [${response.statusCode}] $uri\n${response.body}');
       }
       return response;
     } catch (e) {
-       
       MyStyles().showSnackBar(messageText: e.toString());
 
       return const Response(
@@ -268,8 +266,8 @@ class ApiClient extends GetxService {
         utf8.encode('bgsJVZYnKkLEBAd8YoJYOFEX1cikTAex:LK9Avmlm7vSH33Y9'));
     try {
       if (kDebugMode) {
-        print('====> GetX Base URL: $appBaseUrl');
-        print('====> GetX Call: $uri');
+        debugPrint('====> GetX Base URL: $appBaseUrl');
+        debugPrint('====> GetX Call: $uri');
       }
       http.Response response0 = await http.post(Uri.parse(uri), headers: {
         'Authorization': 'Basic $authHeader',
@@ -281,12 +279,11 @@ class ApiClient extends GetxService {
       );
 
       if (kDebugMode) {
-        print(
+        debugPrint(
             '====> API Response: [${response.statusCode}] $uri\n${response.body}');
       }
       return response;
     } catch (e) {
-       
       MyStyles().showSnackBar(messageText: e.toString());
 
       return const Response(
@@ -296,5 +293,20 @@ class ApiClient extends GetxService {
     }
   }
 
-  postFormData(String s, {required FormData formData}) {}
+  // Future<Response> postFormData(String apiUrl,
+  //     {required FormData formData}) async {
+  //   try {
+  //     debugPrint('========================> Post started');
+  //     // Send POST request using Dio
+  //     var response = (await dio.post(apiUrl, data: formData));
+
+  //     debugPrint('========================> $response');
+
+  //     // Return the response from the server
+  //     return response as Response;
+  //   } catch (error) {
+  //     debugPrint('Error during POST request: $error');
+  //     throw Exception('Failed to send POST request');
+  //   }
+  // }
 }

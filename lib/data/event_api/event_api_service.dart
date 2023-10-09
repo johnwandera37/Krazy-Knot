@@ -12,12 +12,12 @@ class ApiService {
 
   if (response.statusCode == 200) {
     final data = jsonDecode(response.body);
-    print("======================================> this is my data");
-    print(data);
-      print("====================================> this is my data");
+    debugPrint("======================================> this is my data");
+    debugPrint(data);
+      debugPrint("====================================> this is my data");
     return data;
   } else {
-    print('Event API Error: ${response.statusCode}');
+    debugPrint('Event API Error: ${response.statusCode}');
     return {'error': 'API Error: ${response.statusCode}'};
   }
 }
@@ -32,9 +32,9 @@ Future<void> addEvent(Event event) async {
     body: jsonEncode(event.toJson()), //a 'toJson' method exists in the Event model
   );
   if (response.statusCode == 200) {
-    print('=====================>Event created successfully');
+    debugPrint('=====================>Event created successfully');
   } else {
-    print('Failded to add an event');
+    debugPrint('Failded to add an event');
     throw Exception('Create event error code: ${response.statusCode}');
   }
 }
@@ -50,9 +50,9 @@ Future<void> updateEvent(Map<String, dynamic> updatedEventData) async {
     body: jsonEncode(updatedEventData), // Pass the updated data as the request body
   );
   if (response.statusCode == 200) {
-    print('[[[[[[[[[[[[[[[[[[[[[[[[[[[=======================Event updated successfully');
+    debugPrint('[[[[[[[[[[[[[[[[[[[[[[[[[[[=======================Event updated successfully');
   } else {
-    print('Failed to update an event from api itself[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[===============');
+    debugPrint('Failed to update an event from api itself[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[===============');
     throw Exception('[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[==================Update event error code: ${response.statusCode}');
   }
 }
@@ -64,12 +64,12 @@ Future<void> updateEvent(Map<String, dynamic> updatedEventData) async {
 
   if (response.statusCode == 200) {
     final data = jsonDecode(response.body);
-    print("======================================> this is my attendees' data");
-    print(data);
-      print("====================================> this is my attendees' data");
+    debugPrint("======================================> this is my attendees' data");
+    debugPrint(data);
+      debugPrint("====================================> this is my attendees' data");
     return data;
   } else {
-    print('Attendees fetch API Error: ${response.statusCode}');
+    debugPrint('Attendees fetch API Error: ${response.statusCode}');
     return {'error': 'API Error: ${response.statusCode}'};
   }
 }
@@ -85,9 +85,9 @@ Future<void> addPeople(Attendees attendee) async {
     body: jsonEncode(attendee.toJson()), //a 'toJson' method exists in the Event model
   );
   if (response.statusCode == 200) {
-    print('======================================================>Atteendee created successfully');
+    debugPrint('======================================================>Atteendee created successfully');
   } else {
-    print('Failded to add an attendee');
+    debugPrint('Failded to add an attendee');
     throw Exception('Failed to add attendee error code: ${response.statusCode}');
   }
 }

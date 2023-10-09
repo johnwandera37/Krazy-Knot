@@ -21,8 +21,8 @@ class _MapPickerState extends State<MapPicker> {
         hintText: 'Search location',
         onPicked: (pickedData) {
           setState(() {
-            String address = pickedData.address.toString();
-           mapPickerController.setAddress(address); // Update address using GetX
+            String formattedAddress = formatAddress(pickedData.address);
+           mapPickerController.setAddress(formattedAddress); // Update address using GetX
           });
           debugPrint('latitude ********************* ${pickedData.latLong.latitude}');
           debugPrint('logitude *********************${pickedData.latLong.longitude}');
@@ -36,4 +36,23 @@ class _MapPickerState extends State<MapPicker> {
   
 //     super.dispose();
 //   }
+}
+
+String formatAddress(Map<String, dynamic> addressData) {
+  // Define the fields to exclude
+  List<String> excludedFields = ['ISO3166-2-lvl4', 'country_code'];
+
+  // Extract and format the address components, excluding the specified fields
+  List<String> formattedComponents = addressData.keys
+      .where((componentKey) =>
+          !excludedFields.contains(componentKey) &&
+          addressData[componentKey] != null &&
+          addressData[componentKey].isNotEmpty)
+      .map((componentKey) => addressData[componentKey].toString())
+      .toList();
+
+  // Join the formatted components with ', '
+  String formattedAddress = formattedComponents.join(', ');
+
+  return formattedAddress;
 }

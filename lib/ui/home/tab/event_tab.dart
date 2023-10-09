@@ -22,9 +22,21 @@ class EventTab extends StatelessWidget {
       final featuredEvents = allEvents.where((event) {
         final eventDate =
             DateTime.parse(event.eventStartDate); // Parse the event date
-        return eventDate.isAfter(startOfWeek) && eventDate.isBefore(endOfWeek);
+        return eventDate.isAfter(startOfWeek) && eventDate.isBefore(endOfWeek) && event.eventStatus.toLowerCase() != 'cancelled';
       }).toList();
       return featuredEvents;
+    }
+
+    List<Event> filterRemainingEvents(List<Event> allEvents) {
+      final now = DateTime.now();
+      final startOfWeek = DateTime(now.year, now.month, now.day);
+      final endOfWeek = startOfWeek.add(const Duration(days: 7));
+      final remainingEvents = allEvents.where((event) {
+        final eventDate =
+            DateTime.parse(event.eventStartDate); // Parse the event date
+        return eventDate.isAfter(endOfWeek) && event.eventStatus.toLowerCase() != 'cancelled';
+      }).toList();
+      return remainingEvents;
     }
 
     return Obx(() => Scaffold(
@@ -157,7 +169,7 @@ class EventTab extends StatelessWidget {
 
                   // Other Events Container
                   Container(
-                    child: eventController.events.isEmpty
+                    child: filterRemainingEvents(eventController.events).isEmpty
                         ? Center(
                             child: SizedBox(
                               height: 200,
@@ -183,9 +195,9 @@ class EventTab extends StatelessWidget {
                         : Wrap(
                             spacing: 20,
                             runSpacing: 20,
-                            children: eventController.events
+                            children: filterRemainingEvents(eventController.events)
                                 .where(
-                                    (event) => event.eventStatus != "Cancelled")
+                                    (event) => event.eventStatus.toLowerCase() != "cancelled")
                                 .map(
                                   (event) => SizedBox(
                                     width: screenWidth,
@@ -401,7 +413,7 @@ Widget PopUpMenu({
       },
       itemBuilder: (BuildContext context) {
         if (status == 'Cancelled') {
-          // Only show 'Update Status' if the event is cancelled
+          // Only show if the event is cancelled
           return [
             const PopupMenuItem<String>(
               value: 'Update Status',

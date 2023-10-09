@@ -51,10 +51,10 @@ class ProfileRepo {
       },
     );
   }
-  Future<Response> postFormData(FormData formData) async {
-  return await apiClient.postFormData(
-    '${Constants.baseUrl}user/upload',
-    formData: formData,
-  );
-}
+//   Future<Response> postFormData(FormData formData) async {
+//   return await apiClient.postFormData(
+//     '${Constants.baseUrl}user/upload',
+//     formData: formData,
+//   );
+// }
 }
