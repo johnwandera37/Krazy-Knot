@@ -1,9 +1,9 @@
-import 'dart:convert';
+// import 'dart:convert';
 
-import 'package:photomanager/controllers/profile_controller.dart';
+// import 'package:photomanager/controllers/profile_controller.dart';
 
 import '../utils/export_files.dart';
-import 'package:photomanager/data/model/response/user_model.dart';
+// import 'package:photomanager/data/model/response/user_model.dart';
 
 class EventController extends GetxController {
   final events = <Event>[].obs; //capture events data
@@ -29,13 +29,13 @@ class EventController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    fetchEvents(); // Fetch data when the controller is initialized
-    // getOwnerId();
+    fetchEvents(
+        '65081b6f44dbbead5990e40a'); // Fetch data when the controller is initialized
   }
 
   //getEvents
-  Future<void> fetchEvents() async {
-    final data = await ApiService().fetchEventsData();
+  Future<void> fetchEvents(event_owner) async {
+    final data = await ApiService().fetchEventsData(event_owner);
     debugPrint('$data');
     // Convert the JSON data into Event objects using the model
     final eventList = (data['events'] as List)
@@ -46,45 +46,59 @@ class EventController extends GetxController {
   }
 
 //create event process
-  Future<void> createEvent() async {
-// Access the selectedDateTime
-    final DateTime startTime = dateTimeController.selectedDateTime.value;
-    final DateTime endTime = dateTimeController.selectedEndDateTime.value;
+  Future<void> createEvent(event_owner) async {
+  final DateTime startTime = dateTimeController.selectedDateTime.value;
+  final DateTime endTime = dateTimeController.selectedEndDateTime.value;
+  debugPrint('================> my id is: $event_owner');
+  final event = Event(
+    id: "",
+    eventOwner: event_owner,
+    eventName: eventTitle.text,
+    eventType: selectType.text,
+    eventVenue: mapPickerController.address.value,
+    eventDescription: eventDescription.text,
+    eventStartDate: startTime.toString(),
+    eventEndDate: endTime.toString(),
+    eventStatus: 'Pending', //by default
+  );
 
-    var event_owner = '65081b6f44dbbead5990e40a';
+  try {
+    await ApiService().addEvent(event);
+    Get.delete<MapPickerController>();
+    Get.delete<DateTimeController>();
+    Get.delete<EventController>();
+    Get.back();
+    fetchEvents(event_owner);
 
-    final ProfileRepo _profileRepo = ProfileRepo(apiClient: Get.find());
-    final ProfileController _profileController =
-        ProfileController(profileRepo: _profileRepo);
-    // var event_owner = _profileController.userInfo!.id;
-    debugPrint('================> my id is: $event_owner');
-    final event = Event(
-      id: "",
-      eventOwner: event_owner,
-      eventName: eventTitle.text,
-      eventType: selectType.text,
-      eventVenue: mapPickerController.address.value,
-      eventDescription: eventDescription.text,
-      eventStartDate: startTime.toString(),
-      eventEndDate: endTime.toString(),
-      eventStatus: 'Pending', //by default
+    // Show success message as a snackbar
+    Get.snackbar(
+      'Success',
+      'Event created successfully',
+      snackPosition: SnackPosition.TOP,
+      backgroundColor: Colors.green,
+      colorText: Colors.white,
     );
-
-    try {
-      await ApiService().addEvent(event);
-      fetchEvents();
-    } catch (e) {
-      debugPrint('Failed to create event: $e');
-    }
+  } catch (e) {
+    debugPrint('$e');
+    
+    // Show error message as a snackbar
+    Get.snackbar(
+      'Error',
+      '$e',
+      snackPosition: SnackPosition.TOP,
+      backgroundColor: Colors.red,
+      colorText: Colors.white,
+    );
   }
+}
+
 
 //edit event process
-  Future<void> editEvent() async {
+  Future<void> editEvent(event_owner) async {
     String eventId = eventIdController.eventId.value;
 
     final DateTime startTime = dateTimeController.selectedDateTime.value;
     final DateTime endTime = dateTimeController.selectedEndDateTime.value;
-    var event_owner = '65081b6f44dbbead5990e40a';
 
     debugPrint("/////////////////////////////////////////this is my event id");
     debugPrint(eventId);
@@ -96,7 +110,7 @@ class EventController extends GetxController {
       eventType: selectType.text,
       eventVenue: mapPickerController.address.value,
       eventDescription: eventDescription.text,
-      eventStatus: "Pending",
+      eventStatus: "Pending", //default
       eventStartDate: startTime.toString(),
       eventEndDate: endTime.toString(),
     );
@@ -109,47 +123,38 @@ class EventController extends GetxController {
       };
 
       await ApiService().updateEvent(requestBody);
-      fetchEvents();
+      Get.delete<MapPickerController>();
+      Get.delete<DateTimeController>();
+      Get.delete<EventController>();
+      Get.back();
+      fetchEvents(event_owner);
       debugPrint('Event updated successfully');
     } catch (e) {
-      debugPrint('Failed to update event: $e');
+      debugPrint('$e');
     }
   }
 
 //update status alone process
   Future<void> updateStatus({
     required String eventId,
-    required String eventTitle,
-    required String eventType,
-    required String eventVenue,
-    required String eventDescription,
-    required String eventStatus,
-    required String eventStartDate,
-    required String eventEndDate,
+    required String eventStatus
   }) async {
     // Create an instance of the Event model to encapsulate the updated data
     var event_owner = '65081b6f44dbbead5990e40a';
-    final updatedEventData = PutEvent(
+    final updatedEventStatus = PutEventStatus(
       eventId: eventId,
-      eventName: eventTitle,
-      eventOwner: event_owner,
-      eventType: eventType,
-      eventVenue: eventVenue,
-      eventDescription: eventDescription,
       eventStatus: eventStatus,
-      eventStartDate: eventStartDate,
-      eventEndDate: eventEndDate,
     );
 
     try {
       // Convert the Event object to a map before sending it in the request body
       final requestBody = {
-        "eventId": updatedEventData.eventId,
-        "updatedEventData": updatedEventData.toMap(),
+        "eventId": updatedEventStatus.eventId,
+        "updatedEventStatus": updatedEventStatus.toMap(),
       };
 
-      await ApiService().updateEvent(requestBody);
-      fetchEvents();
+      await ApiService().updateEventStatus(requestBody);
+      fetchEvents(event_owner);
       debugPrint('Event status updated successfully');
     } catch (e) {
       debugPrint('Failed to update event status: $e');

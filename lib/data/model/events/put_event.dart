@@ -36,3 +36,21 @@ class PutEvent {
     };
   }
 }
+
+class PutEventStatus {
+String eventStatus;
+final String eventId;
+
+  PutEventStatus({
+    required this.eventId,
+    required this.eventStatus,
+  });
+
+  // Convert the Event object to a map
+  Map<String, dynamic> toMap() {
+    return {
+      'eventId': eventId,
+      'eventStatus': eventStatus
+    };
+  }
+}

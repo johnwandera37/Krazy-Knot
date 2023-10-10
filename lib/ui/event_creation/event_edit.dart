@@ -1,4 +1,5 @@
 import '../../../utils/export_files.dart';
+import '../../controllers/profile_controller.dart';
 
 class EditEvent extends StatefulWidget {
   // const EditEvent({super.key});
@@ -52,6 +53,9 @@ class _EditEventState extends State<EditEvent> {
 
   @override
   Widget build(BuildContext context) {
+    // final ProfileRepo _profileRepo = ProfileRepo(apiClient: Get.find());
+    // final ProfileController _profileController =
+    //     ProfileController(profileRepo: _profileRepo);
     return Obx(
       () => Scaffold(
         backgroundColor: Colors.white,
@@ -220,9 +224,12 @@ class _EditEventState extends State<EditEvent> {
                       buttonStr: "Edit Event",
                       btncolor: Colors.blue,
                       onTap: () async {
-                        eventController.editEvent();
+                        var event_owner = '65081b6f44dbbead5990e40a';
+                        eventController.editEvent(event_owner);
                         Get.delete<MapPickerController>();
                         Get.delete<DateTimeController>();
+                        Get.delete<EventController>();
+                        Get.back();
                       },
                     ),
                   ),

@@ -26,8 +26,8 @@ class _LandingPageState extends State<LandingPage> {
     EventTab(),
     const HomeTab(),
     const ProfileTab(),
-    CancelledEvents(),
-    ViewQrScreen()
+    const CancelledEvents(),
+    const ViewQrScreen()
   ];
   @override
   Widget build(BuildContext context) {
@@ -138,7 +138,7 @@ class _LandingPageState extends State<LandingPage> {
                         : sizedHeight(Get.height * .03),
                         //menu items
                     ListTile(
-                      leading: Icon(Icons.home),
+                      leading: const Icon(Icons.home),
                       title: CustomText(
                           headingStr: 'Home',
                           onTap: () => _onDrawerItemTap(
@@ -147,7 +147,7 @@ class _LandingPageState extends State<LandingPage> {
                       onTap: () => _onDrawerItemTap(0),
                     ),
                     ListTile(
-                      leading: Icon(Icons.picture_in_picture_alt),
+                      leading: const Icon(Icons.picture_in_picture_alt),
                       title: CustomText(
                           headingStr: 'Event Gallery',
                           onTap: () => _onDrawerItemTap(
@@ -156,7 +156,7 @@ class _LandingPageState extends State<LandingPage> {
                       onTap: () => _onDrawerItemTap(1),
                     ),
                     ListTile(
-                      leading: Icon(Icons.picture_in_picture_alt),
+                      leading: const Icon(Icons.picture_in_picture_alt),
                       title: CustomText(
                           headingStr: 'Social Gallery',
                           onTap: () => _onDrawerItemTap(
@@ -165,7 +165,7 @@ class _LandingPageState extends State<LandingPage> {
                       onTap: () => _onDrawerItemTap(2),
                     ),
                     ListTile(
-                      leading: Icon(Icons.cancel),
+                      leading: const Icon(Icons.cancel),
                       title: CustomText(
                           headingStr: 'Cancelled Events',
                           onTap: () => _onDrawerItemTap(
@@ -174,7 +174,7 @@ class _LandingPageState extends State<LandingPage> {
                       onTap: () => _onDrawerItemTap(3),
                     ),
                     ListTile(
-                      leading: Icon(Icons.qr_code),
+                      leading: const Icon(Icons.qr_code),
                       title: CustomText(
                           headingStr: 'Scan QR',
                           onTap: () => _onDrawerItemTap(
@@ -210,16 +210,7 @@ class _LandingPageState extends State<LandingPage> {
                 ),
                 backgroundColor: HexColor("F7F7F7"),
                 actions: [
-                   IconButton(
-                    icon: Icon(
-                      Icons.edit,
-                      color: Colors.black,
-                    ),
-                    onPressed: () {
-                       Get.to(InvitationForm());
-                    },
-                  ),
-                  SizedBox(
+                  const SizedBox(
                     width: 6,
                   ),
 
@@ -237,7 +228,7 @@ class _LandingPageState extends State<LandingPage> {
                   //   width: 6,
                   // ),
                   IconButton(
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.menu,
                       color: Colors.black,
                       size: 35,
@@ -246,7 +237,7 @@ class _LandingPageState extends State<LandingPage> {
                       _scaffoldKey.currentState?.openEndDrawer();
                     },
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 15,
                   )
                 ],
@@ -282,6 +273,5 @@ class _LandingPageState extends State<LandingPage> {
         ),
       );
     });
-    ;
   }
 }

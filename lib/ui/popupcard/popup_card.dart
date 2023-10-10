@@ -1,6 +1,6 @@
 import '../../../utils/export_files.dart';
 
- void popUpCard({
+void popUpCard({
   required BuildContext context,
   String? eventId,
   String? status,
@@ -11,45 +11,60 @@ import '../../../utils/export_files.dart';
   String? description,
   String? startDate,
   String? endDate,
-  }){
-    showGeneralDialog(
+}) {
+  showGeneralDialog(
     context: context,
-    pageBuilder: (context, animation1, animation2){
+    pageBuilder: (context, animation1, animation2) {
       return Container();
     },
     transitionDuration: const Duration(milliseconds: 400),
-    transitionBuilder: (context, a1, a2, child) => 
-    ScaleTransition(
+    transitionBuilder: (context, a1, a2, child) => ScaleTransition(
       scale: Tween<double>(begin: 0.5, end: 1.0).animate(a1),
-      child: 
-      FadeTransition(
+      child: FadeTransition(
         opacity: Tween<double>(begin: 0.5, end: 1.0).animate(a1),
         child: AlertDialog(
-          title: const CustomText(headingStr: 'Event is ready', fontSize: 17, weight: TextWeight.bold,),
-          content: 
-          SizedBox(
+          title: const CustomText(
+            headingStr: 'Event is ready',
+            fontSize: 17,
+            weight: TextWeight.bold,
+          ),
+          content: SizedBox(
             width: Get.width * .5,
             child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const CustomText(headingStr: "Share the link to to invite memberst to your event", fontSize: 15,),
-              sizedHeight(20),
-              Center(child: CustomButton(buttonStr: "share link", onTap: (){}),)
-            ],
-                  ),
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const CustomText(
+                  headingStr:
+                      "Share the link to to invite memberst to your event",
+                  fontSize: 15,
+                ),
+                sizedHeight(20),
+                Center(
+                  child: CustomButton(
+                      buttonStr: "share link",
+                      onTap: () {
+                        Get.to(InvitationForm(
+                          
+                        ));
+                    }),
+                )
+              ],
+            ),
           ),
-          shape: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide.none),
+          shape: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(16),
+              borderSide: BorderSide.none),
           actions: [
-                          TextButton(
-                child: const Text('Close'),
-                onPressed: () {
-                  Get.back();
-                },
-              ),
+            TextButton(
+              child: const Text('Close'),
+              onPressed: () {
+                Get.back();
+              },
+            ),
           ],
         ),
       ),
     ),
-    );
-  }
+  );
+}

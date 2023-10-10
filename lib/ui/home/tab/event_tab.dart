@@ -22,7 +22,9 @@ class EventTab extends StatelessWidget {
       final featuredEvents = allEvents.where((event) {
         final eventDate =
             DateTime.parse(event.eventStartDate); // Parse the event date
-        return eventDate.isAfter(startOfWeek) && eventDate.isBefore(endOfWeek) && event.eventStatus.toLowerCase() != 'cancelled';
+        return eventDate.isAfter(startOfWeek) &&
+            eventDate.isBefore(endOfWeek) &&
+            event.eventStatus.toLowerCase() != 'cancelled';
       }).toList();
       return featuredEvents;
     }
@@ -34,15 +36,15 @@ class EventTab extends StatelessWidget {
       final remainingEvents = allEvents.where((event) {
         final eventDate =
             DateTime.parse(event.eventStartDate); // Parse the event date
-        return eventDate.isAfter(endOfWeek) && event.eventStatus.toLowerCase() != 'cancelled';
+        return eventDate.isAfter(endOfWeek) &&
+            event.eventStatus.toLowerCase() != 'cancelled';
       }).toList();
       return remainingEvents;
     }
 
     return Obx(() => Scaffold(
           backgroundColor: Colors.white,
-          body: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+          body: SizedBox(
             child: SingleChildScrollView(
               padding: const EdgeInsets.only(bottom: 20),
               child: Column(
@@ -64,7 +66,7 @@ class EventTab extends StatelessWidget {
 
                   // Upcoming Events Section
                   const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10),
+                    padding: EdgeInsets.symmetric(horizontal: 10),
                     child: Text(
                       'Upcoming Events',
                       style: TextStyle(
@@ -81,8 +83,7 @@ class EventTab extends StatelessWidget {
                       ? Center(
                           child: SizedBox(
                             width: screenWidth * .8,
-                            height: screenHeight *
-                                0.25,
+                            height: screenHeight * 0.25,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -113,7 +114,7 @@ class EventTab extends StatelessWidget {
                               final event = filterFeaturedEvents(
                                   eventController.events)[index];
                               return Container(
-                                width: screenWidth * .8,
+                                width: screenWidth * .9,
                                 height: screenHeight * .22,
                                 margin: const EdgeInsets.only(right: 10),
                                 padding: const EdgeInsets.all(10),
@@ -155,7 +156,7 @@ class EventTab extends StatelessWidget {
 
                   // Other Events Section
                   const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10),
+                    padding: EdgeInsets.symmetric(horizontal: 10),
                     child: Text(
                       'Other Events',
                       style: TextStyle(
@@ -195,46 +196,53 @@ class EventTab extends StatelessWidget {
                         : Wrap(
                             spacing: 20,
                             runSpacing: 20,
-                            children: filterRemainingEvents(eventController.events)
-                                .where(
-                                    (event) => event.eventStatus.toLowerCase() != "cancelled")
-                                .map(
-                                  (event) => SizedBox(
-                                    width: screenWidth,
-                                    height: screenHeight * .24,
-                                    child: eventTile(
-                                      eventType: event.eventType,
-                                      eventTitle: event.eventName,
-                                      eventDate:
-                                          '${formatDateTime(event.eventStartDate!)} - ${formatDateTime(event.eventEndDate!)}',
-                                      eventDescription: event.eventDescription,
-                                      eventStrId: event.id.toString(),
-                                      eventStrStatus: event.eventStatus,
-                                      evenStrVenue: event.eventVenue,
-                                      eventEndDateStr: event.eventEndDate,
-                                      eventStartDateStr: event.eventStartDate,
-                                      eventStrOwner: event.eventOwner,
-                                      context: context,
-                                      onTap: () {
-                                        if (event.eventStatus == "Ready") {
-                                          popUpCard(
-                                            context: context,
-                                            status: event.eventStatus,
-                                          );
-                                        } else {
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            const SnackBar(
-                                              content: Text(
-                                                  'Event venue is not ready.'),
+                            children:
+                                filterRemainingEvents(eventController.events)
+                                    .where((event) =>
+                                        event.eventStatus.toLowerCase() !=
+                                        "cancelled")
+                                    .map((event) => Center(
+                                          child: SizedBox(
+                                            width: screenWidth * .9,
+                                            height: screenHeight * .24,
+                                            child: eventTile(
+                                              eventType: event.eventType,
+                                              eventTitle: event.eventName,
+                                              eventDate:
+                                                  '${formatDateTime(event.eventStartDate!)} - ${formatDateTime(event.eventEndDate!)}',
+                                              eventDescription:
+                                                  event.eventDescription,
+                                              eventStrId: event.id.toString(),
+                                              eventStrStatus: event.eventStatus,
+                                              evenStrVenue: event.eventVenue,
+                                              eventEndDateStr:
+                                                  event.eventEndDate,
+                                              eventStartDateStr:
+                                                  event.eventStartDate,
+                                              eventStrOwner: event.eventOwner,
+                                              context: context,
+                                              onTap: () {
+                                                if (event.eventStatus
+                                                        .toLowerCase() ==
+                                                    "ready") {
+                                                  popUpCard(
+                                                    context: context,
+                                                    status: event.eventStatus,
+                                                  );
+                                                } else {
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                    const SnackBar(
+                                                      content: Text(
+                                                          'Event venue is not ready.'),
+                                                    ),
+                                                  );
+                                                }
+                                              },
                                             ),
-                                          );
-                                        }
-                                      },
-                                    ),
-                                  ),
-                                )
-                                .toList(),
+                                          ),
+                                        ))
+                                    .toList(),
                           ),
                   ),
                 ],

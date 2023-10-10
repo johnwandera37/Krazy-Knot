@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
+// import 'dart:typed_data';
 export 'package:photomanager/data/model/response/user_model.dart';
 import 'package:http_parser/http_parser.dart';
 // import 'package:file_picker/file_picker.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart' as path;
+// import 'package:path/path.dart' as path;
 import 'package:photomanager/data/model/response/day_five_image_model.dart';
 import 'package:photomanager/data/model/response/day_four_image_model.dart';
 import 'package:photomanager/data/model/response/day_three_image_model.dart';
@@ -47,6 +47,8 @@ class ProfileController extends GetxController implements GetxService {
   RxList<File> selectedImages = <File>[].obs;
 
   var commentController = TextEditingController();
+
+  final uploadUrl = '${Constants.baseUrl}user/upload';
 
   void pickImages() async {
     List<XFile>? imageFiles = await ImagePicker().pickMultiImage();
@@ -183,8 +185,7 @@ class ProfileController extends GetxController implements GetxService {
   }
 
   Future<void> uploadFile(List<int> fileBytes, String comment) async {
-    const url = 'https://smb.inet.africa:8080/api/user/upload';
-    final request = http.MultipartRequest('POST', Uri.parse(url));
+    final request = http.MultipartRequest('POST', Uri.parse(uploadUrl));
 
     // Add file part
     request.files.add(
@@ -201,11 +202,11 @@ class ProfileController extends GetxController implements GetxService {
     final response = await request.send();
     if (response.statusCode == 200) {
       // Upload successful
-      print('Image uploaded successfully!');
+      debugPrint('Image uploaded successfully!');
       MyStyles().showSnackBarGreen(messageText: 'Image uploaded successfully!');
     } else {
       // Upload failed
-      print('Image upload failed. Status code: ${response.statusCode}');
+      debugPrint('Image upload failed. Status code: ${response.statusCode}');
     }
   }
 
@@ -217,9 +218,7 @@ class ProfileController extends GetxController implements GetxService {
       String fieldName = 'fileUpload';
       var request = http.MultipartRequest(
         'POST',
-        Uri.parse(
-          'https://smb.inet.africa:8080/api/user/upload',
-        ),
+        Uri.parse(uploadUrl),
       );
 
       request.fields['user_id'] = userInfo!.id;
@@ -248,7 +247,7 @@ class ProfileController extends GetxController implements GetxService {
       var responseBody = await response.stream.bytesToString();
 
       var parsedData = json.decode(responseBody);
-      debugPrint('error message: ${parsedData}');
+      debugPrint('error message: $parsedData');
       MyStyles().showSnackBar(messageText: parsedData);
     }
 
@@ -291,7 +290,7 @@ class ProfileController extends GetxController implements GetxService {
 
 //       // Send the FormData object to the server using an HTTP POST request
 //       html.HttpRequest.request(
-//         'https://smb.inet.africa:8080/api/user/upload', // Replace with your server URL
+//         uploadUrl, // Replace with your server URL
 //         method: 'POST',
 //         sendData: formData,
 //       ).then((request) {
@@ -347,7 +346,7 @@ class ProfileController extends GetxController implements GetxService {
 
 //       // Send the FormData object to the server using an HTTP POST request
 //       html.HttpRequest.request(
-//         'https://smb.inet.africa:8080/api/user/upload', // Replace with your server URL
+//         uploadUrl, // Replace with your server URL
 //         method: 'POST',
 //         sendData: formData,
 //       ).then((html.HttpRequest request) {

@@ -1,5 +1,9 @@
+import '../../../controllers/profile_controller.dart';
 import '../../../utils/export_files.dart';
 
+final ProfileRepo _profileRepo = ProfileRepo(apiClient: Get.find());
+final ProfileController _profileController =
+    ProfileController(profileRepo: _profileRepo);
 void openAnimatedDialog({
   required BuildContext context,
   required String eventId,
@@ -29,8 +33,8 @@ void openAnimatedDialog({
       child: FadeTransition(
         opacity: Tween<double>(begin: 0.5, end: 1.0).animate(a1),
         child: AlertDialog(
-          title: CustomText(
-            headingStr: "CONFIRM EVENT STATUS",
+          title: const CustomText(
+            headingStr: "CHANGE EVENT STATUS",
             weight: TextWeight.bold,
           ),
           content: CustomText(headingStr: dialogContent),
@@ -39,11 +43,11 @@ void openAnimatedDialog({
               borderSide: BorderSide.none),
           actions: [
             TextButton(
-              child: Text('No'),
+              child: const Text('No'),
               onPressed: () {
                 Navigator.of(context).pop();
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
+                  const SnackBar(
                     content: CustomText(
                         headingStr:
                             "Ensure your venue is ready before updating."),
@@ -52,60 +56,40 @@ void openAnimatedDialog({
               },
             ),
             TextButton(
-              child: Text('Yes'),
+              child: const Text('Yes'),
               onPressed: () {
                 final EventController eventController =
                     Get.put(EventController());
                 final String new_status;
+                var message;
                 if (status.toLowerCase() == 'pending') {
                   new_status = 'Ready';
                   eventController.updateStatus(
-                      eventId: eventId,
-                      eventTitle: title,
-                      eventType: type,
-                      eventVenue: venue,
-                      eventDescription: description,
-                      eventStatus: new_status,
-                      eventStartDate: startDate,
-                      eventEndDate: endDate);
+                      eventId: eventId, eventStatus: new_status);
+                  message = 'Status updated to ready';
                   debugPrint(
-                      '######################################################################### nice this data for status was executed ${new_status}');
+                      '######################################################################### nice this data for status was executed $new_status');
                 } else if (status.toLowerCase() == 'ready') {
                   new_status = 'Pending';
                   eventController.updateStatus(
-                      eventId: eventId,
-                      eventTitle: title,
-                      eventType: type,
-                      eventVenue: venue,
-                      eventDescription: description,
-                      eventStatus: new_status,
-                      eventStartDate: startDate,
-                      eventEndDate: endDate);
+                      eventId: eventId, eventStatus: new_status);
+                  message = 'Status updated to pending';
                   debugPrint(
-                      '######################################################################### nice this data for status was executed ${new_status}');
+                      '######################################################################### nice this data for status was executed $new_status');
                 } else if (status.toLowerCase() == 'cancelled') {
                   new_status = 'Pending';
-                  DateTime currentDate = DateTime.now();
-                  DateTime tomorrow = currentDate.add(Duration(days: 1));
-
                   eventController.updateStatus(
-                      eventId: eventId,
-                      eventTitle: title,
-                      eventType: type,
-                      eventVenue: venue,
-                      eventDescription: description,
-                      eventStatus: new_status,
-                      eventStartDate: tomorrow.toIso8601String(),
-                      eventEndDate: tomorrow.toIso8601String());
+                      eventId: eventId, eventStatus: new_status);
+
+                  message = 'Event restored';
                   debugPrint(
-                      '######################################################################### nice this data for status was executed ${new_status}');
-                  eventController.fetchEvents();
+                      '######################################################################### nice this data for status was executed $new_status');
                 }
                 Navigator.of(context).pop();
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content:
-                        Text('Event status restored and set for tomorrow.'),
+                    content: Text(message),
+                    behavior: SnackBarBehavior.floating,
                   ),
                 );
               },
@@ -143,7 +127,7 @@ void cancelEvent({
       child: FadeTransition(
         opacity: Tween<double>(begin: 0.5, end: 1.0).animate(a1),
         child: AlertDialog(
-          title: CustomText(
+          title: const CustomText(
             headingStr: "CANCEL EVENT",
             weight: TextWeight.bold,
           ),
@@ -153,18 +137,18 @@ void cancelEvent({
               borderSide: BorderSide.none),
           actions: [
             TextButton(
-              child: Text('No'),
+              child: const Text('No'),
               onPressed: () {
                 Navigator.of(context).pop();
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
+                  const SnackBar(
                     content: CustomText(headingStr: "No action taken."),
                   ),
                 );
               },
             ),
             TextButton(
-              child: Text('Yes'),
+              child: const Text('Yes'),
               onPressed: () {
                 final EventController eventController =
                     Get.put(EventController());
@@ -174,17 +158,11 @@ void cancelEvent({
                   new_status = 'Cancelled';
                   eventController.updateStatus(
                       eventId: eventId,
-                      eventTitle: title,
-                      eventType: type,
-                      eventVenue: venue,
-                      eventDescription: description,
-                      eventStatus: new_status,
-                      eventStartDate: startDate,
-                      eventEndDate: endDate);
+                      eventStatus: new_status);
                 }
                 Navigator.of(context).pop();
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
+                  const SnackBar(
                     content: Text('Event has been cancelled.'),
                   ),
                 );

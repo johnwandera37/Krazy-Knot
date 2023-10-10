@@ -1,3 +1,5 @@
+// import 'package:photomanager/controllers/profile_controller.dart';
+
 import '../../../utils/export_files.dart';
 
 class CreateEvent extends StatefulWidget {
@@ -47,6 +49,8 @@ class _CreateEventState extends State<CreateEvent> {
 
   @override
   Widget build(BuildContext context) {
+    // final ProfileRepo _profileRepo = ProfileRepo(apiClient: Get.find());
+    // final ProfileController _profileController = ProfileController(profileRepo: _profileRepo);
     return Obx(
       () => Scaffold(
         backgroundColor: Colors.white,
@@ -213,9 +217,8 @@ class _CreateEventState extends State<CreateEvent> {
                       buttonStr: "Create Event",
                       btncolor: Colors.blue,
                       onTap: () async {
-                        eventController.createEvent();
-                        Get.delete<MapPickerController>();
-                        Get.delete<DateTimeController>();
+                        var event_owner = '65081b6f44dbbead5990e40a';
+                        eventController.createEvent(event_owner);
                       },
                     ),
                   ),

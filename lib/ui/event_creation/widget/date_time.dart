@@ -26,7 +26,7 @@ class _DateTimePickerState extends State<DateTimePicker> {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: _selectedDateTime,
-      firstDate: DateTime(2000),
+      firstDate:DateTime.now(),
       lastDate: DateTime(2101),
     );
 
@@ -45,9 +45,12 @@ class _DateTimePickerState extends State<DateTimePicker> {
   }
 
   Future<void> _selectTime(BuildContext context) async {
+    final TimeOfDay minimumTime = TimeOfDay.fromDateTime(
+    DateTime.now().add(const Duration(minutes: 20)),
+  );
     final TimeOfDay? picked = await showTimePicker(
       context: context,
-      initialTime: TimeOfDay.fromDateTime(_selectedDateTime),
+      initialTime: minimumTime,
     );
 
     if (picked != null) {

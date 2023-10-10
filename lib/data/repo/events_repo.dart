@@ -47,8 +47,8 @@ class Repository {
   //   }
   // }
 
-  Future<Map<String, dynamic>> fetchData() async {
-    final response = await apiService.fetchEventsData();
+  Future<Map<String, dynamic>> fetchData(event_owner) async {
+    final response = await apiService.fetchEventsData(event_owner);
 
     // if (response.statusCode == 200) {
     //   // Parse the response and return data
