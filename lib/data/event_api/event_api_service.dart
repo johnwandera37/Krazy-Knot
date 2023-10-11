@@ -93,7 +93,7 @@ class ApiService {
     }
   }
 
-//update events
+//update event status
   Future<void> updateEventStatus(
       Map<String, dynamic> updatedEventStatus) async {
     final response = await http.put(
@@ -118,8 +118,8 @@ class ApiService {
   }
 
 //fetch attendee data
-  Future<Map<String, dynamic>> fetchAttendeesData() async {
-    final uri = "${eventsBaseUrl}getPeople?eventId=0701643848";
+  Future<Map<String, dynamic>> fetchAttendeesData(event_id) async {
+    final uri = "${eventsBaseUrl}getPeople?eventId=$event_id";
     final response = await http.get(Uri.parse(uri));
 
     if (response.statusCode == 200) {
@@ -132,7 +132,8 @@ class ApiService {
       return data;
     } else {
       debugPrint('Attendees fetch API Error: ${response.statusCode}');
-      return {'error': 'API Error: ${response.statusCode}'};
+      String errorMessage = _extractErrorMessage(response.body);
+      throw CustomException('Failed to fetch guests due to: $errorMessage');
     }
   }
 
@@ -148,11 +149,11 @@ class ApiService {
     );
     if (response.statusCode == 200) {
       debugPrint(
-          '======================================================>Atteendee created successfully');
+          '======================================================>Atteendee added successfully');
     } else {
-      debugPrint('Failded to add an attendee');
-      throw Exception(
-          'Failed to add attendee error code: ${response.statusCode}');
+      debugPrint('Failded to add the guest');
+      String errorMessage = _extractErrorMessage(response.body);
+      throw CustomException('Failed to add guest due to: $errorMessage');
     }
   }
 }

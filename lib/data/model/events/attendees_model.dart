@@ -3,10 +3,10 @@ import 'package:equatable/equatable.dart';
 class Attendees extends Equatable {
   final String eventId;
   final String attendeeName;
-  final dynamic attendeePhone;
+  final String attendeePhone;
 
 
-  Attendees({
+  const Attendees({
     required this.eventId,
     required this.attendeeName,
     required this.attendeePhone,
@@ -17,7 +17,7 @@ class Attendees extends Equatable {
     return Attendees(
     eventId: json['eventId'] as String? ?? '',
     attendeeName: json['attendeeName'] as String? ?? '',
-    attendeePhone: json['attendeePhone'],
+    attendeePhone: json['attendeePhone']as String? ?? '',
     );
   }
   //to json

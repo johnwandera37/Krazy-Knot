@@ -44,147 +44,79 @@ class EventTab extends StatelessWidget {
 
     return Obx(() => Scaffold(
           backgroundColor: Colors.white,
-          body: SizedBox(
-            child: SingleChildScrollView(
+          appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          iconTheme: const IconThemeData(color: Colors.black),
+          title: const Center(
+            child: Text(
+              "My Events",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            ),
+          ),
+        ),
+          body: RefreshIndicator(
+            onRefresh: () async {
+              eventController.fetchEvents('65081b6f44dbbead5990e40a');
+              // setState(() {
+              //   eventController.events;
+              // });
+            },
+            child: ListView(
               padding: const EdgeInsets.only(bottom: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 20),
-                    child: Center(
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // const Padding(
+                    //   padding: EdgeInsets.symmetric(vertical: 20),
+                    //   child: Center(
+                    //     child: Text(
+                    //       "My Events",
+                    //       style: TextStyle(
+                    //         fontSize: 20,
+                    //         fontWeight: FontWeight.bold,
+                    //         color: Colors.black,
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
+
+                    // Upcoming Events Section
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
                       child: Text(
-                        "My Events",
+                        'Upcoming Events',
                         style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 18,
                           fontWeight: FontWeight.bold,
                           color: Colors.black,
                         ),
                       ),
                     ),
-                  ),
+                    sizedHeight(20),
 
-                  // Upcoming Events Section
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    child: Text(
-                      'Upcoming Events',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ),
-                  sizedHeight(20),
-
-                  // Upcoming Events Container
-                  filterFeaturedEvents(eventController.events).isEmpty
-                      ? Center(
-                          child: SizedBox(
-                            width: screenWidth * .8,
-                            height: screenHeight * 0.25,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Text(
-                                  "Your upcoming events will appear here",
-                                  style: TextStyle(
-                                      fontSize: 16, color: Colors.black),
-                                ),
-                                sizedHeight(20),
-                                Image.asset(
-                                  Images.featured,
-                                  width: 100,
-                                  height: 100,
-                                  fit: BoxFit.fill,
-                                ),
-                              ],
-                            ),
-                          ),
-                        )
-                      : SizedBox(
-                          height: screenHeight * 0.25,
-                          child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount:
-                                filterFeaturedEvents(eventController.events)
-                                    .length,
-                            itemBuilder: (BuildContext context, int index) {
-                              final event = filterFeaturedEvents(
-                                  eventController.events)[index];
-                              return Container(
-                                width: screenWidth * .9,
-                                height: screenHeight * .22,
-                                margin: const EdgeInsets.only(right: 10),
-                                padding: const EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: eventTile(
-                                  eventType: event.eventType,
-                                  eventTitle: event.eventName,
-                                  eventDate:
-                                      '${formatDateTime(event.eventStartDate!)} - ${formatDateTime(event.eventEndDate!)}',
-                                  eventDescription: event.eventDescription,
-                                  eventStrId: event.id.toString(),
-                                  eventStrStatus: event.eventStatus,
-                                  evenStrVenue: event.eventVenue,
-                                  eventEndDateStr: event.eventEndDate,
-                                  eventStartDateStr: event.eventStartDate,
-                                  eventStrOwner: event.eventOwner,
-                                  context: context,
-                                  onTap: () {
-                                    popUpCard(
-                                      context: context,
-                                      title: event.eventName,
-                                      venue: event.eventVenue,
-                                      type: event.eventType,
-                                      status: event.eventStatus,
-                                      description: event.eventDescription,
-                                      startDate: event.eventStartDate,
-                                      endDate: event.eventEndDate,
-                                    );
-                                  },
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                  sizedHeight(30),
-
-                  // Other Events Section
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    child: Text(
-                      'Other Events',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ),
-                  sizedHeight(20),
-
-                  // Other Events Container
-                  Container(
-                    child: filterRemainingEvents(eventController.events).isEmpty
+                    // Upcoming Events Container
+                    filterFeaturedEvents(eventController.events).isEmpty
                         ? Center(
                             child: SizedBox(
-                              height: 200,
+                              width: screenWidth * .8,
+                              height: screenHeight * 0.25,
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   const Text(
-                                    "You don't have any events created",
+                                    "Your upcoming events will appear here",
                                     style: TextStyle(
                                         fontSize: 16, color: Colors.black),
                                   ),
                                   sizedHeight(20),
                                   Image.asset(
-                                    Images.empty,
+                                    Images.featured,
                                     width: 100,
                                     height: 100,
                                     fit: BoxFit.fill,
@@ -193,60 +125,161 @@ class EventTab extends StatelessWidget {
                               ),
                             ),
                           )
-                        : Wrap(
-                            spacing: 20,
-                            runSpacing: 20,
-                            children:
-                                filterRemainingEvents(eventController.events)
-                                    .where((event) =>
-                                        event.eventStatus.toLowerCase() !=
-                                        "cancelled")
-                                    .map((event) => Center(
-                                          child: SizedBox(
-                                            width: screenWidth * .9,
-                                            height: screenHeight * .24,
-                                            child: eventTile(
-                                              eventType: event.eventType,
-                                              eventTitle: event.eventName,
-                                              eventDate:
-                                                  '${formatDateTime(event.eventStartDate!)} - ${formatDateTime(event.eventEndDate!)}',
-                                              eventDescription:
-                                                  event.eventDescription,
-                                              eventStrId: event.id.toString(),
-                                              eventStrStatus: event.eventStatus,
-                                              evenStrVenue: event.eventVenue,
-                                              eventEndDateStr:
-                                                  event.eventEndDate,
-                                              eventStartDateStr:
-                                                  event.eventStartDate,
-                                              eventStrOwner: event.eventOwner,
-                                              context: context,
-                                              onTap: () {
-                                                if (event.eventStatus
-                                                        .toLowerCase() ==
-                                                    "ready") {
-                                                  popUpCard(
-                                                    context: context,
-                                                    status: event.eventStatus,
-                                                  );
-                                                } else {
-                                                  ScaffoldMessenger.of(context)
-                                                      .showSnackBar(
-                                                    const SnackBar(
-                                                      content: Text(
-                                                          'Event venue is not ready.'),
-                                                    ),
-                                                  );
-                                                }
-                                              },
-                                            ),
-                                          ),
-                                        ))
-                                    .toList(),
+                        : SizedBox(
+                            height: screenHeight * 0.25,
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount:
+                                  filterFeaturedEvents(eventController.events)
+                                      .length,
+                              itemBuilder: (BuildContext context, int index) {
+                                final event = filterFeaturedEvents(
+                                    eventController.events)[index];
+                                return Container(
+                                  width: screenWidth * .9,
+                                  height: screenHeight * .22,
+                                  margin: const EdgeInsets.only(right: 10),
+                                  padding: const EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: eventTile(
+                                    eventType: event.eventType,
+                                    eventTitle: event.eventName,
+                                    eventDate:
+                                        '${formatDateTime(event.eventStartDate!)} - ${formatDateTime(event.eventEndDate!)}',
+                                    eventDescription: event.eventDescription,
+                                    eventStrId: event.id.toString(),
+                                    eventStrStatus: event.eventStatus,
+                                    evenStrVenue: event.eventVenue,
+                                    eventEndDateStr: event.eventEndDate,
+                                    eventStartDateStr: event.eventStartDate,
+                                    eventStrOwner: event.eventOwner,
+                                    context: context,
+                                    onTap: () {
+                                      popUpCard(
+                                        context: context,
+                                        eventId: event.id,
+                                        title: event.eventName,
+                                        venue: event.eventVenue,
+                                        type: event.eventType,
+                                        status: event.eventStatus,
+                                        description: event.eventDescription,
+                                        startDate: event.eventStartDate,
+                                        endDate: event.eventEndDate,
+                                      );
+                                    },
+                                  ),
+                                );
+                              },
+                            ),
                           ),
-                  ),
-                ],
-              ),
+                    sizedHeight(30),
+
+                    // Other Events Section
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      child: Text(
+                        'Other Events',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                    sizedHeight(20),
+
+                    // Other Events Container
+                    Container(
+                      child: filterRemainingEvents(eventController.events)
+                              .isEmpty
+                          ? Center(
+                              child: SizedBox(
+                                height: 200,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Text(
+                                      "You don't have any events created",
+                                      style: TextStyle(
+                                          fontSize: 16, color: Colors.black),
+                                    ),
+                                    sizedHeight(20),
+                                    Image.asset(
+                                      Images.empty,
+                                      width: 100,
+                                      height: 100,
+                                      fit: BoxFit.fill,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            )
+                          : Wrap(
+                              spacing: 20,
+                              runSpacing: 20,
+                              children: filterRemainingEvents(
+                                      eventController.events)
+                                  .where((event) =>
+                                      event.eventStatus.toLowerCase() !=
+                                      "cancelled")
+                                  .map((event) => Center(
+                                        child: SizedBox(
+                                          width: screenWidth * .9,
+                                          height: screenHeight * .24,
+                                          child: eventTile(
+                                            eventType: event.eventType,
+                                            eventTitle: event.eventName,
+                                            eventDate:
+                                                '${formatDateTime(event.eventStartDate!)} - ${formatDateTime(event.eventEndDate!)}',
+                                            eventDescription:
+                                                event.eventDescription,
+                                            eventStrId: event.id.toString(),
+                                            eventStrStatus: event.eventStatus,
+                                            evenStrVenue: event.eventVenue,
+                                            eventEndDateStr: event.eventEndDate,
+                                            eventStartDateStr:
+                                                event.eventStartDate,
+                                            eventStrOwner: event.eventOwner,
+                                            context: context,
+                                            onTap: () {
+                                              if (event.eventStatus
+                                                      .toLowerCase() ==
+                                                  "ready") {
+                                                popUpCard(
+                                                  context: context,
+                                                  eventId: event.id,
+                                                  title: event.eventName,
+                                                  venue: event.eventVenue,
+                                                  type: event.eventType,
+                                                  status: event.eventStatus,
+                                                  description:
+                                                      event.eventDescription,
+                                                  startDate:
+                                                      event.eventStartDate,
+                                                  endDate: event.eventEndDate,
+                                                );
+                                              } else {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  const SnackBar(
+                                                    content: Text(
+                                                        'Event venue is not ready.'),
+                                                  ),
+                                                );
+                                              }
+                                            },
+                                          ),
+                                        ),
+                                      ))
+                                  .toList(),
+                            ),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
           floatingActionButton: FloatingActionButton(

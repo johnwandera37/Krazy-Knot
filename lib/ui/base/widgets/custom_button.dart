@@ -46,7 +46,7 @@ class CustomButton extends StatelessWidget {
               child: Text(
                 buttonStr,
                 style: GoogleFonts.karla(
-                  color: themeController.fontColor,   
+                  color: Colors.white,   
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
                   height: 1.0,

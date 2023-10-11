@@ -56,7 +56,7 @@ class _CreateEventState extends State<CreateEvent> {
         backgroundColor: Colors.white,
         appBar: AppBar(
           elevation: 0,
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.transparent,
           iconTheme: const IconThemeData(color: Colors.black),
           title: const Center(
             child: Text(
@@ -84,7 +84,7 @@ class _CreateEventState extends State<CreateEvent> {
                     hintText: "Enter event title",
                     border: UnderlineInputBorder(
                       borderSide: BorderSide(
-                          color: Colors.black), // Specify the color here
+                          color: Colors.black),
                     ),
                   ),
                   controller: eventController.eventTitle,
@@ -161,7 +161,7 @@ class _CreateEventState extends State<CreateEvent> {
                         ),
                         const Icon(Icons.location_on,
                             color: Colors
-                                .black), // Changed the icon to location icon
+                                .black),
                       ],
                     ),
                   ),

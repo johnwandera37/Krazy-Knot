@@ -61,7 +61,7 @@ class _EditEventState extends State<EditEvent> {
         backgroundColor: Colors.white,
         appBar: AppBar(
           elevation: 0,
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.transparent,
           iconTheme: const IconThemeData(color: Colors.black),
           title: const Center(
             child: Text(

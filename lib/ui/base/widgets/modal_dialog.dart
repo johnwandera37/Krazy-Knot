@@ -27,7 +27,7 @@ void openAnimatedDialog({
     pageBuilder: (context, animation1, animation2) {
       return Container();
     },
-    transitionDuration: const Duration(milliseconds: 400),
+    transitionDuration: const Duration(milliseconds: 200),
     transitionBuilder: (context, a1, a2, child) => ScaleTransition(
       scale: Tween<double>(begin: 0.5, end: 1.0).animate(a1),
       child: FadeTransition(

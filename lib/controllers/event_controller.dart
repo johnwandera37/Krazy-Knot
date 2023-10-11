@@ -35,63 +35,75 @@ class EventController extends GetxController {
 
   //getEvents
   Future<void> fetchEvents(event_owner) async {
-    final data = await ApiService().fetchEventsData(event_owner);
-    debugPrint('$data');
-    // Convert the JSON data into Event objects using the model
-    final eventList = (data['events'] as List)
-        .map((eventData) => Event.fromJson(eventData))
-        .toList();
-    events.value =
-        eventList; // Update the 'events' observable list with the fetched data
+    try {
+      final data = await ApiService().fetchEventsData(event_owner);
+      debugPrint('$data');
+      // Convert the JSON data into Event objects using the model
+      final eventList = (data['events'] as List)
+          .map((eventData) => Event.fromJson(eventData))
+          .toList();
+      events.value =
+          eventList; // Update the 'events' observable list with the fetched data
+    } catch (e) {
+      debugPrint('$e');
+
+      // Show error message as a snackbar
+      Get.snackbar(
+        'Error',
+        '$e',
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    }
   }
 
 //create event process
   Future<void> createEvent(event_owner) async {
-  final DateTime startTime = dateTimeController.selectedDateTime.value;
-  final DateTime endTime = dateTimeController.selectedEndDateTime.value;
-  debugPrint('================> my id is: $event_owner');
-  final event = Event(
-    id: "",
-    eventOwner: event_owner,
-    eventName: eventTitle.text,
-    eventType: selectType.text,
-    eventVenue: mapPickerController.address.value,
-    eventDescription: eventDescription.text,
-    eventStartDate: startTime.toString(),
-    eventEndDate: endTime.toString(),
-    eventStatus: 'Pending', //by default
-  );
-
-  try {
-    await ApiService().addEvent(event);
-    Get.delete<MapPickerController>();
-    Get.delete<DateTimeController>();
-    Get.delete<EventController>();
-    Get.back();
-    fetchEvents(event_owner);
-
-    // Show success message as a snackbar
-    Get.snackbar(
-      'Success',
-      'Event created successfully',
-      snackPosition: SnackPosition.TOP,
-      backgroundColor: Colors.green,
-      colorText: Colors.white,
+    final DateTime startTime = dateTimeController.selectedDateTime.value;
+    final DateTime endTime = dateTimeController.selectedEndDateTime.value;
+    debugPrint('================> my id is: $event_owner');
+    final event = Event(
+      id: "",
+      eventOwner: event_owner,
+      eventName: eventTitle.text,
+      eventType: selectType.text,
+      eventVenue: mapPickerController.address.value,
+      eventDescription: eventDescription.text,
+      eventStartDate: startTime.toString(),
+      eventEndDate: endTime.toString(),
+      eventStatus: 'Pending', //by default
     );
-  } catch (e) {
-    debugPrint('$e');
-    
-    // Show error message as a snackbar
-    Get.snackbar(
-      'Error',
-      '$e',
-      snackPosition: SnackPosition.TOP,
-      backgroundColor: Colors.red,
-      colorText: Colors.white,
-    );
+
+    try {
+      await ApiService().addEvent(event);
+      Get.delete<MapPickerController>();
+      Get.delete<DateTimeController>();
+      Get.delete<EventController>();
+      Get.back();
+      fetchEvents(event_owner);
+
+      // Show success message as a snackbar
+      Get.snackbar(
+        'Success',
+        'Event created successfully',
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.green,
+        colorText: Colors.white,
+      );
+    } catch (e) {
+      debugPrint('$e');
+
+      // Show error message as a snackbar
+      Get.snackbar(
+        'Error',
+        '$e',
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    }
   }
-}
-
 
 //edit event process
   Future<void> editEvent(event_owner) async {
@@ -131,14 +143,21 @@ class EventController extends GetxController {
       debugPrint('Event updated successfully');
     } catch (e) {
       debugPrint('$e');
+
+      // Show error message as a snackbar
+      Get.snackbar(
+        'Error',
+        '$e',
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
     }
   }
 
 //update status alone process
-  Future<void> updateStatus({
-    required String eventId,
-    required String eventStatus
-  }) async {
+  Future<void> updateStatus(
+      {required String eventId, required String eventStatus}) async {
     // Create an instance of the Event model to encapsulate the updated data
     var event_owner = '65081b6f44dbbead5990e40a';
     final updatedEventStatus = PutEventStatus(
@@ -157,55 +176,82 @@ class EventController extends GetxController {
       fetchEvents(event_owner);
       debugPrint('Event status updated successfully');
     } catch (e) {
-      debugPrint('Failed to update event status: $e');
+      debugPrint('$e');
+
+      // Show error message as a snackbar
+      Get.snackbar(
+        'Error',
+        '$e',
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
     }
   }
 
   //getEvents
-  Future<void> fetchMembers() async {
-    final data = await ApiService().fetchAttendeesData();
-    debugPrint(
-        '=======================================================Attendees data');
-    debugPrint('$data');
-    // Convert the JSON data into Event objects using the model
-    final attendeesList = (data['guest'] as List)
-        .map((attendeestData) => Attendees.fromJson(attendeestData))
-        .toList();
-    attendees.value =
-        attendeesList; // Update the 'attendees' observable list with the fetched data
+  Future<void> fetchMembers(event_id) async {
+    try {
+      final data = await ApiService().fetchAttendeesData(event_id);
+      debugPrint(
+          '=======================================================Attendees data');
+      debugPrint('$data');
+      // Convert the JSON data into Attendees objects using the model
+      final attendeesList = (data['guest'] as List)
+          .map((attendeestData) => Attendees.fromJson(attendeestData))
+          .toList();
+      attendees.value =
+          attendeesList; // Update the 'attendees' observable list with the fetched data
+    } catch (e) {
+      debugPrint('Error fetching attendees: $e');
+
+      // Show error message as a snackbar
+      Get.snackbar(
+        'Error',
+        '$e',
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    }
   }
 
 //add attendess to database process
-  Future<void> addAttendeesData() async {
+  Future<void> addAttendeesData(event_id) async {
     //should come from form
     final attendee = Attendees(
-      eventId: "0701643848", //should be come from the event
-      attendeeName: attendeeNameStr.text, //attendeeNameStr.text
-      attendeePhone: attendeePhoneNo.text, //wants as int //attendeePhoneNo.text
+      eventId: event_id,
+      attendeeName: attendeeNameStr.text,
+      attendeePhone: attendeePhoneNo.text,
     );
 
     try {
+      debugPrint('event_id is =========================> $event_id');
       await ApiService().addPeople(attendee);
-      fetchMembers();
+      // Show success message as a snackbar
+      Get.snackbar(
+        'Success',
+        'Joined successfully',
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.green,
+        colorText: Colors.white,
+      );
+      Get.delete<EventController>();
+      // Get.back();
+      Get.to(EventTab());
     } catch (e) {
-      debugPrint('Failed to add attendee code error: $e');
+      debugPrint('$e');
+      // Show error message as a snackbar
+      Get.snackbar(
+        'Error',
+        '$e',
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
     }
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // {
 //   "eventId": "651e7f3125aecdf0cb978d54",

@@ -20,7 +20,24 @@ class _CancelledEventsState extends State<CancelledEvents> {
         .where((event) => event.eventStatus.toLowerCase() == "cancelled")
         .toList();
 
-    return RefreshIndicator(
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        iconTheme: const IconThemeData(color: Colors.black),
+        title: const Center(
+          child: Text(
+            "Cancelled Events",
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+            ),
+          ),
+        ),
+      ),
+        body: RefreshIndicator(
       onRefresh: () async {
         eventController.fetchEvents('65081b6f44dbbead5990e40a');
         setState(() {
@@ -32,17 +49,6 @@ class _CancelledEventsState extends State<CancelledEvents> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Center(
-                child: Text(
-                  "Cancelled Events",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-              sizedHeight(20),
               cancelledEvents.isNotEmpty
                   ? Wrap(
                       spacing: 24.0,
@@ -112,6 +118,6 @@ class _CancelledEventsState extends State<CancelledEvents> {
           ),
         ),
       ]),
-    );
+    ));
   }
 }
