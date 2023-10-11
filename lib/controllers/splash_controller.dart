@@ -10,11 +10,13 @@ class SplashController extends GetxController implements GetxService {
 
   var authController = Get.find<AuthController>();
   var profileController = Get.find<ProfileController>();
+  final LocationController locationController = Get.put(LocationController());
 
   @override
   void onInit() {
     route();
     initSharedData();
+    fetchLongLat();
     super.onInit();
   }
 
@@ -48,4 +50,12 @@ class SplashController extends GetxController implements GetxService {
   String getCustomerEmail() {
     return Get.find().getString(Constants.emailStr) ?? '';
   }
+
+  //await location data
+   fetchLongLat() {
+    locationController.fetchLocation();
+    print('1111111111111111111111111111111111111111111111111111111111111111111Mydata location is now read');
+
+  }
+
 }

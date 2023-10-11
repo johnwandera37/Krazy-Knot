@@ -6,7 +6,7 @@ import '../../utils/export_files.dart';
 
 class ApiService {
   final String eventsBaseUrl = Constants.eventsUrl;
-  var event_owner = '65081b6f44dbbead5990e40a';
+  var event_owner = '65080d2a44dbbead5990e351';
 //Fetch events
   Future<Map<String, dynamic>> fetchEventsData() async {
   final uri = "$eventsBaseUrl/getEvents/?eventOwner=$event_owner";
@@ -67,7 +67,7 @@ Future<void> updateEvent(Map<String, dynamic> updatedEventData) async {
   if (response.statusCode == 200) {
     final data = jsonDecode(response.body);
     debugPrint("======================================> this is my attendees' data");
-    debugPrint(data);
+    debugPrint('$data');
       debugPrint("====================================> this is my attendees' data");
     return data;
   } else {

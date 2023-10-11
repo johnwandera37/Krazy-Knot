@@ -8,13 +8,10 @@ class CreateEvent extends StatefulWidget {
 }
 
 class _CreateEventState extends State<CreateEvent> {
-  final MapPickerController mapPickerController =
-      Get.put(MapPickerController());
+  final MapPickerController mapPickerController = Get.put(MapPickerController());
   late final ApiService apiService;
-  final EventController eventController =
-      Get.put(EventController()); //for the events api
-  final DateTimeController dateTimeController =
-      Get.put(DateTimeController()); //for the selected date variable
+  final EventController eventController = Get.put(EventController()); //for the events api
+  final DateTimeController dateTimeController = Get.put(DateTimeController()); //for the selected date variable
 
   @override
   void initState() {
@@ -213,6 +210,8 @@ class _CreateEventState extends State<CreateEvent> {
                       buttonStr: "Create Event",
                       btncolor: Colors.blue,
                       onTap: () async {
+                        eventController.fetchEvents();
+                        // eventController.fetchMembers();
                         eventController.createEvent();
                         Get.delete<MapPickerController>();
                         Get.delete<DateTimeController>();

@@ -180,5 +180,9 @@ abstract class Constants {
   static String get sendForgotOtpUrl => "user/otp/verify";
   static String get speedTestUrl => "login";
   static String get likeImageUrl => "image/like";
-  static String get eventsUrl => "http://192.168.100.40:8080/api";
+  // static String get eventsUrl => "http://192.168.100.40:8080/api";
+  // static String get eventsUrl => "http://192.168.0.104:8080/api";
+  static String get eventsUrl => "http://10.10.28.101:8080/api";
+  // static String get eventsUrl => "http://localhost:8080/api";
+
 }

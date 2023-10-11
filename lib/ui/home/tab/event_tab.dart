@@ -22,7 +22,7 @@ class EventTab extends StatelessWidget {
       final featuredEvents = allEvents.where((event) {
         final eventDate =
             DateTime.parse(event.eventStartDate); // Parse the event date
-        return eventDate.isAfter(startOfWeek) && eventDate.isBefore(endOfWeek) && event.eventStatus.toLowerCase() != 'cancelled';
+        return eventDate.isAfter(startOfWeek) && eventDate.isBefore(endOfWeek) && event.eventStatus.toLowerCase() == 'ready';
       }).toList();
       return featuredEvents;
     }
@@ -34,17 +34,18 @@ class EventTab extends StatelessWidget {
       final remainingEvents = allEvents.where((event) {
         final eventDate =
             DateTime.parse(event.eventStartDate); // Parse the event date
-        return eventDate.isAfter(endOfWeek) && event.eventStatus.toLowerCase() != 'cancelled';
+        return  event.eventStatus.toLowerCase() != 'cancelled';
       }).toList();
       return remainingEvents;
     }
 
     return Obx(() => Scaffold(
           backgroundColor: Colors.white,
-          body: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+          body: Container(
+            margin: EdgeInsets.symmetric(horizontal: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 10),
             child: SingleChildScrollView(
-              padding: const EdgeInsets.only(bottom: 20),
+              padding: EdgeInsets.only(bottom: screenWidth *.3),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -68,7 +69,7 @@ class EventTab extends StatelessWidget {
                     child: Text(
                       'Upcoming Events',
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 15,
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
                       ),
@@ -102,8 +103,9 @@ class EventTab extends StatelessWidget {
                             ),
                           ),
                         )
-                      : SizedBox(
-                          height: screenHeight * 0.25,
+                      : Container(
+                          height: screenHeight * 0.32,
+                          // padding: EdgeInsets.symmetric(vertical: ),
                           child: ListView.builder(
                             scrollDirection: Axis.horizontal,
                             itemCount:
@@ -114,11 +116,11 @@ class EventTab extends StatelessWidget {
                                   eventController.events)[index];
                               return Container(
                                 width: screenWidth * .8,
-                                height: screenHeight * .22,
-                                margin: const EdgeInsets.only(right: 10),
+                                height: screenHeight * .23,
+                                margin: const EdgeInsets.all(15),
                                 padding: const EdgeInsets.all(10),
                                 decoration: BoxDecoration(
-                                  color: Colors.white,
+                                  // color: Colors.white,
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 child: eventTile(
@@ -151,15 +153,15 @@ class EventTab extends StatelessWidget {
                             },
                           ),
                         ),
-                  sizedHeight(30),
+                  sizedHeight(25),
 
                   // Other Events Section
                   const Padding(
                     padding: EdgeInsets.symmetric(vertical: 10),
                     child: Text(
-                      'Other Events',
+                      'All Events',
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 15,
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
                       ),
@@ -169,6 +171,7 @@ class EventTab extends StatelessWidget {
 
                   // Other Events Container
                   Container(
+                    margin: EdgeInsets.symmetric(horizontal: 20),
                     child: filterRemainingEvents(eventController.events).isEmpty
                         ? Center(
                             child: SizedBox(
