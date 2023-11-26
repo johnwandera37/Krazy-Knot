@@ -30,7 +30,7 @@ class EventController extends GetxController {
   void onInit() {
     super.onInit();
     fetchEvents(
-        '65081b6f44dbbead5990e40a'); // Fetch data when the controller is initialized
+        '6562ff02f765d03ad0dc2797'); // Fetch data when the controller is initialized
   }
 
   //getEvents
@@ -159,7 +159,7 @@ class EventController extends GetxController {
   Future<void> updateStatus(
       {required String eventId, required String eventStatus}) async {
     // Create an instance of the Event model to encapsulate the updated data
-    var event_owner = '65081b6f44dbbead5990e40a';
+    var event_owner = '6562ff02f765d03ad0dc2797';
     final updatedEventStatus = PutEventStatus(
       eventId: eventId,
       eventStatus: eventStatus,
@@ -197,7 +197,7 @@ class EventController extends GetxController {
           '=======================================================Attendees data');
       debugPrint('$data');
       // Convert the JSON data into Attendees objects using the model
-      final attendeesList = (data['guest'] as List)
+      final attendeesList = (data['guests'] as List)
           .map((attendeestData) => Attendees.fromJson(attendeestData))
           .toList();
       attendees.value =
