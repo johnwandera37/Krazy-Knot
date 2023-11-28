@@ -10,12 +10,27 @@ class MapPicker extends StatefulWidget{
 
 class _MapPickerState extends State<MapPicker> {
   final MapPickerController mapPickerController = Get.put(MapPickerController());
-  // TextEditingController locationAddressController = TextEditingController();
+  final LocationController locationController = Get.put(LocationController());
+  
+  @override
+  void initState() {
+    super.initState();
+    // Set the callback in LocationController to receive location data.
+    locationController.onLocationFetched = (latitude, longitude) {
+      // safely use latitude and longitude to display the map.
+      setState(() {
+        // Update your UI here ###to be updated
+      });
+    };
+  }
   @override
   Widget build(BuildContext context) {
+        var latitude = locationController.latitude.value;
+    var longitude = locationController.longitude.value;
+    if (latitude != null && longitude != null) {
    return Scaffold(
     body: OpenStreetMapSearchAndPick(
-        center: const LatLong(23, 89),
+        center: LatLong(latitude!, longitude!),
         buttonColor: Colors.blue,
         buttonText: 'Confirm location',
         hintText: 'Search location',
@@ -30,6 +45,13 @@ class _MapPickerState extends State<MapPicker> {
            Navigator.of(context).pop();//navigate back
         }),
         );
+    }else{
+        return Scaffold(
+      body: Center(
+        child: CircularProgressIndicator(), // or another loading indicator
+      ),
+    );
+      }
 }
 //  @override
 //   void dispose() {
