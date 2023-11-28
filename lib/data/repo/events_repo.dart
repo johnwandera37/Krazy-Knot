@@ -47,8 +47,8 @@ class Repository {
   //   }
   // }
 
-  Future<Map<String, dynamic>> fetchData(event_owner) async {
-    final response = await apiService.fetchEventsData(event_owner);
+  // Future<Map<String, dynamic>> fetchData(event_owner) async {
+    // final response = await apiService.fetchEventsData(event_owner);
 
     // if (response.statusCode == 200) {
     //   // Parse the response and return data
@@ -60,8 +60,8 @@ class Repository {
     //     debugPrint('============THIS WAS EXECUTED BUT THERE IS AN ISSUE');
     //   return {};
     // }
-    return response;
-  }
+    // return response;
+  // }
   
 
   Map<String, dynamic> parseData(String responseBody) {

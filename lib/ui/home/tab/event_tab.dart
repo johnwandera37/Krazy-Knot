@@ -7,7 +7,7 @@ import 'package:intl/intl.dart';
 
 class EventTab extends StatelessWidget {
   EventTab({super.key});
-  
+
   final now = DateTime.now();
 
   @override
@@ -15,7 +15,7 @@ class EventTab extends StatelessWidget {
     var screenHeight = Get.height;
     var screenWidth = Get.width;
     final EventController eventController = Get.put(EventController());
-    var profileRepo =Get.put(ProfileRepo(apiClient: Get.find()));
+    // var profileRepo = Get.put(ProfileRepo(apiClient: Get.find()));
     //using a function to filter events
     // var profileController = Get.put(ProfileController(profileRepo: profileRepo));
     // debugPrint('USER IDDE ::::::::::::: ${profileController.userInfo!.id}');
@@ -50,26 +50,33 @@ class EventTab extends StatelessWidget {
     return Obx(() => Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          iconTheme: const IconThemeData(color: Colors.black),
-          title: const Center(
-            child: Text(
-              "My Events",
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+            iconTheme: const IconThemeData(color: Colors.black),
+            title: const Center(
+              child: Text(
+                "My Events",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
               ),
             ),
           ),
-        ),
           body: RefreshIndicator(
             onRefresh: () async {
-              eventController.fetchEvents('65081b6f44dbbead5990e40a');
-              // setState(() {
-              //   eventController.events;
-              // });
+              initUserId() async {
+                var controller = Get.find<ProfileController>();
+                var profileData = await controller.profileData();
+                debugPrint(
+                    'NEW USER IDDDD :::::::  ${controller.userInfo!.id}');
+                var user_id = controller.userInfo!.id;
+                return user_id;
+              }
+
+              var user = await initUserId();
+              eventController.fetchEvents(user);
             },
             child: ListView(
               padding: const EdgeInsets.only(bottom: 20),

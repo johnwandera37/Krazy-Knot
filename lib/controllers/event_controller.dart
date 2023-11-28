@@ -33,8 +33,6 @@ class EventController extends GetxController {
   void onInit() {
     super.onInit();
     initUserId();
-    // fetchEvents(
-    //     '6562ff02f765d03ad0dc2797'); // Fetch data when the controller is initialized
   }
 
   initUserId() async {
@@ -174,7 +172,6 @@ class EventController extends GetxController {
   Future<void> updateStatus(
       {required String eventId, required String eventStatus}) async {
     // Create an instance of the Event model to encapsulate the updated data
-    var event_owner = '6562ff02f765d03ad0dc2797';
     final updatedEventStatus = PutEventStatus(
       eventId: eventId,
       eventStatus: eventStatus,

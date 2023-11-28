@@ -188,7 +188,7 @@ class _LandingPageState extends State<LandingPage> {
                        // color: Colors.red,
                       ),
                       title: CustomText(
-                          headingStr: 'Log OUt',
+                          headingStr: 'Log Out',
                           fontColor: Colors.red,
                           onTap: () => Get.find<AuthController>().logOut()),
                       onTap: () => Get.find<AuthController>().logOut(),

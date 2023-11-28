@@ -64,14 +64,14 @@ void popUpCard({
                 sizedHeight(20),
                 Center(
                   child: CustomButton(
-                      buttonStr: "share link",
+                      buttonStr: "Share link",
                       btncolor: Colors.blue,
                       onTap: onTap),
                 ),
                 sizedHeight(10),
                 Center(
                   child: CustomButton(
-                      buttonStr: "open from",
+                      buttonStr: "Open form",
                       btncolor: Colors.blue,
                       onTap: goToInvitation),
                 ),
