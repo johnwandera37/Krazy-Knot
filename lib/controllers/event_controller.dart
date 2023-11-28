@@ -2,6 +2,8 @@
 
 // import 'package:photomanager/controllers/profile_controller.dart';
 
+import 'package:photomanager/ui/home/landingScreen.dart';
+
 import '../utils/export_files.dart';
 // import 'package:photomanager/data/model/response/user_model.dart';
 
@@ -25,18 +27,31 @@ class EventController extends GetxController {
   //capture vattendees details
   var attendeeNameStr = TextEditingController();
   var attendeePhoneNo = TextEditingController();
+  var userId = ''.obs;
 
   @override
   void onInit() {
     super.onInit();
-    fetchEvents(
-        '6562ff02f765d03ad0dc2797'); // Fetch data when the controller is initialized
+    initUserId();
+    // fetchEvents(
+    //     '6562ff02f765d03ad0dc2797'); // Fetch data when the controller is initialized
+  }
+
+  initUserId() async {
+    var controller = Get.find<ProfileController>();
+    var profileData = await controller.profileData();
+    debugPrint('NEW USER IDDDD :::::::  ${controller.userInfo!.id}');
+    userId.value = controller.userInfo!.id;
+    fetchEvents(userId.value);
   }
 
   //getEvents
   Future<void> fetchEvents(event_owner) async {
+
+    debugPrint('EVENT ID :::::  $event_owner');
     try {
-      final data = await ApiService().fetchEventsData(event_owner);
+      //adfasdf
+      final data = await ApiService().fetchEventsData(userId.value);
       debugPrint('$data');
       // Convert the JSON data into Event objects using the model
       final eventList = (data['events'] as List)
@@ -65,7 +80,7 @@ class EventController extends GetxController {
     debugPrint('================> my id is: $event_owner');
     final event = Event(
       id: "",
-      eventOwner: event_owner,
+      eventOwner: userId.value,
       eventName: eventTitle.text,
       eventType: selectType.text,
       eventVenue: mapPickerController.address.value,
@@ -81,7 +96,7 @@ class EventController extends GetxController {
       Get.delete<DateTimeController>();
       Get.delete<EventController>();
       Get.back();
-      fetchEvents(event_owner);
+      fetchEvents(userId.value);
 
       // Show success message as a snackbar
       Get.snackbar(
@@ -118,7 +133,7 @@ class EventController extends GetxController {
     final updatedEventData = PutEvent(
       eventId: eventId,
       eventName: eventTitle.text,
-      eventOwner: event_owner,
+      eventOwner: userId.value,
       eventType: selectType.text,
       eventVenue: mapPickerController.address.value,
       eventDescription: eventDescription.text,
@@ -139,7 +154,7 @@ class EventController extends GetxController {
       Get.delete<DateTimeController>();
       Get.delete<EventController>();
       Get.back();
-      fetchEvents(event_owner);
+      fetchEvents(userId.value);
       debugPrint('Event updated successfully');
     } catch (e) {
       debugPrint('$e');
@@ -173,7 +188,7 @@ class EventController extends GetxController {
       };
 
       await ApiService().updateEventStatus(requestBody);
-      fetchEvents(event_owner);
+      fetchEvents(userId.value);
       debugPrint('Event status updated successfully');
     } catch (e) {
       debugPrint('$e');

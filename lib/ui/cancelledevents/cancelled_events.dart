@@ -9,7 +9,7 @@ class CancelledEvents extends StatefulWidget {
 }
 
 class _CancelledEventsState extends State<CancelledEvents> {
-  final EventController eventController = Get.find<EventController>();
+  final EventController eventController = Get.put(EventController()); 
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +39,7 @@ class _CancelledEventsState extends State<CancelledEvents> {
       ),
         body: RefreshIndicator(
       onRefresh: () async {
-        eventController.fetchEvents('65081b6f44dbbead5990e40a');
+        //eventController.fetchEvents('65081b6f44dbbead5990e40a');
         setState(() {
           eventController.events;
         });

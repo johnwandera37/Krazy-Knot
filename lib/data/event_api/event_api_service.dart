@@ -33,8 +33,9 @@ class ApiService {
 
 //Fetch events
   Future<Map<String, dynamic>> fetchEventsData(event_owner) async {
-    final uri = "${eventsBaseUrl}getEvents?user_id=$event_owner";
+    final uri = "${eventsBaseUrl}getEvents?eventOwner=$event_owner";
     final response = await http.get(Uri.parse(uri));
+    debugPrint("======================================> GET EVENT URL ${uri}");
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);

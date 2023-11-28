@@ -1,3 +1,4 @@
+import 'package:photomanager/controllers/profile_controller.dart';
 import 'package:photomanager/ui/base/widgets/custom_image.dart';
 import 'package:photomanager/utils/images.dart';
 
@@ -6,14 +7,18 @@ import 'package:intl/intl.dart';
 
 class EventTab extends StatelessWidget {
   EventTab({super.key});
-  final EventController eventController = Get.put(EventController());
+  
   final now = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
     var screenHeight = Get.height;
     var screenWidth = Get.width;
+    final EventController eventController = Get.put(EventController());
+    var profileRepo =Get.put(ProfileRepo(apiClient: Get.find()));
     //using a function to filter events
+    // var profileController = Get.put(ProfileController(profileRepo: profileRepo));
+    // debugPrint('USER IDDE ::::::::::::: ${profileController.userInfo!.id}');
     List<Event> filterFeaturedEvents(List<Event> allEvents) {
       final now = DateTime.now();
       final startOfWeek = DateTime(now.year, now.month, now.day);

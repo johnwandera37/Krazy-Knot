@@ -168,8 +168,8 @@ abstract class Constants {
   static const zohoAndroidAccessKey =
       "VXYedrQX8SnzHsZ53UT04ILm8bnYhFg3Re4dfDzsidVOFkiyIrH1c6WojkJ3lLdr%2F1kxbct5EvslpvlAnE7rTRbi8DRlwqK5jMILITsVryLOTc69%2BNo9RwAScVlganB9";
 
-  static String get fileName => "http://192.168.100.4:8080/api/";
-  static String get baseUrl => "http://192.168.100.4:8080/api/";
+  static String get fileName => "http://192.168.100.6:8080/api/";
+  static String get baseUrl => "http://192.168.100.6:8080/api/";
   static String get loginUrl => "login";
   static String get userInfoUrl => "user";
   static String get editUserInfoUrl => "login";
@@ -180,5 +180,5 @@ abstract class Constants {
   static String get sendForgotOtpUrl => "user/otp/verify";
   static String get speedTestUrl => "login";
   static String get likeImageUrl => "image/like";
-  static String get eventsUrl => "http://192.168.100.4:8080/api/";
+  static String get eventsUrl => "http://192.168.100.6:8080/api/";
 }
