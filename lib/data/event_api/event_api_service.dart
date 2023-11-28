@@ -10,7 +10,7 @@ class CustomException implements Exception {
   CustomException(this.message);
 
   @override
-  String toString() {
+  String toString() { 
     return message;
   }
 }

@@ -216,7 +216,7 @@ class EventController extends GetxController {
           attendeesList; // Update the 'attendees' observable list with the fetched data
     } catch (e) {
       debugPrint('Error fetching attendees: $e');
-
+ 
       // Show error message as a snackbar
       Get.snackbar(
         'Error',
