@@ -198,7 +198,7 @@ class EventTab extends StatelessWidget {
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                           color: Colors.black,
-                        ),
+                        ), 
                       ),
                     ),
                     sizedHeight(20),
@@ -434,7 +434,16 @@ Widget PopUpMenu({
       onSelected: (String choice) {
         // Handle the choice selected from the menu
         if (choice == 'Edit') {
-          Get.to(EditEvent(eventId: eventId));
+          Get.to(EditEvent(
+            eventId: eventId, 
+            title: title, 
+            type: type, 
+            venue: venue, 
+            description: description, 
+            startDate: startDate, 
+            endDate: endDate,
+
+            ));
         } else if (choice == 'Update Status') {
           //this function event data that is fetched from getEvents
           openAnimatedDialog(

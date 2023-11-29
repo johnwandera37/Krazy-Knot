@@ -4,7 +4,23 @@ import '../../controllers/profile_controller.dart';
 class EditEvent extends StatefulWidget {
   // const EditEvent({super.key});
   final String eventId;
-  const EditEvent({required this.eventId, Key? key}) : super(key: key);
+  final String title;
+  final String type;
+  final String venue;
+  final String description;
+  final String startDate;
+  final String endDate;
+  const EditEvent({
+    required this.eventId,
+    required this.title,
+    required this.type,
+    required this.venue,
+    required this.description,
+    required this.startDate,
+    required this.endDate,
+
+  
+  Key? key}) : super(key: key);
 
   @override
   State<EditEvent> createState() => _EditEventState();
@@ -21,15 +37,37 @@ class _EditEventState extends State<EditEvent> {
   final EventIdController eventIdController =
       Get.put(EventIdController()); //for PUT reqquest data
 
+  //pre-filling
+  final TextEditingController eventTitleController = TextEditingController();
+  final TextEditingController eventDescriptionController = TextEditingController();
+  late DateTime selectedStartDate;
+  late DateTime selectedEndDate;
+   String? selectedDropdownValue;//drop down selection
+
   @override
   void initState() {
     super.initState();
     apiService = ApiService(); //for the http APIs
     eventIdController.setEventId(widget.eventId);
+  //title pre-fill 
+  eventTitleController.text = widget.title;
+  eventController.eventTitle = eventTitleController;
+  //description pre-fill 
+    eventDescriptionController.text = widget.description;
+    eventController.eventDescription = eventDescriptionController;
+    //drop down pre-fill
+    selectedDropdownValue = widget.type;
+
+     // Extract date and time components for the initial values
+    final List<String> startDateParts = widget.startDate.split('T');
+    final List<String> endDateParts = widget.endDate.split('T');
+
+    // Set initial values for date and time
+    selectedStartDate = DateTime.parse(startDateParts[0]);
+    selectedEndDate = DateTime.parse(endDateParts[0]);
   }
 
-//the drop down
-  String? selectedDropdownValue;
+//the drop down list
   List<String> dropdownItems = [
     'Food',
     'Education',
@@ -56,6 +94,16 @@ class _EditEventState extends State<EditEvent> {
     // final ProfileRepo _profileRepo = ProfileRepo(apiClient: Get.find());
     // final ProfileController _profileController =
     //     ProfileController(profileRepo: _profileRepo);
+
+       initUserId() async {
+                var controller = Get.find<ProfileController>();
+                var profileData = await controller.profileData();
+                debugPrint(
+                    'NEW USER IDDDD :::::::  ${controller.userInfo!.id}');
+                var user_id = controller.userInfo!.id;
+                return user_id;
+              }
+             var  user = initUserId();
     return Obx(
       () => Scaffold(
         backgroundColor: Colors.white,
@@ -117,7 +165,7 @@ class _EditEventState extends State<EditEvent> {
                       child: DropdownButtonHideUnderline(
                         child: DropdownButton<String>(
                           isExpanded: true,
-                          hint: const Text('Select new event type'),
+                          hint: const Text('Select an event type'),
                           value: selectedDropdownValue,
                           items: dropdownItems.map((String value) {
                             return DropdownMenuItem<String>(
@@ -155,7 +203,7 @@ class _EditEventState extends State<EditEvent> {
                             padding: const EdgeInsets.symmetric(vertical: 15),
                             child: Text(
                               mapPickerController.address.value.isEmpty
-                                  ? 'Select new Location'
+                                  ? widget.venue
                                   : mapPickerController.address.value,
                               style: const TextStyle(
                                 fontSize: 16,
@@ -178,7 +226,7 @@ class _EditEventState extends State<EditEvent> {
                 ),
                 const SizedBox(height: 20),
                 DateTimePicker(
-                  initialDateTime: selectedDateTime,
+                  initialDateTime: selectedStartDate,
                   onChanged: (dateTime) {
                     setState(() {
                       selectedDateTime = dateTime;
@@ -194,7 +242,7 @@ class _EditEventState extends State<EditEvent> {
                 ),
                 const SizedBox(height: 20),
                 DateTimePicker(
-                  initialDateTime: selectedDateTime,
+                  initialDateTime: selectedEndDate,
                   onChanged: (dateTime) {
                     setState(() {
                       selectedDateTime = dateTime;
@@ -224,8 +272,8 @@ class _EditEventState extends State<EditEvent> {
                       buttonStr: "Edit Event",
                       btncolor: Colors.blue,
                       onTap: () async {
-                        var event_owner = '65081b6f44dbbead5990e40a';
-                        eventController.editEvent(event_owner);
+                        // var event_owner = '65081b6f44dbbead5990e40a';
+                        eventController.editEvent(user);
                         Get.delete<MapPickerController>();
                         Get.delete<DateTimeController>();
                         Get.delete<EventController>();
