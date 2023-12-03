@@ -1,5 +1,3 @@
-
-
 import 'package:photomanager/utils/export_files.dart';
 
 class CustomInput extends StatelessWidget {
@@ -8,6 +6,7 @@ class CustomInput extends StatelessWidget {
   final double? vertPadding;
   final String? prefixIconPath;
   final TextEditingController textEditingController;
+  final bool obscureText;
   const CustomInput({
     super.key,
     required this.hintText,
@@ -15,6 +14,7 @@ class CustomInput extends StatelessWidget {
     this.vertPadding,
     this.prefixIconPath,
     required this.textEditingController,
+    this.obscureText = false,
   });
 
   @override
@@ -36,6 +36,7 @@ class CustomInput extends StatelessWidget {
                 style: neumorphicStyle(),
                 child: TextFormField(
                   controller: textEditingController,
+                  obscureText: obscureText,
                   decoration:
                       inputDecorationWithPrefix(errorFontSize: errorFontSize),
                   style: inputTextStyle(),
@@ -46,6 +47,7 @@ class CustomInput extends StatelessWidget {
                 style: neumorphicStyle(),
                 child: TextFormField(
                   controller: textEditingController,
+                  obscureText: obscureText,
                   decoration: inputDecoration(
                     errorFontSize: errorFontSize,
                   ),
@@ -102,7 +104,7 @@ class CustomInput extends StatelessWidget {
   }) =>
       InputDecoration(
         prefixIcon: Container(
-          padding:const EdgeInsets.only(left: 10),
+          padding: const EdgeInsets.only(left: 10),
           child: Image.asset(
             prefixIconPath ?? '',
             width: 35,
@@ -118,7 +120,7 @@ class CustomInput extends StatelessWidget {
         errorStyle: inputTextStyle(
           color: Colors.red,
           size: errorFontSize,
-        ),         
+        ),
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 30.0,
           vertical: 20.0,

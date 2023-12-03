@@ -38,7 +38,7 @@ class EventController extends GetxController {
   initUserId() async {
     var controller = Get.find<ProfileController>();
     var profileData = await controller.profileData();
-    debugPrint('NEW USER IDDDD :::::::  ${controller.userInfo!.id}');
+    debugPrint('NEW USER ID :::::::  ${controller.userInfo!.id}');
     userId.value = controller.userInfo!.id;
     fetchEvents(userId.value);
   }
@@ -46,7 +46,7 @@ class EventController extends GetxController {
   //getEvents
   Future<void> fetchEvents(event_owner) async {
 
-    debugPrint('EVENT ID :::::  $event_owner');
+    debugPrint('USER ID :::::  $event_owner');
     try {
       //adfasdf
       final data = await ApiService().fetchEventsData(userId.value);

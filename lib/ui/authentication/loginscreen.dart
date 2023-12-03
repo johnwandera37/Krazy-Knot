@@ -40,6 +40,7 @@ class LoginScreen extends StatelessWidget {
               CustomInput(
                 hintText: Constants.yourPassStr,
                 textEditingController: authController.loginPasswordController,
+                obscureText: true,
               ),
               // FORGOT PASS
               sizedHeight(15),

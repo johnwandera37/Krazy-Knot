@@ -75,7 +75,7 @@ class ProfileController extends GetxController implements GetxService {
     if (response.statusCode == 200) {
       _userModel = UserModel.fromJson(response.body);
       debugPrint('USER INFO ID+++++++++++++++++++++> ${_userModel!.id}');
-      Get.put(EventController()).fetchEvents(_userModel!.id);
+      // Get.put(EventController()).fetchEvents(_userModel!.id);
       Get.find<AuthController>()
           .setCustomerName('${_userModel!.firstName} ${_userModel!.lastName}');
     } else {
