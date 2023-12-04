@@ -6,7 +6,8 @@ import 'package:photomanager/ui/profile/preview_screen.dart';
 import '../../../utils/export_files.dart';
 
 class ProfileTab extends StatelessWidget {
-  const ProfileTab({super.key});
+  ProfileTab({super.key});
+  final String baseUrl = Constants.baseUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -204,7 +205,7 @@ class ProfileTab extends StatelessWidget {
                                                         BorderRadius.circular(
                                                             13),
                                                     child: Image.network(
-                                                      'https://smb.inet.africa:8080/api/user/image/${profileController.userInfo!.images[index].id}',
+                                                      '${baseUrl}user/image/${profileController.userInfo!.images[index].id}',
                                                       fit: BoxFit.cover,
                                                     ),
                                                   ),

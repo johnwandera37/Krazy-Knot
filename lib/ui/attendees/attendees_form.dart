@@ -6,9 +6,9 @@ class InvitationForm extends StatelessWidget {
   final String? eventId;
   final String? title;
   final String? owner;
-  final String? type;
+  // final String? type;
   final String? venue;
-  final String? description;
+  // final String? description;
   final String? startDate;
   final String? endDate;
 
@@ -16,9 +16,9 @@ class InvitationForm extends StatelessWidget {
     this.eventId,
     this.title,
     this.owner,
-    this.type,
+    // this.type,
     this.venue,
-    this.description,
+    // this.description,
     this.startDate,
     this.endDate,
   });

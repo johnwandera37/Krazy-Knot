@@ -13,25 +13,49 @@ void popUpCard({
   String? startDate,
   String? endDate,
 }) {
-  void goToInvitation() {
-    Get.to(InvitationForm(
-      eventId: eventId,
-      title: title,
-      owner: owner,
-      type: type,
-      venue: venue,
-      description: description,
-      startDate: startDate,
-      endDate: endDate,
-    ));
-  }
+  // void goToInvitation() {
+  //   Get.to(InvitationForm(
+  //     eventId: eventId,
+  //     title: title,
+  //     owner: owner,
+  //     // type: type,
+  //     venue: venue,
+  //     // description: description,
+  //     startDate: startDate,
+  //     endDate: endDate,
+  //   ));
+  // }
 
   void goToGuests() {
     Get.to(GuestTab(eventId: eventId));
   }
 
-  void onTap() {
-    String shareContent = "Your shared content goes here";
+ Future<String> getLink(eventId) async {
+  try {
+    final data = await ApiService().geteventLink(eventId);
+    debugPrint('$data');
+    final eventLnk = data['eventLink'] as String;
+    return eventLnk;
+  } catch (e) {
+    debugPrint('$e');
+
+    // Show error message as a snackbar
+    Get.snackbar(
+      'Error',
+      '$e',
+      snackPosition: SnackPosition.TOP,
+      backgroundColor: Colors.red,
+      colorText: Colors.white,
+    );
+
+    // Return a default value or handle the error gracefully
+    return '';
+  }
+}
+
+
+  onTap({required String eventId}) async {    
+    String shareContent = await getLink(eventId);
     Share.share(shareContent);
   }
 
@@ -69,13 +93,13 @@ void popUpCard({
                       onTap: onTap),
                 ),
                 sizedHeight(10),
-                Center(
-                  child: CustomButton(
-                      buttonStr: "Open form",
-                      btncolor: Colors.blue,
-                      onTap: goToInvitation),
-                ),
-                sizedHeight(10),
+                // Center(
+                //   child: CustomButton(
+                //       buttonStr: "Open form",
+                //       btncolor: Colors.blue,
+                //       onTap: goToInvitation),
+                // ),
+                // sizedHeight(10),
                 Center(
                     child: TextButton(
                   child: const Text('View guests'),

@@ -16,7 +16,7 @@ class CustomException implements Exception {
 }
 
 class ApiService {
-  final String eventsBaseUrl = Constants.eventsUrl;
+  final String baseUrl = Constants.baseUrl;
 
 //get error message from backend
   String _extractErrorMessage(String responseBody) {
@@ -33,7 +33,7 @@ class ApiService {
 
 //Fetch events
   Future<Map<String, dynamic>> fetchEventsData(event_owner) async {
-    final uri = "${eventsBaseUrl}getEvents?eventOwner=$event_owner";
+    final uri = "${baseUrl}getEvents?eventOwner=$event_owner";
     final response = await http.get(Uri.parse(uri));
     debugPrint("======================================> GET EVENT URL ${uri}");
 
@@ -54,7 +54,7 @@ class ApiService {
 
   Future<void> addEvent(Event event) async {
     final response = await http.post(
-      Uri.parse('${eventsBaseUrl}addEvent'),
+      Uri.parse('${baseUrl}addEvent'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -74,8 +74,7 @@ class ApiService {
 //update events
   Future<void> updateEvent(Map<String, dynamic> updatedEventData) async {
     final response = await http.put(
-      Uri.parse(
-          '${eventsBaseUrl}updateEvent'), // Include the eventId in the URL
+      Uri.parse('${baseUrl}updateEvent'), // Include the eventId in the URL
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -99,7 +98,7 @@ class ApiService {
       Map<String, dynamic> updatedEventStatus) async {
     final response = await http.put(
       Uri.parse(
-          '${eventsBaseUrl}updateEventStatus'), // Include the eventId in the URL
+          '${baseUrl}updateEventStatus'), // Include the eventId in the URL
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -120,7 +119,7 @@ class ApiService {
 
 //fetch attendee data
   Future<Map<String, dynamic>> fetchAttendeesData(event_id) async {
-    final uri = "${eventsBaseUrl}getPeople?eventId=$event_id";
+    final uri = "${baseUrl}getPeople?eventId=$event_id";
     final response = await http.get(Uri.parse(uri));
 
     if (response.statusCode == 200) {
@@ -141,7 +140,7 @@ class ApiService {
 //Adding people
   Future<void> addPeople(Attendees attendee) async {
     final response = await http.post(
-      Uri.parse('${eventsBaseUrl}addPeople'),
+      Uri.parse('${baseUrl}addPeople'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -155,6 +154,26 @@ class ApiService {
       debugPrint('Failded to add the guest');
       String errorMessage = _extractErrorMessage(response.body);
       throw CustomException('Failed to add guest due to: $errorMessage');
+    }
+  }
+
+  Future<Map<String, dynamic>> geteventLink(eventId) async {
+    final uri = '${baseUrl}event/getLink?eventID=$eventId';
+    final response = await http.get(Uri.parse(uri));
+    debugPrint("======================================> GET EVENT URL ${uri}");
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      debugPrint("======================================> this is my data");
+      debugPrint('${data}');
+      debugPrint("====================================> this is my data");
+      return data;
+    } else {
+      debugPrint('Event API Error: ${response.statusCode}');
+      // Extract error message from response body
+      String errorMessage = _extractErrorMessage(response.body);
+      throw CustomException('Failed to fetch events due to: $errorMessage');
+      // return {'error': 'API Error: ${response.statusCode}'};
     }
   }
 }

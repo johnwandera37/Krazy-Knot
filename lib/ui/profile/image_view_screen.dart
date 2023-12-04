@@ -5,8 +5,9 @@ import '../../utils/export_files.dart';
 
 class ImageViewScreen extends StatelessWidget {
   final String image;
+  final String baseUrl = Constants.baseUrl;
 
-  const ImageViewScreen({Key? key, required this.image}) : super(key: key);
+  ImageViewScreen({Key? key, required this.image}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -53,9 +54,9 @@ class ImageViewScreen extends StatelessWidget {
         ),
       body: Center(
         child: Hero(
-          tag: 'https://smb.inet.africa:8080/api/user/image/${image}',
+          tag: '${baseUrl}user/image/${image}',
           child: Image.network(
-            'https://smb.inet.africa:8080/api/user/image/${image}',
+            '${baseUrl}user/image/${image}',
             fit: BoxFit.contain,
           ),
         ),

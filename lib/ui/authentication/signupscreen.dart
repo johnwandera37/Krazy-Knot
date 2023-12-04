@@ -42,6 +42,7 @@ class SignUpScreen extends StatelessWidget {
                   hintText: Constants.yourPassHereStr,
                   textEditingController:
                       authController.signUpPasswordController,
+                  obscureText: true,
                 ),
                 // FORGOT PASS
                 sizedHeight(15),
