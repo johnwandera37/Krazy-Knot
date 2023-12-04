@@ -50,7 +50,7 @@ class EventController extends GetxController {
     debugPrint('EVENT ID :::::  $event_owner');
     try {
       //adfasdf
-      final data = await ApiService().fetchEventsData(userId.value);
+      final data = await ApiService().fetchEventsData(event_owner);
       debugPrint('$data');
       // Convert the JSON data into Event objects using the model
       final eventList = (data['events'] as List)
@@ -58,6 +58,9 @@ class EventController extends GetxController {
           .toList();
       events.value =
           eventList; // Update the 'events' observable list with the fetched data
+         // Filter out cancelled events and update the 'cancelledEvents' observable list
+    cancelledEvents.value = events.where((event) => event.eventStatus.toLowerCase() == 'cancelled').toList();
+
     } catch (e) {
       debugPrint('$e');
 
@@ -155,6 +158,15 @@ class EventController extends GetxController {
       Get.back();
       fetchEvents(userId.value);
       debugPrint('Event updated successfully');
+
+     Get.snackbar(
+        'Success',
+        'Updated successfully',
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.green,
+        colorText: Colors.white,
+      );
+
     } catch (e) {
       debugPrint('$e');
 
@@ -188,6 +200,13 @@ class EventController extends GetxController {
       await ApiService().updateEventStatus(requestBody);
       fetchEvents(userId.value);
       debugPrint('Event status updated successfully');
+       Get.snackbar(
+        'Success',
+        'Updated successfully',
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.green,
+        colorText: Colors.white,
+      );
     } catch (e) {
       debugPrint('$e');
 

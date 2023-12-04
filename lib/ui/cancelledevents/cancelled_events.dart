@@ -38,7 +38,6 @@ class _CancelledEventsState extends State<CancelledEvents> {
       ),
         body: RefreshIndicator(
       onRefresh: () async {
-        //eventController.fetchEvents('65081b6f44dbbead5990e40a');
         setState(() {
           eventController.events;
         });
