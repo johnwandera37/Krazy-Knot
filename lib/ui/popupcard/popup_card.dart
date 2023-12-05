@@ -30,31 +30,30 @@ void popUpCard({
     Get.to(GuestTab(eventId: eventId));
   }
 
- Future<String> getLink(eventId) async {
-  try {
-    final data = await ApiService().geteventLink(eventId);
-    debugPrint('$data');
-    final eventLnk = data['eventLink'] as String;
-    return eventLnk;
-  } catch (e) {
-    debugPrint('$e');
+  Future<String> getLink(eventId) async {
+    try {
+      final data = await ApiService().geteventLink(eventId);
+      debugPrint('$data');
+      final eventLnk = data['eventLink'] as String;
+      return eventLnk;
+    } catch (e) {
+      debugPrint('$e');
 
-    // Show error message as a snackbar
-    Get.snackbar(
-      'Error',
-      '$e',
-      snackPosition: SnackPosition.TOP,
-      backgroundColor: Colors.red,
-      colorText: Colors.white,
-    );
+      // Show error message as a snackbar
+      Get.snackbar(
+        'Error',
+        '$e',
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
 
-    // Return a default value or handle the error gracefully
-    return '';
+      // Return a default value or handle the error gracefully
+      return '';
+    }
   }
-}
 
-
-  onTap({required String eventId}) async {    
+  onTap({required eventId}) async {
     String shareContent = await getLink(eventId);
     Share.share(shareContent);
   }
@@ -90,7 +89,9 @@ void popUpCard({
                   child: CustomButton(
                       buttonStr: "Share link",
                       btncolor: Colors.blue,
-                      onTap: onTap),
+                      onTap: () {
+                        onTap(eventId: eventId);
+                      }),
                 ),
                 sizedHeight(10),
                 // Center(
