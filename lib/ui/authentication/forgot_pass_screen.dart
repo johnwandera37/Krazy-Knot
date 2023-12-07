@@ -67,21 +67,28 @@ class ForgotPasswordScreen extends StatelessWidget {
 
                       sizedHeight(Get.height * .1),
 
-                      // SUBMIT BUTTON
-                      Obx(
-                        () {
-                          return authController.loading.value
-                              ? CircularProgressIndicator(
-                                  color: themeController.fontColor,
-                                )
-                              : CustomButton(
+                      CustomButton(
                                   buttonStr: Constants.submitStr,
                                   onTap: () {
                                     authController.initChangePassword();
                                   },
-                                );
-                        },
-                      ),
+                                ),
+
+                      // SUBMIT BUTTON
+                      // Obx(
+                      //   () {
+                      //     return authController.loading.value
+                      //         ? CircularProgressIndicator(
+                      //             color: themeController.fontColor,
+                      //           )
+                      //         : CustomButton(
+                      //             buttonStr: Constants.submitStr,
+                      //             onTap: () {
+                      //               authController.initChangePassword();
+                      //             },
+                      //           );
+                      //   },
+                      // ),
                     ],
                   ),
                 ),

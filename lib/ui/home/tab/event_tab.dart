@@ -79,7 +79,7 @@ class EventTab extends StatelessWidget {
               eventController.fetchEvents(user);
             },
             child: ListView(
-              padding: const EdgeInsets.only(bottom: 20),
+              padding: EdgeInsets.only(bottom: screenWidth * .2),
               children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -138,7 +138,7 @@ class EventTab extends StatelessWidget {
                             ),
                           )
                         : SizedBox(
-                            height: screenHeight * 0.25,
+                            height: screenHeight * 0.30,
                             child: ListView.builder(
                               scrollDirection: Axis.horizontal,
                               itemCount:
@@ -149,9 +149,9 @@ class EventTab extends StatelessWidget {
                                     eventController.events)[index];
                                 return Container(
                                   width: screenWidth * .9,
-                                  height: screenHeight * .22,
-                                  margin: const EdgeInsets.only(right: 10),
-                                  padding: const EdgeInsets.all(10),
+                                  height: screenHeight * .20,
+                                  padding: const EdgeInsets.symmetric(horizontal: 6),
+                                  margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(10),
@@ -198,7 +198,7 @@ class EventTab extends StatelessWidget {
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                           color: Colors.black,
-                        ),
+                        ), 
                       ),
                     ),
                     sizedHeight(20),
@@ -231,7 +231,7 @@ class EventTab extends StatelessWidget {
                             )
                           : Wrap(
                               spacing: 20,
-                              runSpacing: 20,
+                              runSpacing: 35,
                               children: filterRemainingEvents(
                                       eventController.events)
                                   .where((event) =>
@@ -239,7 +239,7 @@ class EventTab extends StatelessWidget {
                                       "cancelled")
                                   .map((event) => Center(
                                         child: SizedBox(
-                                          width: screenWidth * .9,
+                                          width: screenWidth * .88,
                                           height: screenHeight * .24,
                                           child: eventTile(
                                             eventType: event.eventType,
@@ -384,7 +384,7 @@ Widget eventTile({
                   weight: TextWeight.bold,
                 )),
 
-            //event descsiption
+            //event description
             SizedBox(
               height: 50,
               child: CustomText(
@@ -392,7 +392,7 @@ Widget eventTile({
                 fontSize: 15,
               ),
             ),
-            //date
+            //date status
             Align(
                 heightFactor: 1,
                 child: Row(
@@ -434,7 +434,16 @@ Widget PopUpMenu({
       onSelected: (String choice) {
         // Handle the choice selected from the menu
         if (choice == 'Edit') {
-          Get.to(EditEvent(eventId: eventId));
+          Get.to(EditEvent(
+            eventId: eventId, 
+            title: title, 
+            type: type, 
+            venue: venue, 
+            description: description, 
+            startDate: startDate, 
+            endDate: endDate,
+
+            ));
         } else if (choice == 'Update Status') {
           //this function event data that is fetched from getEvents
           openAnimatedDialog(

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 // import 'package:photomanager/controllers/backup.dart';
 // import '../../controllers/profile_controller.dart';
+import '../../controllers/profile_controller.dart';
 import '../../utils/export_files.dart';
 
 class CustomException implements Exception {
@@ -10,7 +11,7 @@ class CustomException implements Exception {
   CustomException(this.message);
 
   @override
-  String toString() {
+  String toString() { 
     return message;
   }
 }
@@ -30,6 +31,15 @@ class ApiService {
       return 'Failed to parse error message';
     }
   }
+
+  //   var userId = ''.obs;
+  //   initUserId() async {
+  //   var controller = Get.find<ProfileController>();
+  //   var profileData = await controller.profileData();
+  //   debugPrint('NEW USER IDDDD :::::::  ${controller.userInfo!.id}');
+  //   userId.value = controller.userInfo!.id;
+  //   fetchEventsData(userId.value);
+  // }
 
 //Fetch events
   Future<Map<String, dynamic>> fetchEventsData(event_owner) async {
@@ -51,7 +61,7 @@ class ApiService {
       // return {'error': 'API Error: ${response.statusCode}'};
     }
   }
-
+//add event
   Future<void> addEvent(Event event) async {
     final response = await http.post(
       Uri.parse('${baseUrl}addEvent'),

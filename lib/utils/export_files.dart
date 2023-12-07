@@ -46,6 +46,7 @@ export 'package:photomanager/controllers/map_address.dart';//map
 export 'package:photomanager/controllers/dateController.dart';//date
 export 'package:photomanager/controllers/event_controller.dart';//evet_controller
 export 'package:photomanager/controllers/edit_event_data_controller.dart';//edit event controller
+export 'package:photomanager/controllers/current_location_controller.dart';//current location controller
 
 // MODEL
 export 'package:photomanager/data/model/events/event_model.dart';

@@ -16,9 +16,8 @@ class _CancelledEventsState extends State<CancelledEvents> {
     var screenHeight = Get.height;
     final EventController eventController = Get.put(EventController());
 
-    final List<Event> cancelledEvents = eventController.events
-        .where((event) => event.eventStatus.toLowerCase() == "cancelled")
-        .toList();
+    final List<Event> cancelledEvents = eventController.cancelledEvents;//only cancelled events
+    
 
     return Scaffold(
         backgroundColor: Colors.white,
@@ -51,7 +50,7 @@ class _CancelledEventsState extends State<CancelledEvents> {
             eventController.fetchEvents(user);
 
             setState(() {
-              eventController.events;
+              eventController.cancelledEvents;
             });
           },
           child: ListView(children: [

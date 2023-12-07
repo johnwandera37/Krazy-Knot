@@ -126,9 +126,23 @@ class AuthController extends GetxController implements GetxService {
     loading(true);
     Response response = await getChangeUserPassword();
     if (response.statusCode == 200) {
-      Get.to(const PasswordChangeSuccess());
+      // Get.to(const PasswordChangeSuccess());
+      Get.snackbar(
+        'Success',
+        'Password updated successfully',
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.green,
+        colorText: Colors.white,
+      );
     } else {
       ApiChecker.checkApi(response);
+      Get.snackbar(
+        'Error',
+        'Failed to change password',
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
     }
     loading(false);
   }

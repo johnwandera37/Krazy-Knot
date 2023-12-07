@@ -84,6 +84,7 @@ void openAnimatedDialog({
                   message = 'Event restored';
                   debugPrint(
                       '######################################################################### nice this data for status was executed $new_status');
+  
                 }
                 Navigator.of(context).pop();
                 ScaffoldMessenger.of(context).showSnackBar(

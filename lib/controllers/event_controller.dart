@@ -9,6 +9,7 @@ import '../utils/export_files.dart';
 
 class EventController extends GetxController {
   final events = <Event>[].obs; //capture events data
+    final cancelledEvents = <Event>[].obs; // capture cancelled events data
   final attendees = <Attendees>[].obs; //capture attendees data
   final MapPickerController mapPickerController =
       Get.put(MapPickerController()); //for location
@@ -24,7 +25,7 @@ class EventController extends GetxController {
   var eventDescription = TextEditingController();
   var selectType = TextEditingController();
 
-  //capture vattendees details
+  //capture attendees details
   var attendeeNameStr = TextEditingController();
   var attendeePhoneNo = TextEditingController();
   var userId = ''.obs;
@@ -49,7 +50,7 @@ class EventController extends GetxController {
     debugPrint('USER ID :::::  $event_owner');
     try {
       //adfasdf
-      final data = await ApiService().fetchEventsData(userId.value);
+      final data = await ApiService().fetchEventsData(event_owner);
       debugPrint('$data');
       // Convert the JSON data into Event objects using the model
       final eventList = (data['events'] as List)
@@ -57,6 +58,9 @@ class EventController extends GetxController {
           .toList();
       events.value =
           eventList; // Update the 'events' observable list with the fetched data
+         // Filter out cancelled events and update the 'cancelledEvents' observable list
+    cancelledEvents.value = events.where((event) => event.eventStatus.toLowerCase() == 'cancelled').toList();
+
     } catch (e) {
       debugPrint('$e');
 
@@ -154,6 +158,15 @@ class EventController extends GetxController {
       Get.back();
       fetchEvents(userId.value);
       debugPrint('Event updated successfully');
+
+     Get.snackbar(
+        'Success',
+        'Updated successfully',
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.green,
+        colorText: Colors.white,
+      );
+
     } catch (e) {
       debugPrint('$e');
 
@@ -187,6 +200,13 @@ class EventController extends GetxController {
       await ApiService().updateEventStatus(requestBody);
       fetchEvents(userId.value);
       debugPrint('Event status updated successfully');
+       Get.snackbar(
+        'Success',
+        'Updated successfully',
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.green,
+        colorText: Colors.white,
+      );
     } catch (e) {
       debugPrint('$e');
 
@@ -216,7 +236,7 @@ class EventController extends GetxController {
           attendeesList; // Update the 'attendees' observable list with the fetched data
     } catch (e) {
       debugPrint('Error fetching attendees: $e');
-
+ 
       // Show error message as a snackbar
       Get.snackbar(
         'Error',
@@ -264,80 +284,3 @@ class EventController extends GetxController {
     }
   }
 }
-
-// {
-//   "eventId": "651e7f3125aecdf0cb978d54",
-//   "updatedEventData": {
-//     "eventName": "Business matters second update testing",
-//     "eventOwner":"65080d2a44dbbead5990e351",
-//     "eventType": "Business",
-//     "eventVenue":"The Mid Hole update",
-//     "eventDescription": "Business network update",
-//     "eventStatus": "pending",
-//     "eventStartDate": "2023-10-29T06:00:00.000+00:00",
-//      "eventEndDate": "2023-10-31T11:50:00.000+00:00"
-   
-//   }
-// }
-
-
-// final updatedEventData = Event(
-//   id: "651e7f3125aecdf0cb978d54",
-//   eventName: "Business matters actual test",
-//   eventOwner: "65080d2a44dbbead5990e351",
-//   eventType: "Business",
-//   eventVenue: "The Mid Hole update",
-//   eventDescription: "Business network update",
-//   eventStatus: "pending",
-//   eventStartDate: "2023-10-29T06:00:00.000+00:00",
-//   eventEndDate: "2023-10-31T11:50:00.000+00:00",
-// );
-
-
-// //Update the event
-// Future<void> editEvent() async {
-// final eventId = "651e7f3125aecdf0cb978d54";
-
-// final Map<String, dynamic> requestBody = {
-//   "eventId": "651e7f3125aecdf0cb978d54",
-//   "updatedEventData": {
-//     "eventName": "Business matters second update testing 6",
-//     "eventOwner": "65080d2a44dbbead5990e351",
-//     "eventType": "Business",
-//     "eventVenue": "The Mid Hole update",
-//     "eventDescription": "Business network update",
-//     "eventStatus": "pending",
-//     "eventStartDate": "2023-10-29T06:00:00.000+00:00",
-//     "eventEndDate": "2023-10-31T11:50:00.000+00:00"
-//   }
-// };
-
-// //eventId,
-// try {
-//   // final updatedEventDataMap = requestBody;
-//   await ApiService().updateEvent(requestBody);
-//   debugPrint('[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[Event updated successfully');
-// } catch (e) {
-//   debugPrint('[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[Failed to update event: $e');
-// }
-// }
-
-
-
-
-//  Future<Response> getOwnerId() async {
-//     final response = await apiClient.getWithParamData(
-//       Constants.baseUrl + Constants.userInfoUrl,
-//       queryParams: {
-//       Constants.userIdStr: "user_id",
-//       },
-//     );
-//      if (response.statusCode == 200) {
-//       final data = json.decode(response.body);
-//       ownerID = data['user_id'] as String;
-//       debugPrint({"==================================================>>>>>>>>>OWNERID"});
-//       debugPrint(ownerID);
-//       debugPrint({"==================================================>>>>>>>>>OWNERID"});
-//     }
-//     return response;
-//   }
