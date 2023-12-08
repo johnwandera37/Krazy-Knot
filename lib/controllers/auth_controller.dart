@@ -106,6 +106,8 @@ class AuthController extends GetxController implements GetxService {
     loading(false);
   }
 
+  
+
   void initChangePassword() async {
     // Change Password Validation
     if (loginEmailController.text.isEmpty ||
@@ -134,6 +136,7 @@ class AuthController extends GetxController implements GetxService {
         backgroundColor: Colors.green,
         colorText: Colors.white,
       );
+      Get.back();
     } else {
       ApiChecker.checkApi(response);
       Get.snackbar(
@@ -164,8 +167,6 @@ class AuthController extends GetxController implements GetxService {
       loading(false);
     }
   }
-
-
 
   void initChangeUserPassword() async {
     // Form Validation
@@ -348,8 +349,6 @@ class AuthController extends GetxController implements GetxService {
     }
     return response;
   }
-
- 
 
   Future<Response> getChangeUserPassword() async {
     loading(true);

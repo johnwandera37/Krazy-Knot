@@ -1,4 +1,5 @@
 import 'package:photomanager/ui/authentication/forgot_pass_screen.dart';
+import 'package:photomanager/ui/authentication/requestOTP.dart';
 
 import '../../utils/export_files.dart';
 
@@ -53,7 +54,7 @@ class LoginScreen extends StatelessWidget {
                     weight: TextWeight.semiBold,
                     decoration: TextDecorationOption.underline,
                     onTap: () {
-                      Get.to(const ForgotPasswordScreen());
+                      Get.to(RequestOTP());
                     },
                   ),
                   sizedWidth(40),
