@@ -34,10 +34,24 @@ class _RequestOTPState extends State<RequestOTP> {
       );
 
       if (response.statusCode == 200) {
+        Get.snackbar(
+          'Success',
+          'OTP sent to your email',
+          snackPosition: SnackPosition.TOP,
+          backgroundColor: Colors.green,
+          colorText: Colors.white,
+        );
         setState(() {
           otpReceived = true; // Set OTP received to true on success
         });
       } else {
+        Get.snackbar(
+        'Error',
+        'Failed to generate OTP',
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
         setState(() {
           otpReceived = false; // Set OTP received to false on failure
         });
@@ -66,15 +80,22 @@ class _RequestOTPState extends State<RequestOTP> {
       );
 
       if (response.statusCode == 200) {
+        Get.snackbar(
+          'Success',
+          'OTP Verified',
+          snackPosition: SnackPosition.TOP,
+          backgroundColor: Colors.green,
+          colorText: Colors.white,
+        );
         Get.to(const ForgotPasswordScreen());
       } else {
         Get.snackbar(
-        'Error',
-        'Failed to Verify OTP',
-        snackPosition: SnackPosition.TOP,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-      );
+          'Error',
+          'Failed to Verify OTP',
+          snackPosition: SnackPosition.TOP,
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+        );
       }
     } catch (error) {
       debugPrint('Error: $error');
@@ -94,12 +115,10 @@ class _RequestOTPState extends State<RequestOTP> {
           children: [
             TextFormField(
               keyboardType: TextInputType.emailAddress,
+              controller: _emailController,
               decoration: InputDecoration(
                 hintText: 'Enter Email',
               ),
-              onEditingComplete: () {
-                requestOTP(_emailController.text);
-              },
             ),
             SizedBox(height: 20.0),
             if (otpReceived) // Show OTP field only if OTP received
