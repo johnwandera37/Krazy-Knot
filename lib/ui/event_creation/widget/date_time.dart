@@ -152,28 +152,53 @@ class _DateTimePickerState extends State<DateTimePicker> {
     }
   }
 
-  Future<void> _selectTime(BuildContext context) async {
-    final TimeOfDay minimumTime = TimeOfDay.fromDateTime(
-      DateTime.now().add(const Duration(minutes: 20)),
-    );
-    final TimeOfDay? picked = await showTimePicker(
-      context: context,
-      initialTime: minimumTime,
-    );
+  // Future<void> _selectTime(BuildContext context) async {
+  //   final TimeOfDay minimumTime = TimeOfDay.fromDateTime(
+  //     DateTime.now().add(const Duration(minutes: 20)),
+  //   );
+  //   final TimeOfDay? picked = await showTimePicker(
+  //     context: context,
+  //     initialTime: minimumTime,
+  //   );
 
-    if (picked != null) {
-      setState(() {
-        _selectedDateTime = DateTime(
-          _selectedDateTime.year,
-          _selectedDateTime.month,
-          _selectedDateTime.day,
-          picked.hour,
-          picked.minute,
-        );
-        widget.onChanged?.call(_selectedDateTime);
-      });
-    }
+  //   if (picked != null) {
+  //     setState(() {
+  //       _selectedDateTime = DateTime(
+  //         _selectedDateTime.year,
+  //         _selectedDateTime.month,
+  //         _selectedDateTime.day,
+  //         picked.hour,
+  //         picked.minute,
+  //       );
+  //       widget.onChanged?.call(_selectedDateTime);
+  //     });
+  //   }
+  // }
+
+
+  Future<void> _selectTime(BuildContext context) async {
+  final TimeOfDay currentTime = TimeOfDay.now();
+  final TimeOfDay minimumTime = TimeOfDay(hour: currentTime.hour, minute: currentTime.minute);
+  
+  final TimeOfDay? picked = await showTimePicker(
+    context: context,
+    initialTime: minimumTime,
+  );
+
+  if (picked != null) {
+    setState(() {
+      _selectedDateTime = DateTime(
+        _selectedDateTime.year,
+        _selectedDateTime.month,
+        _selectedDateTime.day,
+        picked.hour,
+        picked.minute,
+      );
+      widget.onChanged?.call(_selectedDateTime);
+    });
   }
+}
+
 
   @override
   Widget build(BuildContext context) {
