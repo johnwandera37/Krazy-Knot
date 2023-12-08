@@ -8,7 +8,7 @@ class SplashController extends GetxController implements GetxService {
   final SplashRepo splashRepo;
   SplashController({required this.splashRepo});
 
-  var authController = Get.find<AuthController>();
+  var authController = Get.find<AuthController>(); 
   var profileController = Get.find<ProfileController>();
   final LocationController locationController = Get.put(LocationController());
 

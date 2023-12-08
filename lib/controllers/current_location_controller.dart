@@ -2,7 +2,6 @@ import 'package:geolocator/geolocator.dart';
 
 import '../utils/export_files.dart';
 
-
 //DEFAULT LOCATION CONTROLLER
 class LocationController extends GetxController {
   Rx<Position?> currentPosition = Rx<Position?>(null);
@@ -32,7 +31,7 @@ class LocationController extends GetxController {
         );
     currentPosition.value = position;
     if (position != null) {
-      fetchWeatherDataByCoordinates(position.latitude, position.longitude);
+      fetchDataByCoordinates(position.latitude, position.longitude);
     }
 
       } catch (e) {
@@ -53,7 +52,7 @@ class LocationController extends GetxController {
   }
 
 //get cordinates
-  void fetchWeatherDataByCoordinates (double latitude, double longitude) async {
+  void fetchDataByCoordinates (double latitude, double longitude) async {
     try {
     isLoading.value = true;
     print('The following is my default location cordinates ##########################################################');
