@@ -108,10 +108,10 @@ class AuthController extends GetxController implements GetxService {
 
   
 
-  void initChangePassword() async {
+  void initChangePassword(String email) async {
     // Change Password Validation
-    if (loginEmailController.text.isEmpty ||
-        !GetUtils.isEmail(loginEmailController.text)) {
+    if (email.isEmpty ||
+        !GetUtils.isEmail(email)) {
       MyStyles().showSnackBar(messageText: Constants.validEmailError);
       return;
     }
@@ -126,7 +126,7 @@ class AuthController extends GetxController implements GetxService {
       return;
     }
     loading(true);
-    Response response = await getChangeUserPassword();
+    Response response = await getChangeUserPassword(email);
     if (response.statusCode == 200) {
       // Get.to(const PasswordChangeSuccess());
       Get.snackbar(
@@ -136,7 +136,7 @@ class AuthController extends GetxController implements GetxService {
         backgroundColor: Colors.green,
         colorText: Colors.white,
       );
-      Get.back();
+      Get.to(const LoginScreen());
     } else {
       ApiChecker.checkApi(response);
       Get.snackbar(
@@ -168,14 +168,14 @@ class AuthController extends GetxController implements GetxService {
     }
   }
 
-  void initChangeUserPassword() async {
+  void initChangeUserPassword(password) async {
     // Form Validation
-    if (newPasswordController.text.isEmpty) {
+    if (password.isEmpty) {
       MyStyles().showSnackBar(messageText: Constants.validPassError);
       return;
     }
     loading(true);
-    Response response = await getChangeUserPassword();
+    Response response = await getChangeUserPassword(password);
     if (response.statusCode == 200) {
       loading(false);
       Get.to(const PasswordChangeSuccess());
@@ -350,10 +350,10 @@ class AuthController extends GetxController implements GetxService {
     return response;
   }
 
-  Future<Response> getChangeUserPassword() async {
+  Future<Response> getChangeUserPassword(String email) async {
     loading(true);
     Response response = await authRepo.postOtpAndPasswordApi(
-      loginEmailController.text.trim(),
+      email.trim(),
       newPasswordController.text.trim(),
     );
     if (response.statusCode == 200) {

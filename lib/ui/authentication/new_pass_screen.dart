@@ -69,7 +69,7 @@ class NewPasswordScreen extends StatelessWidget {
                             : CustomButton(
                                 buttonStr: Constants.submitStr,
                                 onTap: () {
-                                  authController.initChangeUserPassword();
+                                  authController.initChangeUserPassword(authController.newPasswordController.text);
                                 },
                               );
                       },

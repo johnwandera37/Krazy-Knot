@@ -7,6 +7,8 @@ class CustomInput extends StatelessWidget {
   final String? prefixIconPath;
   final TextEditingController textEditingController;
   final bool obscureText;
+  final bool enabled;
+  final String? initialValue;
   const CustomInput({
     super.key,
     required this.hintText,
@@ -15,6 +17,8 @@ class CustomInput extends StatelessWidget {
     this.prefixIconPath,
     required this.textEditingController,
     this.obscureText = false,
+    this.enabled = true,
+    this.initialValue,
   });
 
   @override
@@ -35,6 +39,8 @@ class CustomInput extends StatelessWidget {
             ? Neumorphic(
                 style: neumorphicStyle(),
                 child: TextFormField(
+                  enabled: true,
+                  // initialValue: '',
                   controller: textEditingController,
                   obscureText: obscureText,
                   decoration:
@@ -46,6 +52,8 @@ class CustomInput extends StatelessWidget {
             : Neumorphic(
                 style: neumorphicStyle(),
                 child: TextFormField(
+                  enabled: true,
+                  // initialValue: '',
                   controller: textEditingController,
                   obscureText: obscureText,
                   decoration: inputDecoration(

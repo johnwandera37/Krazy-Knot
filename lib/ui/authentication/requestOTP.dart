@@ -15,16 +15,21 @@ class _RequestOTPState extends State<RequestOTP> {
   final TextEditingController _OTPController = TextEditingController();
   final String baseUrl = Constants.baseUrl;
   bool otpReceived = false; // Track if OTP has been received
+  bool isLoading = false; // Track loading state
 
-  Future<void> requestOTP(String email) async {
-    if (email.isEmpty) {
+  Future<void> requestOTP(String Email) async {
+    if (Email.isEmpty) {
       return;
     }
+
+    setState(() {
+      isLoading = true; // Set loading state to true
+    });
 
     final String apiUrl = '${baseUrl}user/requestOTP';
 
     Map<String, String> data = {
-      'email': email,
+      'email': Email,
     };
 
     try {
@@ -43,15 +48,16 @@ class _RequestOTPState extends State<RequestOTP> {
         );
         setState(() {
           otpReceived = true; // Set OTP received to true on success
+          isLoading = false; // Set loading state to false after the request is completed
         });
       } else {
         Get.snackbar(
-        'Error',
-        'Failed to generate OTP',
-        snackPosition: SnackPosition.TOP,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-      );
+          'Error',
+          'Failed to generate OTP',
+          snackPosition: SnackPosition.TOP,
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+        );
         setState(() {
           otpReceived = false; // Set OTP received to false on failure
         });
@@ -61,15 +67,15 @@ class _RequestOTPState extends State<RequestOTP> {
     }
   }
 
-  Future<void> verifyOTP(String email, String OTP) async {
-    if (email.isEmpty || OTP.isEmpty) {
+  Future<void> verifyOTP(String Email, String OTP) async {
+    if (Email.isEmpty || OTP.isEmpty) {
       return;
     }
 
     final String apiUrl = '${baseUrl}user/requestOTP';
 
     Map<String, String> data = {
-      'email': email,
+      'email': Email,
       'OTP': OTP,
     };
 
@@ -87,7 +93,7 @@ class _RequestOTPState extends State<RequestOTP> {
           backgroundColor: Colors.green,
           colorText: Colors.white,
         );
-        Get.to(const ForgotPasswordScreen());
+        Get.to(ForgotPasswordScreen(email: Email));
       } else {
         Get.snackbar(
           'Error',
@@ -106,8 +112,19 @@ class _RequestOTPState extends State<RequestOTP> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Request OTP'),
-      ),
+          elevation: 0,
+          // backgroundColor: Colors.transparent,
+          iconTheme: const IconThemeData(color: Colors.black),
+          title: const Center(
+            child: Text(
+              "Request OTP",
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.w500,
+                color: Colors.black,
+              ),
+            ),
+          )),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(20.0),
         child: Column(
@@ -130,16 +147,23 @@ class _RequestOTPState extends State<RequestOTP> {
                 ),
               ),
             SizedBox(height: 20.0),
-            ElevatedButton(
-              onPressed: () {
-                if (otpReceived) {
-                  verifyOTP(_emailController.text, _OTPController.text);
-                } else {
-                  requestOTP(_emailController.text);
-                }
-              },
-              child: Text(otpReceived ? 'Verify OTP' : 'Request OTP'),
+            Visibility(
+              visible: !isLoading, // Hide the button when isLoading is true
+              child: ElevatedButton(
+                onPressed: () {
+                  if (otpReceived) {
+                    verifyOTP(_emailController.text, _OTPController.text);
+                  } else {
+                    requestOTP(_emailController.text);
+                  }
+                },
+                child: Text(otpReceived ? 'Verify OTP' : 'Request OTP'),
+              ),
             ),
+            if (isLoading)
+              const Center(
+                child: CircularProgressIndicator(),
+              ),
           ],
         ),
       ),

@@ -1,7 +1,8 @@
 import 'package:photomanager/utils/export_files.dart';
 
 class ForgotPasswordScreen extends StatelessWidget {
-  const ForgotPasswordScreen({super.key});
+  final String email;
+  const ForgotPasswordScreen({super.key, required this.email});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,7 @@ class ForgotPasswordScreen extends StatelessWidget {
 
                       // ENTER PHONE
                       CustomText(
-                        headingStr: Constants.forgotPassword_Str,
+                        headingStr: 'New password',
                         weight: TextWeight.bold,
                         fontSize: 21,
                       ),
@@ -32,7 +33,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 30.0),
                         child: CustomText(
-                          headingStr: Constants.forgotPassExpStr,
+                          headingStr: 'Use something memorable for you but difficult for others to guess',
                           weight: TextWeight.normal,
                           align: TextAlignOption.center,
                           textHeight: 1.3,
@@ -48,13 +49,15 @@ class ForgotPasswordScreen extends StatelessWidget {
                           margin: const EdgeInsets.symmetric(horizontal: 30.0),
                           child: Column(
                             children: [
-                              CustomInput(
-                                hintText: Constants.enterEmailStr,
-                                vertPadding: 10,
-                                textEditingController:
-                                    authController.loginEmailController,
-                              ),
-                              //sizedHeight(10),
+                              // CustomInput(
+                              //   hintText: Constants.enterEmailStr,
+                              //   enabled: false,
+                              //   initialValue: email,
+                              //   vertPadding: 10,
+                              //   textEditingController:
+                              //       authController.loginEmailController,
+                              // ),
+                              sizedHeight(10),
                               CustomInput(
                                 hintText: Constants.yourNewPassStr,
                                 textEditingController:
@@ -68,11 +71,11 @@ class ForgotPasswordScreen extends StatelessWidget {
                       sizedHeight(Get.height * .1),
 
                       CustomButton(
-                                  buttonStr: Constants.submitStr,
-                                  onTap: () {
-                                    authController.initChangePassword();
-                                  },
-                                ),
+                        buttonStr: Constants.submitStr,
+                        onTap: () {
+                          authController.initChangePassword(email);
+                        },
+                      ),
 
                       // SUBMIT BUTTON
                       // Obx(
