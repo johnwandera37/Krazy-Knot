@@ -62,6 +62,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                                 hintText: Constants.yourNewPassStr,
                                 textEditingController:
                                     authController.newPasswordController,
+                                    obscureText: true,
                               ),
                             ],
                           ),

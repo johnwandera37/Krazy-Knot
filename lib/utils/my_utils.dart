@@ -1,4 +1,4 @@
-
+import 'package:intl/intl.dart';
 
 
 class MyUtils {
@@ -7,6 +7,12 @@ class MyUtils {
       return input;
     }
     return input[0].toUpperCase() + input.substring(1);
+  }
+
+  
+    String formatTimestamp(DateTime timestamp) {
+    final DateFormat formatter = DateFormat('dd MMM y, HH:mm a');
+    return formatter.format(timestamp.toLocal());
   }
 
   static int sum(int a, int b) {

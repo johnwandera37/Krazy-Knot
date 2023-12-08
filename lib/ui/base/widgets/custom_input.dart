@@ -1,15 +1,14 @@
 import 'package:photomanager/utils/export_files.dart';
 
-class CustomInput extends StatelessWidget {
+class CustomInput extends StatefulWidget {
   final String hintText;
   final double? horizPadding;
   final double? vertPadding;
   final String? prefixIconPath;
   final TextEditingController textEditingController;
   final bool obscureText;
-  final bool enabled;
-  final String? initialValue;
-  const CustomInput({
+
+   CustomInput({
     super.key,
     required this.hintText,
     this.horizPadding,
@@ -17,10 +16,14 @@ class CustomInput extends StatelessWidget {
     this.prefixIconPath,
     required this.textEditingController,
     this.obscureText = false,
-    this.enabled = true,
-    this.initialValue,
   });
 
+  @override
+  State<CustomInput> createState() => _CustomInputState();
+}
+
+class _CustomInputState extends State<CustomInput> {
+  bool _isPasswordVisible = true; // Track password visibility state
   @override
   Widget build(BuildContext context) {
     double errorFontSize = 11;
@@ -28,21 +31,19 @@ class CustomInput extends StatelessWidget {
       height: 58,
       width: Get.width,
       margin: EdgeInsets.symmetric(
-        horizontal: horizPadding ?? 40,
-        vertical: vertPadding ?? 0.0,
+        horizontal: widget.horizPadding ?? 20,
+        vertical: widget.vertPadding ?? 0.0,
       ),
       padding: const EdgeInsets.symmetric(
         horizontal: 0,
       ),
       child: Center(
-        child: prefixIconPath != null
+        child: widget.prefixIconPath != null
             ? Neumorphic(
                 style: neumorphicStyle(),
                 child: TextFormField(
-                  enabled: true,
-                  // initialValue: '',
-                  controller: textEditingController,
-                  obscureText: obscureText,
+                  controller: widget.textEditingController,
+                  obscureText: widget.obscureText? _isPasswordVisible: false,
                   decoration:
                       inputDecorationWithPrefix(errorFontSize: errorFontSize),
                   style: inputTextStyle(),
@@ -52,10 +53,8 @@ class CustomInput extends StatelessWidget {
             : Neumorphic(
                 style: neumorphicStyle(),
                 child: TextFormField(
-                  enabled: true,
-                  // initialValue: '',
-                  controller: textEditingController,
-                  obscureText: obscureText,
+                  controller: widget.textEditingController,
+                  obscureText: widget.obscureText? _isPasswordVisible: false,
                   decoration: inputDecoration(
                     errorFontSize: errorFontSize,
                   ),
@@ -65,6 +64,19 @@ class CustomInput extends StatelessWidget {
       ),
     );
   }
+      passwordVisibility()=> widget.obscureText?
+       IconButton(
+            onPressed: () {
+              setState(() {
+               _isPasswordVisible = !_isPasswordVisible; // Toggle password visibility
+              });
+            },
+            icon: Icon(
+             _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+            //  color: themeController.shadowDarkColor,
+            ),
+          )
+        : null;
 
   _underlineInputBorder() => const UnderlineInputBorder(
         borderSide: BorderSide(
@@ -83,9 +95,10 @@ class CustomInput extends StatelessWidget {
   }) =>
       InputDecoration(
         border: InputBorder.none,
-        hintText: hintText,
+        hintText: widget.hintText,
         enabledBorder: _underlineInputBorder(),
         focusedBorder: _underlineInputBorder(),
+        suffixIcon: passwordVisibility(),
         hintStyle: inputTextStyle(),
         errorStyle: inputTextStyle(
           color: Colors.red,
@@ -114,14 +127,15 @@ class CustomInput extends StatelessWidget {
         prefixIcon: Container(
           padding: const EdgeInsets.only(left: 10),
           child: Image.asset(
-            prefixIconPath ?? '',
+            widget.prefixIconPath ?? '',
             width: 35,
             height: 35,
             fit: BoxFit.fill,
           ),
         ),
+        suffixIcon: passwordVisibility(),
         border: InputBorder.none,
-        hintText: hintText,
+        hintText: widget.hintText,
         enabledBorder: _underlineInputBorder(),
         focusedBorder: _underlineInputBorder(),
         hintStyle: inputTextStyle(),
