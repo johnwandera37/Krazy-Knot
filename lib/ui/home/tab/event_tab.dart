@@ -505,10 +505,10 @@ Widget PopUpMenu({
 String formatDateTime(String date) {
   try {
     final parsedDate = DateTime.parse(date);
-    final formattedDate = DateFormat('MMM dd yyyy HH:mm').format(parsedDate);
+    final formattedDate = DateFormat('MMM dd yyyy hh:mm a').format(parsedDate);
     return formattedDate;
   } catch (e) {
-    //unexpected date format
+    // unexpected date format
     return 'Invalid Date $date';
   }
 }
