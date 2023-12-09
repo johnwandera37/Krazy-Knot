@@ -19,15 +19,15 @@ class GuestTab extends StatelessWidget {
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.transparent,
-          iconTheme: const IconThemeData(color: Colors.black),
-          title: const Center(
-            child: Text(
-              "Guest List",
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-              ),
+          leading: const BackButton(color: Colors.black),
+          centerTitle: true,
+          title: 
+          const Text(
+            "Guest List",
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
             ),
           ),
         ),

@@ -85,7 +85,7 @@ class LocationController extends GetxController {
   // );
   // }
 
-// //open location settings
+//open location settings
 //   void openAppSettings()  {
 //   AppSettings.openLocationSettings();
 // }

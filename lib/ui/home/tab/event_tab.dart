@@ -63,6 +63,7 @@ class EventTab extends StatelessWidget {
                 ),
               ),
             ),
+             automaticallyImplyLeading: false,
           ),
           body: RefreshIndicator(
             onRefresh: () async {
@@ -400,13 +401,13 @@ Widget eventTile({
                     CustomText(
                       headingStr: eventDate,
                       fontColor: HexColor("151515"),
-                      fontSize: 11,
+                      fontSize: 12,
                     ),
                     const Spacer(),
                     CustomText(
                       headingStr: eventStrStatus,
                       fontColor: HexColor("151515"),
-                      fontSize: 11,
+                      fontSize: 12,
                     )
                   ],
                 ))

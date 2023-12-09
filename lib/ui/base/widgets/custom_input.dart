@@ -72,7 +72,7 @@ class _CustomInputState extends State<CustomInput> {
               });
             },
             icon: Icon(
-             _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+             _isPasswordVisible ? Icons.visibility_off : Icons.visibility,
             //  color: themeController.shadowDarkColor,
             ),
           )

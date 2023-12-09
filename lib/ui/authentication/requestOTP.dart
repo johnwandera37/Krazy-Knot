@@ -114,22 +114,31 @@ class _RequestOTPState extends State<RequestOTP> {
       appBar: AppBar(
           elevation: 0,
           // backgroundColor: Colors.transparent,
-          iconTheme: const IconThemeData(color: Colors.black),
-          title: const Center(
-            child: Text(
-              "Request OTP",
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.w500,
-                color: Colors.black,
-              ),
+          iconTheme: const IconThemeData(color: Colors.white),
+          leading: const BackButton(),
+          title: 
+          const Text(
+            "Request OTP",
+            style: TextStyle(
+              fontSize: 18.5,
+              fontWeight: FontWeight.w500,
+              color: Colors.white,
             ),
-          )),
+          ),
+          centerTitle: true,
+          ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            sizedHeight(Get.width*.19),
+              Image.asset(
+                    'assets/images/otp.png',
+                    width: 100,
+                    height: 100,
+                  ),
+            sizedHeight(Get.width *.15),
             TextFormField(
               keyboardType: TextInputType.emailAddress,
               controller: _emailController,
@@ -146,7 +155,7 @@ class _RequestOTPState extends State<RequestOTP> {
                   hintText: 'Enter OTP',
                 ),
               ),
-            SizedBox(height: 20.0),
+            sizedHeight(Get.width*.2),
             Visibility(
               visible: !isLoading, // Hide the button when isLoading is true
               child: ElevatedButton(
@@ -158,7 +167,13 @@ class _RequestOTPState extends State<RequestOTP> {
                   }
                 },
                 child: Text(otpReceived ? 'Verify OTP' : 'Request OTP'),
+                style: ButtonStyle(
+                  fixedSize: MaterialStateProperty.all<Size>(
+                Size.fromHeight(50)
+                ),
+                
               ),
+              )
             ),
             if (isLoading)
               const Center(
