@@ -33,6 +33,10 @@ export 'package:photomanager/ui/attendees/guests.dart';
 export 'package:photomanager/ui/cancelledevents/cancelled_events.dart';
 
 
+//Base
+export 'package:photomanager/ui/base/widgets/custom_dialog.dart';
+
+
 // REPO
 export 'package:photomanager/data/repo/splash_repo.dart';
 export 'package:photomanager/data/repo/auth_repo.dart';

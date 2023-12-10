@@ -22,35 +22,18 @@ void openAnimatedDialog({
           ? "Is the event venue booked?"
           : "You are about to restore this event");
 
-  showGeneralDialog(
+  showCustomDialog(
     context: context,
-    pageBuilder: (context, animation1, animation2) {
-      return Container();
-    },
-    transitionDuration: const Duration(milliseconds: 200),
-    transitionBuilder: (context, a1, a2, child) => ScaleTransition(
-      scale: Tween<double>(begin: 0.5, end: 1.0).animate(a1),
-      child: FadeTransition(
-        opacity: Tween<double>(begin: 0.5, end: 1.0).animate(a1),
-        child: AlertDialog(
-          title: const CustomText(
-            headingStr: "CHANGE EVENT STATUS",
-            weight: TextWeight.bold,
-          ),
-          content: CustomText(headingStr: dialogContent),
-          shape: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
-              borderSide: BorderSide.none),
-          actions: [
-            TextButton(
+    title: "CHANGE EVENT STATUS",
+    content: dialogContent,
+    actions: [
+     TextButton(
               child: const Text('No'),
               onPressed: () {
                 Navigator.of(context).pop();
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
-                    content: CustomText(
-                        headingStr:
-                            "Ensure your venue is ready before updating."),
+                    content: Text("Ensure your venue is ready before updating."),
                   ),
                 );
               },
@@ -95,11 +78,8 @@ void openAnimatedDialog({
                 );
               },
             ),
-          ],
-        ),
-      ),
-    ),
-  );
+    ],
+  );     
 }
 
 //Cancel event
@@ -116,34 +96,18 @@ void cancelEvent({
   required String endDate,
 }) {
   String dialogContent = 'You are about to cancel this event';
-
-  showGeneralDialog(
+  showCustomDialog(
     context: context,
-    pageBuilder: (context, animation1, animation2) {
-      return Container();
-    },
-    transitionDuration: const Duration(milliseconds: 400),
-    transitionBuilder: (context, a1, a2, child) => ScaleTransition(
-      scale: Tween<double>(begin: 0.5, end: 1.0).animate(a1),
-      child: FadeTransition(
-        opacity: Tween<double>(begin: 0.5, end: 1.0).animate(a1),
-        child: AlertDialog(
-          title: const CustomText(
-            headingStr: "CANCEL EVENT",
-            weight: TextWeight.bold,
-          ),
-          content: CustomText(headingStr: dialogContent),
-          shape: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
-              borderSide: BorderSide.none),
-          actions: [
-            TextButton(
+    title: "CANCEL EVENT",
+    content: dialogContent,
+    actions: [
+     TextButton(
               child: const Text('No'),
               onPressed: () {
                 Navigator.of(context).pop();
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
-                    content: CustomText(headingStr: "No action taken."),
+                    content: Text( "No action taken."),
                   ),
                 );
               },
@@ -169,9 +133,6 @@ void cancelEvent({
                 );
               },
             ),
-          ],
-        ),
-      ),
-    ),
+    ],
   );
 }

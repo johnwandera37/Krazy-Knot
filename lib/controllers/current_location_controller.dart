@@ -44,7 +44,7 @@ class LocationController extends GetxController {
       }else{
         //handle if location services are not granted
         print('gps, network services are not granted');
-        //  showPermissionDeniedDialog();
+         showPermissionDeniedDialog();
       } 
     }else if(permission == LocationPermission.denied || permission == LocationPermission.deniedForever){
       // openAppSettings();
@@ -71,24 +71,38 @@ class LocationController extends GetxController {
     }
   }
 
+  void showPermissionDeniedDialog() {
+  showCustomDialog(
+    context: Get.context!,
+    title: "Location Permission Required",
+    content: "Please enable location services to use this feature",
+    actions: [
+      TextButton(
+        child: const Text('No'),
+        onPressed: () {
+          Navigator.of(Get.context!).pop();
+          ScaffoldMessenger.of(Get.context!).showSnackBar(
+            const SnackBar(
+              content: Text("You need to enable location services in order to select location"),
+            ),
+          );
+        },
+      ),
+      TextButton(
+        child: const Text('Yes'),
+        onPressed: () {
+          openAppSettings(); // redirect the user to app settings
+          Get.back();
+        },
+      ),
+    ],
+  );
+}
 
-  //   //show dialogue function when location services are disable
-  //   void showPermissionDeniedDialog() {
-  //   showDialog(
-  //   context: Get.context!,
-  //   builder: (context) => PermissionDeniedDialog(
-  //     onOpenSettings: () {
-  //       Get.back();
-  //       openAppSettings(); // redirect the user to app settings
-  //     },
-  //   ),
-  // );
-  // }
-
-//open location settings
-//   void openAppSettings()  {
-//   AppSettings.openLocationSettings();
-// }
+// open location settings
+  void openAppSettings()  {
+  Geolocator.openLocationSettings();
+}
 
 //fetch data immediately location service is enabled
  void listenToLocationServiceChanges() {
@@ -98,5 +112,6 @@ class LocationController extends GetxController {
       }
     });
   }
+
 
 }
