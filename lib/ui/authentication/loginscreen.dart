@@ -16,7 +16,13 @@ class LoginScreen extends StatelessWidget {
           child: ListView(
             padding: const EdgeInsets.all(16.0),
             children: [
-              sizedHeight(Get.height * .15),
+              // sizedHeight(Get.height * .15),
+                Image.asset(
+                    'assets/images/login.png',
+                    // width: 100,
+                    // height: 100,
+                    fit: BoxFit.fill,
+                  ),
               const Center(
                 child: CustomText(
                   headingStr: Constants.welcomeStr,
@@ -37,7 +43,7 @@ class LoginScreen extends StatelessWidget {
                 hintText: Constants.enterEmailStr,
                 textEditingController: authController.loginEmailController,
               ),
-              sizedHeight(10),
+              sizedHeight(20),
               CustomInput(
                 hintText: Constants.yourPassStr,
                 textEditingController: authController.loginPasswordController,
@@ -77,11 +83,12 @@ class LoginScreen extends StatelessWidget {
                             onTap: () {
                               authController.initLoginProcess();
                             },
+                            btncolor: Colors.blue,
                           ),
                         );
                 },
               ),
-              sizedHeight(30),
+              sizedHeight(20),
               // SIGN UP LINK
               Center(
                 child: Row(

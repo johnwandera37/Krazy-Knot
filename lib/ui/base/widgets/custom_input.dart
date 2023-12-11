@@ -7,6 +7,7 @@ class CustomInput extends StatefulWidget {
   final String? prefixIconPath;
   final TextEditingController textEditingController;
   final bool obscureText;
+  final TextInputType? keyboardType;
 
    CustomInput({
     super.key,
@@ -16,6 +17,7 @@ class CustomInput extends StatefulWidget {
     this.prefixIconPath,
     required this.textEditingController,
     this.obscureText = false,
+    this.keyboardType,
   });
 
   @override
@@ -42,7 +44,9 @@ class _CustomInputState extends State<CustomInput> {
             ? Neumorphic(
                 style: neumorphicStyle(),
                 child: TextFormField(
+                  
                   controller: widget.textEditingController,
+                   keyboardType: widget.keyboardType,
                   obscureText: widget.obscureText? _isPasswordVisible: false,
                   decoration:
                       inputDecorationWithPrefix(errorFontSize: errorFontSize),
@@ -53,8 +57,10 @@ class _CustomInputState extends State<CustomInput> {
             : Neumorphic(
                 style: neumorphicStyle(),
                 child: TextFormField(
+                  
                   controller: widget.textEditingController,
                   obscureText: widget.obscureText? _isPasswordVisible: false,
+                   keyboardType: widget.keyboardType,
                   decoration: inputDecoration(
                     errorFontSize: errorFontSize,
                   ),

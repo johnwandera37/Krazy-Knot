@@ -130,49 +130,46 @@ class _RequestOTPState extends State<RequestOTP> {
       body: SingleChildScrollView(
         padding: EdgeInsets.all(20.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            sizedHeight(Get.width*.19),
+            // sizedHeight(Get.width*.19),
               Image.asset(
                     'assets/images/otp.png',
-                    width: 100,
-                    height: 100,
+                   fit: BoxFit.fill,
                   ),
-            sizedHeight(Get.width *.15),
-            TextFormField(
-              keyboardType: TextInputType.emailAddress,
-              controller: _emailController,
-              decoration: InputDecoration(
-                hintText: 'Enter Email',
-              ),
-            ),
+            // sizedHeight(Get.width *.1),
+            // TextFormField(
+            //   keyboardType: TextInputType.emailAddress,
+            //   controller: _emailController,
+            //   decoration: InputDecoration(
+            //     hintText: 'Enter Email',
+            //   ),
+            // ),
+            CustomInput(hintText: "Enter Email", textEditingController: _emailController, keyboardType: TextInputType.emailAddress,),
             SizedBox(height: 20.0),
             if (otpReceived) // Show OTP field only if OTP received
-              TextFormField(
-                keyboardType: TextInputType.number,
-                controller: _OTPController,
-                decoration: InputDecoration(
-                  hintText: 'Enter OTP',
-                ),
-              ),
-            sizedHeight(Get.width*.2),
+              // TextFormField(
+              //   keyboardType: TextInputType.number,
+              //   controller: _OTPController,
+              //   decoration: InputDecoration(
+              //     hintText: 'Enter OTP',
+              //   ),
+              // ),
+              CustomInput(hintText: "Enter OTP", textEditingController: _OTPController, keyboardType: TextInputType.number,),
+            sizedHeight(Get.width*.1),
             Visibility(
               visible: !isLoading, // Hide the button when isLoading is true
-              child: ElevatedButton(
-                onPressed: () {
-                  if (otpReceived) {
+              child: 
+              CustomButton(
+              buttonStr: otpReceived ? 'Verify OTP' : 'Request OTP',
+              onTap: (){
+                 if (otpReceived) {
                     verifyOTP(_emailController.text, _OTPController.text);
                   } else {
                     requestOTP(_emailController.text);
                   }
-                },
-                child: Text(otpReceived ? 'Verify OTP' : 'Request OTP'),
-                style: ButtonStyle(
-                  fixedSize: MaterialStateProperty.all<Size>(
-                Size.fromHeight(50)
-                ),
-                
-              ),
+              },
+              btncolor: Colors.blue,
               )
             ),
             if (isLoading)

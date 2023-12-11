@@ -14,7 +14,11 @@ class SignUpScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                sizedHeight(Get.height * .15),
+                  Image.asset(
+                    'assets/images/create.jpg',
+                    fit: BoxFit.fill,
+                  ),
+                  sizedHeight(20),
                 const CustomText(
                   headingStr: Constants.createAccountStr,
                   weight: TextWeight.bold,
@@ -32,12 +36,12 @@ class SignUpScreen extends StatelessWidget {
                   textEditingController:
                       authController.signUpFullNameController,
                 ),
-                sizedHeight(10),
+                sizedHeight(20),
                 CustomInput(
                   hintText: Constants.yourEmailHereStr,
                   textEditingController: authController.signUpEmailController,
                 ),
-                sizedHeight(10),
+                sizedHeight(20),
                 CustomInput(
                   hintText: Constants.yourPassHereStr,
                   textEditingController:
@@ -63,6 +67,7 @@ class SignUpScreen extends StatelessWidget {
                               onTap: () {
                                 authController.initSignUpProcess();
                               },
+                              btncolor: Colors.blue,
                             ),
                           );
                   },
