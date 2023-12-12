@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:html' as html;
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../../../utils/export_files.dart';
 
@@ -46,7 +45,7 @@ class _GuestRegistrationFormState extends State<GuestRegistrationForm> {
           eventData = json.decode(response.body)['event'] ?? {};
         });
       } else {
-        _showErrorDialog('Failed to fetch event data');
+        // _showErrorDialog('Failed to fetch event data');
       }
     } catch (error) {
       debugPrint('Error fetching event data: $error');
@@ -135,14 +134,13 @@ class _GuestRegistrationFormState extends State<GuestRegistrationForm> {
 
   Widget _buildEventDetails() {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Center(
           child: Text(
             '${eventData['eventName'] ?? 'Event Title Comes here'}',
             style: const TextStyle(
-              fontSize: 15,
+              fontSize: 18,
               fontWeight: FontWeight.bold,
               color: Colors.black54,
             ),
@@ -207,7 +205,6 @@ class _GuestRegistrationFormState extends State<GuestRegistrationForm> {
         ),
         const SizedBox(height: 15),
         TextFormField(
-          controller: _nameController,
           decoration: const InputDecoration(
             hintText: "Enter your name",
             border: UnderlineInputBorder(
@@ -230,7 +227,6 @@ class _GuestRegistrationFormState extends State<GuestRegistrationForm> {
         const SizedBox(height: 20),
         TextFormField(
           keyboardType: TextInputType.phone,
-          controller: _phoneController,
           decoration: const InputDecoration(
             hintText: "Enter your phone number",
             border: UnderlineInputBorder(
@@ -239,13 +235,15 @@ class _GuestRegistrationFormState extends State<GuestRegistrationForm> {
           ),
         ),
         const SizedBox(height: 40),
-        ElevatedButton(
-          onPressed: _submitForm,
-          child: const Text('Accept Invitation'),
-          style: ButtonStyle(
-            fixedSize: MaterialStateProperty.all<Size>(
-              Size.fromHeight(50),
+        Center(
+          child: ElevatedButton(
+            onPressed: () {},
+            style: ButtonStyle(
+              padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                const EdgeInsets.symmetric(horizontal: 40),
+              ),
             ),
+            child: const Text('Accept Invitation'),
           ),
         ),
       ],
@@ -254,27 +252,23 @@ class _GuestRegistrationFormState extends State<GuestRegistrationForm> {
 
   @override
   Widget build(BuildContext context) {
-    // String currentUrl = html.window.location.href;
-    // Uri uri = Uri.parse(currentUrl);
-
-    // String? eventId = uri.queryParameters['eventId'];
-    // debugPrint("Event ID :::::::::::::   $eventId");
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          iconTheme: const IconThemeData(color: Colors.white),
-          title: const Center(
-            child: Text(
-              "Event Invitation",
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.w500,
-                color: Colors.black,
-              ),
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        iconTheme: const IconThemeData(color: Colors.white),
+        title: const Center(
+          child: Text(
+            "Event Invitation",
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.w500,
+              color: Colors.black,
             ),
-          )),
+          ),
+        ),
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -299,14 +293,30 @@ class _GuestRegistrationFormState extends State<GuestRegistrationForm> {
               ),
               const SizedBox(height: 20),
               if (eventData.isNotEmpty)
-                _buildEventDetails() // Show event details if available
+                MediaQuery.of(context).size.width >
+                        650 // Adjust the width according to your design
+                    ? Card(
+                        margin: const EdgeInsets.all(20.0),
+                        elevation: 5.0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        child: Container(
+                          padding: const EdgeInsets.all(20.0),
+                          width:
+                              200,
+                          child:
+                              _buildEventDetails(),
+                        ),
+                      )
+                    : _buildEventDetails()
               else if (eventData.isEmpty && _eventId != null)
                 Center(
                   child: Column(
-                    children: [
-                      const SizedBox(height: 20),
+                    children: const [
+                      SizedBox(height: 20),
                       Text(
-                        'Failed to fetch event data. Please try again.',
+                        'Failed to fetch event details. Please try again later.',
                         style: TextStyle(
                           color: Colors.red,
                           fontWeight: FontWeight.bold,
@@ -316,7 +326,7 @@ class _GuestRegistrationFormState extends State<GuestRegistrationForm> {
                   ),
                 )
               else
-                const SizedBox(), // Show nothing if event ID is not available
+                const SizedBox(),
             ],
           ),
         ),
