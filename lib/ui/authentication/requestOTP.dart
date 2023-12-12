@@ -113,8 +113,8 @@ class _RequestOTPState extends State<RequestOTP> {
     return Scaffold(
       appBar: AppBar(
           elevation: 0,
-          // backgroundColor: Colors.transparent,
-          iconTheme: const IconThemeData(color: Colors.white),
+          backgroundColor: Colors.transparent,
+          iconTheme: const IconThemeData(color: Colors.black),
           leading: const BackButton(),
           title: 
           const Text(
@@ -122,7 +122,7 @@ class _RequestOTPState extends State<RequestOTP> {
             style: TextStyle(
               fontSize: 18.5,
               fontWeight: FontWeight.w500,
-              color: Colors.white,
+              color: Colors.black,
             ),
           ),
           centerTitle: true,
