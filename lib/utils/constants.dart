@@ -132,6 +132,7 @@ abstract class Constants {
   static const enterPhoneRoute = '/enter_phone';
   static const landingRoute = '/';
   static const previewRoute = '/preview';
+  static const invitation = '/invitation'; 
 
   // ERRORS
   static const enterValueError = 'Please enter a value';

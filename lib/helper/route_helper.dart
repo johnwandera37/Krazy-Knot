@@ -18,6 +18,7 @@ class RouteHelper {
   static const String enterPhone = Constants.enterPhoneRoute;
   static const String landing = Constants.landingRoute;
   static const String preview = Constants.previewRoute;
+  static const String invitation = Constants.invitation;
 
   static getSplashRoute() => Constants.splashStr;
   static getLoginRoute() => Constants.loginStr;
@@ -32,6 +33,7 @@ class RouteHelper {
   static getOopsRoute() => Constants.oops;
   static getProfileRoute() => Constants.profileStr;
   static getPreviewRoute() => Constants.previewStr;
+  static getInvitation() => Constants.invitation;
 
   static List<GetPage> routes = [
     GetPage(name: splash, page: () => const SplashScreen()),
@@ -41,5 +43,6 @@ class RouteHelper {
     GetPage(name: enterPhone, page: () => const EnterPhoneScreen()),
     GetPage(name: landing, page: () => const LandingPage()),
     GetPage(name: preview, page: () =>  PreviewScreen()),
+    // GetPage(name: invitation, page: () =>  const GuestRegistrationForm()),
   ];
 }

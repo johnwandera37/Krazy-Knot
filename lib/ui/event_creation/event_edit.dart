@@ -37,6 +37,7 @@ class _EditEventState extends State<EditEvent> {
       Get.put(DateTimeController()); //for the selected date variable
   final EventIdController eventIdController =
       Get.put(EventIdController()); //for PUT reqquest data
+  final RefreshLogic refreshLogic = RefreshLogic();
 
   //pre-filling
   final TextEditingController eventTitleController = TextEditingController();
@@ -273,9 +274,8 @@ class _EditEventState extends State<EditEvent> {
                     child: Center(
                       child: CustomButton(
                         buttonStr: "Edit Event",
-                        btncolor: Colors.blue,
                         onTap: () async {
-                          eventController.editEvent(user);
+                          await eventController.editEvent(user);
                         },
                       ),
                     ),
