@@ -31,6 +31,7 @@ export 'package:photomanager/ui/popupcard/popup_card.dart';
 export 'package:photomanager/ui/attendees/attendees_form.dart';
 export 'package:photomanager/ui/attendees/guests.dart';
 export 'package:photomanager/ui/cancelledevents/cancelled_events.dart';
+export 'package:photomanager/ui/event_creation/widget/front_end_validations.dart';
 
 
 //Base

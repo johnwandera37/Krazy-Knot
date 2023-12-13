@@ -275,7 +275,11 @@ class _EditEventState extends State<EditEvent> {
                       child: CustomButton(
                         buttonStr: "Edit Event",
                         onTap: () async {
-                          await eventController.editEvent(user);
+                          // await eventController.editEvent(user);
+                                   if (_validateFields(context: context, selectedDropdownValue: selectedDropdownValue)) {
+              var user = await initUserId(); // Wait for the user ID
+              eventController.editEvent(user);
+              }
                         },
                       ),
                     ),
@@ -288,4 +292,45 @@ class _EditEventState extends State<EditEvent> {
       ),
     );
   }
+}
+
+
+//supposed to be in file front_end_validations
+bool _validateFields({
+  required BuildContext context,
+    required String? selectedDropdownValue,
+}) {
+bool isValid = true;
+ final EventController eventController = Get.put(EventController()); 
+// Validate Event Title
+if (eventController.eventTitle.text.isEmpty) {
+  isValid = false;
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text('Please enter an event title.'),
+    ),
+  );
+}
+
+// Validate Event Type
+if (selectedDropdownValue == null || selectedDropdownValue!.isEmpty) {
+  isValid = false;
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text('Please select an event type.'),
+    ),
+  );
+}
+
+// Validate Event Description
+if (eventController.eventDescription.text.isEmpty) {
+  isValid = false;
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text('Please enter an event description.'),
+    ),
+  );
+}
+
+return isValid;
 }
