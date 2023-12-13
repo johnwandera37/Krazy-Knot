@@ -18,7 +18,11 @@ class ForgotPasswordScreen extends StatelessWidget {
                 body: SingleChildScrollView(
                   child: Column(
                     children: [
-                      sizedHeight(60),
+                      // sizedHeight(60),
+                             Image.asset(
+                    'assets/images/newpassword.png',
+                   fit: BoxFit.fill,
+                  ),
 
                       // ENTER PHONE
                       CustomText(

@@ -76,7 +76,7 @@ import '../../../../utils/export_files.dart';
 //         ),
 //         const SizedBox(width: 8),
 //         Expanded(
-//           child: 
+//           child:
 //           inputDec(dateTimevalue: "${_selectedDateTime.toLocal().toLocal()}".split(' ')[1], labelText: 'Time', onTap: () {_selectTime(context);}, onTextTap: () { _selectTime(context); }),
 //         ),
 //       ],
@@ -104,7 +104,6 @@ import '../../../../utils/export_files.dart';
 //       ),
 //     ),
 //   );
-
 
 import 'package:intl/intl.dart';
 
@@ -175,36 +174,34 @@ class _DateTimePickerState extends State<DateTimePicker> {
   //   }
   // }
 
-
   Future<void> _selectTime(BuildContext context) async {
-  final TimeOfDay currentTime = TimeOfDay.now();
-  final TimeOfDay minimumTime = TimeOfDay(hour: currentTime.hour, minute: currentTime.minute);
-  
-  final TimeOfDay? picked = await showTimePicker(
-    context: context,
-    initialTime: minimumTime,
-  );
+    final TimeOfDay currentTime = TimeOfDay.now();
+    final TimeOfDay minimumTime =
+        TimeOfDay(hour: currentTime.hour, minute: currentTime.minute);
 
-  if (picked != null) {
-    setState(() {
-      _selectedDateTime = DateTime(
-        _selectedDateTime.year,
-        _selectedDateTime.month,
-        _selectedDateTime.day,
-        picked.hour,
-        picked.minute,
-      );
-      widget.onChanged?.call(_selectedDateTime);
-    });
+    final TimeOfDay? picked = await showTimePicker(
+      context: context,
+      initialTime: minimumTime,
+    );
+
+    if (picked != null) {
+      setState(() {
+        _selectedDateTime = DateTime(
+          _selectedDateTime.year,
+          _selectedDateTime.month,
+          _selectedDateTime.day,
+          picked.hour,
+          picked.minute,
+        );
+        widget.onChanged?.call(_selectedDateTime);
+      });
+    }
   }
-}
 
-
+  final dateFormat = DateFormat('MMM dd yyyy');
+  final timeFormat = DateFormat.jm();
   @override
   Widget build(BuildContext context) {
-    final dateFormat = DateFormat('MMM dd yyyy');
-    final timeFormat = DateFormat.jm();
-
     return Row(
       children: [
         Expanded(

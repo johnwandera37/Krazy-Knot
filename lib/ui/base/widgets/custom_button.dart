@@ -31,7 +31,7 @@ class CustomButton extends StatelessWidget {
             },
             style: NeumorphicStyle(
               shape: NeumorphicShape.flat,
-              color: btncolor ?? themeController.backgroundColor,
+              color: btncolor ?? Colors.blue,
               shadowLightColor: themeController.shadowLightColor, //Color(0xFF333333),
               boxShape: NeumorphicBoxShape.roundRect(
                 BorderRadius.circular(30),           

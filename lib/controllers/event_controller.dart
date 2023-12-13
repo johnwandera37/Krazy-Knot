@@ -283,4 +283,5 @@ class EventController extends GetxController {
       );
     }
   }
+  
 }
