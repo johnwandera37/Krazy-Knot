@@ -1,6 +1,9 @@
 import 'dart:convert';
 import 'dart:html' as html;
+import 'package:flutter/gestures.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../utils/export_files.dart';
 
 class GuestRegistrationForm extends StatefulWidget {
@@ -43,6 +46,7 @@ class _GuestRegistrationFormState extends State<GuestRegistrationForm> {
       if (response.statusCode == 200) {
         setState(() {
           eventData = json.decode(response.body)['event'] ?? {};
+
         });
       } else {
         // _showErrorDialog('Failed to fetch event data');
@@ -132,6 +136,27 @@ class _GuestRegistrationFormState extends State<GuestRegistrationForm> {
     );
   }
 
+  String formatDateTime(String date) {
+  try {
+    final parsedDate = DateTime.parse(date);
+    final formattedDate = DateFormat('MMM dd hh:mm a').format(parsedDate);
+    // 17-Dec 8:00 AM to 19-Dec 11:00 AM
+    return formattedDate;
+  } catch (e) {
+    // unexpected date format
+    return 'Invalid Date $date';
+  }
+}
+
+launchURL(String query) async {
+    var url = Uri.encodeFull('https://www.google.com/maps/search/?api=1&query=$query');
+    if (await canLaunch (url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
   Widget _buildEventDetails() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -165,6 +190,10 @@ class _GuestRegistrationFormState extends State<GuestRegistrationForm> {
                   fontWeight: FontWeight.normal,
                   color: Colors.grey,
                 ),
+                recognizer: TapGestureRecognizer()
+                ..onTap = () {
+                  launchURL(eventData['eventVenue']);
+                },
               ),
               const TextSpan(
                 text: '\n\nDate: ',
@@ -176,7 +205,7 @@ class _GuestRegistrationFormState extends State<GuestRegistrationForm> {
               ),
               TextSpan(
                 text:
-                    '${eventData['eventStartDate'] ?? '11/28/2022 - 7:00 pm'} to ${eventData['eventEndDate'] ?? '11/28/2022 - 7:00 pm'}',
+                    '${formatDateTime(eventData['eventStartDate'])} to ${formatDateTime(eventData['eventEndDate'])}',
                 style: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.normal,

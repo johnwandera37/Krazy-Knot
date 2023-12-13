@@ -22,7 +22,7 @@ dependencies:
   flutter_dotenv: ^5.1.0
   url_strategy: ^0.2.0
   lottie: ^2.3.2
-  share_plus: ^8.0.0
+  share_plus: ^7.2.1
 
   animated_notch_bottom_bar: ^1.0.0
   salomon_bottom_bar: ^3.3.2
@@ -39,6 +39,7 @@ dependencies:
   open_street_map_search_and_pick: ^0.1.0
   equatable: ^2.0.5
   http_parser: ^4.0.0 
+  url_launcher: ^6.1.11
   # flutter_map:
   # geocoding:
 google_maps_flutter: ^2.1.3
