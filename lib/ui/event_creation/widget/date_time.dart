@@ -203,7 +203,7 @@ class _DateTimePickerState extends State<DateTimePicker> {
   @override
   Widget build(BuildContext context) {
     final dateFormat = DateFormat('MMM dd yyyy');
-    final timeFormat = DateFormat('hh:mm a');
+    final timeFormat = DateFormat.jm();
 
     return Row(
       children: [

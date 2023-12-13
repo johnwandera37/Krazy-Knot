@@ -139,8 +139,8 @@ class _GuestRegistrationFormState extends State<GuestRegistrationForm> {
   String formatDateTime(String date) {
   try {
     final parsedDate = DateTime.parse(date);
-    final formattedDate = DateFormat('MMM dd hh:mm a').format(parsedDate);
-    // 17-Dec 8:00 AM to 19-Dec 11:00 AM
+    final formattedDate = DateFormat('MMM dd, hh:mm a').format(parsedDate);
+    // Dec 17 8:00 AM to Dec 19 11:00 AM
     return formattedDate;
   } catch (e) {
     // unexpected date format
@@ -149,9 +149,9 @@ class _GuestRegistrationFormState extends State<GuestRegistrationForm> {
 }
 
 launchURL(String query) async {
-    var url = Uri.encodeFull('https://www.google.com/maps/search/?api=1&query=$query');
-    if (await canLaunch (url)) {
-      await launch(url);
+    var url = Uri.parse('https://www.google.com/maps/search/?api=1&query=$query');
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url);
     } else {
       throw 'Could not launch $url';
     }
@@ -205,7 +205,7 @@ launchURL(String query) async {
               ),
               TextSpan(
                 text:
-                    '${formatDateTime(eventData['eventStartDate'])} to ${formatDateTime(eventData['eventEndDate'])}',
+                    '${formatDateTime(eventData['eventStartDate'])}  to  ${formatDateTime(eventData['eventEndDate'])}',
                 style: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.normal,
@@ -362,7 +362,7 @@ launchURL(String query) async {
           ),
         ),
       ),
-      resizeToAvoidBottomInset: true,
+      // resizeToAvoidBottomInset: true,
     );
   }
 }
