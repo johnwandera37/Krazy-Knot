@@ -58,6 +58,8 @@ void popUpCard({
     Share.share(shareContent);
   }
 
+  bool isReady = status?.toLowerCase() == 'ready';
+
   showGeneralDialog(
     context: context,
     pageBuilder: (context, animation1, animation2) {
@@ -87,11 +89,16 @@ void popUpCard({
                 sizedHeight(20),
                 Center(
                   child: CustomButton(
-                      buttonStr: "Share link",
-                      btncolor: Colors.blue,
-                      onTap: () {
-                        onTap(eventId: eventId);
-                      }),
+                    buttonStr: "Share link",
+                    btncolor: isReady
+                        ? Colors.blue
+                        : Colors.grey, // Change button color based on status
+                    onTap: isReady
+                        ? () {
+                            onTap(eventId: eventId);
+                          }
+                        : () {}, // Set onTap to null if not ready
+                  ),
                 ),
                 sizedHeight(10),
                 // Center(

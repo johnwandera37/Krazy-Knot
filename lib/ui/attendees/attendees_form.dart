@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:html' as html;
+// import 'dart:html' as html;
 import 'package:flutter/gestures.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
@@ -24,18 +24,18 @@ class _GuestRegistrationFormState extends State<GuestRegistrationForm> {
   @override
   void initState() {
     super.initState();
-    _eventId = _extractEventIdFromUrl();
+    // _eventId = _extractEventIdFromUrl();
     debugPrint('event id::::::::: $_eventId');
     if (_eventId != null) {
       fetchEventData();
     }
   }
 
-  String? _extractEventIdFromUrl() {
-    String currentUrl = html.window.location.href;
-    Uri uri = Uri.parse(currentUrl);
-    return uri.queryParameters['eventId'];
-  }
+  // String? _extractEventIdFromUrl() {
+  //   String currentUrl = html.window.location.href;
+  //   Uri uri = Uri.parse(currentUrl);
+  //   return uri.queryParameters['eventId'];
+  // }
 
   Future<void> fetchEventData() async {
     final String eventUrl = '${baseUrl}event/getEventData?eventID=$_eventId';
