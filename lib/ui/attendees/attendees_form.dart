@@ -176,7 +176,7 @@ class _GuestRegistrationFormState extends State<GuestRegistrationForm> {
               ),
               TextSpan(
                 text:
-                    '${eventData['eventStartDate'] ?? '11/28/2022 - 7:00 pm'} - ${eventData['eventEndDate'] ?? '11/28/2022 - 7:00 pm'}',
+                    '${eventData['eventStartDate'] ?? '11/28/2022 - 7:00 pm'} to ${eventData['eventEndDate'] ?? '11/28/2022 - 7:00 pm'}',
                 style: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.normal,
@@ -205,6 +205,7 @@ class _GuestRegistrationFormState extends State<GuestRegistrationForm> {
         ),
         const SizedBox(height: 15),
         TextFormField(
+          controller: _nameController,
           decoration: const InputDecoration(
             hintText: "Enter your name",
             border: UnderlineInputBorder(
@@ -226,6 +227,7 @@ class _GuestRegistrationFormState extends State<GuestRegistrationForm> {
         ),
         const SizedBox(height: 20),
         TextFormField(
+          controller: _phoneController,
           keyboardType: TextInputType.phone,
           decoration: const InputDecoration(
             hintText: "Enter your phone number",
@@ -237,7 +239,9 @@ class _GuestRegistrationFormState extends State<GuestRegistrationForm> {
         const SizedBox(height: 40),
         Center(
           child: ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              _submitForm();
+            },
             style: ButtonStyle(
               padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
                 const EdgeInsets.symmetric(horizontal: 40),
@@ -303,10 +307,8 @@ class _GuestRegistrationFormState extends State<GuestRegistrationForm> {
                         ),
                         child: Container(
                           padding: const EdgeInsets.all(20.0),
-                          width:
-                              200,
-                          child:
-                              _buildEventDetails(),
+                          width: 200,
+                          child: _buildEventDetails(),
                         ),
                       )
                     : _buildEventDetails()
