@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 
 import '../../utils/export_files.dart';
@@ -39,27 +41,33 @@ class _RequestOTPState extends State<RequestOTP> {
       );
 
       if (response.statusCode == 200) {
+        debugPrint('OTP response::::::::::::::${response.body}');
+        String successMessage = json.decode(response.body)['message'];
         Get.snackbar(
           'Success',
-          'OTP sent to your email',
+          successMessage,
           snackPosition: SnackPosition.TOP,
           backgroundColor: Colors.green,
           colorText: Colors.white,
         );
         setState(() {
           otpReceived = true; // Set OTP received to true on success
-          isLoading = false; // Set loading state to false after the request is completed
+          isLoading =
+              false; // Set loading state to false after the request is completed
         });
       } else {
+        debugPrint('OTP response::::::::::::::${response.body}');
+        String errorMessage = json.decode(response.body)['error'];
         Get.snackbar(
           'Error',
-          'Failed to generate OTP',
+          errorMessage,
           snackPosition: SnackPosition.TOP,
           backgroundColor: Colors.red,
           colorText: Colors.white,
         );
         setState(() {
-          otpReceived = false; // Set OTP received to false on failure
+          isLoading =
+              false; // Set loading state to false after the request is completed
         });
       }
     } catch (error) {
@@ -86,18 +94,27 @@ class _RequestOTPState extends State<RequestOTP> {
       );
 
       if (response.statusCode == 200) {
+        debugPrint('OTP response::::::::::::::${response.body}');
+        String successMessage = json.decode(response.body)['message'];
         Get.snackbar(
           'Success',
-          'OTP Verified',
+          successMessage,
           snackPosition: SnackPosition.TOP,
           backgroundColor: Colors.green,
           colorText: Colors.white,
         );
+        setState(() {
+          otpReceived = false; // Set OTP received to false on failure
+          isLoading =
+              false; // Set loading state to false after the request is completed
+        });
         Get.to(ForgotPasswordScreen(email: Email));
       } else {
+        debugPrint('OTP response::::::::::::::${response.body}');
+        String errorMessage = json.decode(response.body)['error'];
         Get.snackbar(
           'Error',
-          'Failed to Verify OTP',
+          errorMessage,
           snackPosition: SnackPosition.TOP,
           backgroundColor: Colors.red,
           colorText: Colors.white,
@@ -112,31 +129,30 @@ class _RequestOTPState extends State<RequestOTP> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          iconTheme: const IconThemeData(color: Colors.black),
-          leading: const BackButton(),
-          title: 
-          const Text(
-            "Request OTP",
-            style: TextStyle(
-              fontSize: 18.5,
-              fontWeight: FontWeight.w500,
-              color: Colors.black,
-            ),
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        iconTheme: const IconThemeData(color: Colors.black),
+        leading: const BackButton(),
+        title: const Text(
+          "Request OTP",
+          style: TextStyle(
+            fontSize: 18.5,
+            fontWeight: FontWeight.w500,
+            color: Colors.black,
           ),
-          centerTitle: true,
-          ),
+        ),
+        centerTitle: true,
+      ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             // sizedHeight(Get.width*.19),
-              Image.asset(
-                    'assets/images/otp.png',
-                   fit: BoxFit.fill,
-                  ),
+            Image.asset(
+              'assets/images/otp.png',
+              fit: BoxFit.fill,
+            ),
             // sizedHeight(Get.width *.1),
             // TextFormField(
             //   keyboardType: TextInputType.emailAddress,
@@ -145,7 +161,11 @@ class _RequestOTPState extends State<RequestOTP> {
             //     hintText: 'Enter Email',
             //   ),
             // ),
-            CustomInput(hintText: "Enter Email", textEditingController: _emailController, keyboardType: TextInputType.emailAddress,),
+            CustomInput(
+              hintText: "Enter Email",
+              textEditingController: _emailController,
+              keyboardType: TextInputType.emailAddress,
+            ),
             SizedBox(height: 20.0),
             if (otpReceived) // Show OTP field only if OTP received
               // TextFormField(
@@ -155,23 +175,25 @@ class _RequestOTPState extends State<RequestOTP> {
               //     hintText: 'Enter OTP',
               //   ),
               // ),
-              CustomInput(hintText: "Enter OTP", textEditingController: _OTPController, keyboardType: TextInputType.number,),
-            sizedHeight(Get.width*.1),
+              CustomInput(
+                hintText: "Enter OTP",
+                textEditingController: _OTPController,
+                keyboardType: TextInputType.number,
+              ),
+            sizedHeight(Get.width * .1),
             Visibility(
-              visible: !isLoading, // Hide the button when isLoading is true
-              child: 
-              CustomButton(
-              buttonStr: otpReceived ? 'Verify OTP' : 'Request OTP',
-              onTap: (){
-                 if (otpReceived) {
-                    verifyOTP(_emailController.text, _OTPController.text);
-                  } else {
-                    requestOTP(_emailController.text);
-                  }
-              },
-              btncolor: Colors.blue,
-              )
-            ),
+                visible: !isLoading, // Hide the button when isLoading is true
+                child: CustomButton(
+                  buttonStr: otpReceived ? 'Verify OTP' : 'Request OTP',
+                  onTap: () {
+                    if (otpReceived) {
+                      verifyOTP(_emailController.text, _OTPController.text);
+                    } else {
+                      requestOTP(_emailController.text);
+                    }
+                  },
+                  btncolor: Colors.blue,
+                )),
             if (isLoading)
               const Center(
                 child: CircularProgressIndicator(),

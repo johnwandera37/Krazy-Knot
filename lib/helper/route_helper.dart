@@ -43,6 +43,6 @@ class RouteHelper {
     GetPage(name: enterPhone, page: () => const EnterPhoneScreen()),
     GetPage(name: landing, page: () => const LandingPage()),
     GetPage(name: preview, page: () =>  PreviewScreen()),
-    // GetPage(name: invitation, page: () =>  const GuestRegistrationForm()),
+    GetPage(name: invitation, page: () =>  const GuestRegistrationForm()),
   ];
 }
