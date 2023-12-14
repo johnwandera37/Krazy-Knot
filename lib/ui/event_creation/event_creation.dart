@@ -14,6 +14,7 @@ class _CreateEventState extends State<CreateEvent> {
   late final ApiService apiService;
   final EventController eventController = Get.put(EventController()); //for the events api
   final DateTimeController dateTimeController = Get.put(DateTimeController()); //for the selected date variable
+  FormValidator formValidator = FormValidator();//validations
   
 
   @override
@@ -229,7 +230,7 @@ class _CreateEventState extends State<CreateEvent> {
                         btncolor: Colors.blue,
                         onTap: () async {
                           // eventController.createEvent(user);
-                           if (_validateFields(context: context, selectedDropdownValue: selectedDropdownValue)) {
+                           if (formValidator.validateFields(context: context, selectedDropdownValue: selectedDropdownValue)) {
               var user = await initUserId(); // Wait for the user ID
               eventController.createEvent(user);
             }
@@ -245,45 +246,6 @@ class _CreateEventState extends State<CreateEvent> {
       ),
     );
   }
-}
-
-bool _validateFields({
-  required BuildContext context,
-    required String? selectedDropdownValue,
-}) {
-bool isValid = true;
- final EventController eventController = Get.put(EventController()); 
-// Validate Event Title
-if (eventController.eventTitle.text.isEmpty) {
-  isValid = false;
-  ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(
-      content: Text('Please enter an event title.'),
-    ),
-  );
-}
-
-// Validate Event Type
-if (selectedDropdownValue == null || selectedDropdownValue!.isEmpty) {
-  isValid = false;
-  ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(
-      content: Text('Please select an event type.'),
-    ),
-  );
-}
-
-// Validate Event Description
-if (eventController.eventDescription.text.isEmpty) {
-  isValid = false;
-  ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(
-      content: Text('Please enter an event description.'),
-    ),
-  );
-}
-
-return isValid;
 }
 
 class InputField extends StatelessWidget {
