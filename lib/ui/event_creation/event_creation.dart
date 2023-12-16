@@ -55,7 +55,7 @@ class _CreateEventState extends State<CreateEvent> {
                 return user_id;
               }
              var  user = initUserId();
-    
+     
     return 
     WillPopScope(
        onWillPop: () async {
@@ -65,8 +65,9 @@ class _CreateEventState extends State<CreateEvent> {
         Get.delete<EventController>();
         return true; // Allow back navigation
       },
-      child: Obx(
-        () => Scaffold(
+      child: 
+      Obx(() => 
+      Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
             elevation: 0,
@@ -233,6 +234,12 @@ class _CreateEventState extends State<CreateEvent> {
                            if (formValidator.validateFields(context: context, selectedDropdownValue: selectedDropdownValue)) {
               var user = await initUserId(); // Wait for the user ID
               eventController.createEvent(user);
+              // await eventController.fetchEvents(user);
+              setState(() {
+                eventController.upcomingEvents;
+                eventController.cancelledEvents;
+                eventController.eventsAfter7Days;
+              });
             }
                         },
                       ),

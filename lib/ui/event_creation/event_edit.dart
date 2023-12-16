@@ -111,8 +111,9 @@ class _EditEventState extends State<EditEvent> {
         Get.delete<EventController>();
         return true; // Allow back navigation
       },
-      child: Obx(
-        () => Scaffold(
+      child: 
+      Obx(() => 
+      Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
             elevation: 0,
@@ -278,9 +279,10 @@ class _EditEventState extends State<EditEvent> {
                         onTap: () async {
                           // await eventController.editEvent(user);
                                    if (formValidator.validateFields(context: context, selectedDropdownValue: selectedDropdownValue)) {
-              var user = await initUserId(); // Wait for the user ID
-              eventController.editEvent(user);
-              }
+                              var user = await initUserId(); // Wait for the user ID
+                              eventController.editEvent(user);
+                                //  await eventController.fetchEvents(user);
+                              }
                         },
                       ),
                     ),

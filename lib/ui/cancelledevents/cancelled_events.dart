@@ -19,7 +19,9 @@ class _CancelledEventsState extends State<CancelledEvents> {
     final List<Event> cancelledEvents = eventController.cancelledEvents;//only cancelled events
     
 
-    return Scaffold(
+    return 
+    GetX<EventController>(builder: (eventController) => 
+    Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
           elevation: 0,
@@ -128,6 +130,7 @@ class _CancelledEventsState extends State<CancelledEvents> {
               ),
             ),
           ]),
-        ));
+        ))
+    );
   }
 }

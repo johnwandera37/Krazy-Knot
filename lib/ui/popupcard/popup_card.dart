@@ -100,7 +100,7 @@ void popUpCard({
                         : () {}, // Set onTap to null if not ready
                   ),
                 ),
-                sizedHeight(10),
+                sizedHeight(10), 
                 // Center(
                 //   child: CustomButton(
                 //       buttonStr: "Open form",

@@ -7,6 +7,7 @@ import '../../utils/export_files.dart';
 
 class CustomException implements Exception {
   final String message;
+  
 
   CustomException(this.message);
 
@@ -16,8 +17,9 @@ class CustomException implements Exception {
   }
 }
 
-class ApiService {
+class ApiService extends GetxController{
   final String baseUrl = Constants.baseUrl;
+   var loadingData = false.obs;
 
 //get error message from backend
   String _extractErrorMessage(String responseBody) {
@@ -32,22 +34,17 @@ class ApiService {
     }
   }
 
-  //   var userId = ''.obs;
-  //   initUserId() async {
-  //   var controller = Get.find<ProfileController>();
-  //   var profileData = await controller.profileData();
-  //   debugPrint('NEW USER IDDDD :::::::  ${controller.userInfo!.id}');
-  //   userId.value = controller.userInfo!.id;
-  //   fetchEventsData(userId.value);
-  // }
-
 //Fetch events
   Future<Map<String, dynamic>> fetchEventsData(event_owner) async {
+    loadingData.value = true;
+    debugPrint('👎👎 ${loadingData}');
     final uri = "${baseUrl}getEvents?eventOwner=$event_owner";
     final response = await http.get(Uri.parse(uri));
     debugPrint("======================================> GET EVENT URL ${uri}");
 
     if (response.statusCode == 200) {
+      loadingData.value = false;
+      debugPrint('Data has been fetched bool in now 🚌 ${loadingData}');
       final data = jsonDecode(response.body);
       debugPrint("======================================> this is my data");
       debugPrint('$data');

@@ -39,9 +39,9 @@ class _MapPickerState extends State<MapPicker> {
             String formattedAddress = formatAddress(pickedData.address);
            mapPickerController.setAddress(formattedAddress); // Update address using GetX
           });
-          debugPrint('latitude ********************* ${pickedData.latLong.latitude}');
-          debugPrint('logitude *********************${pickedData.latLong.longitude}');
-          debugPrint('address *********************${pickedData.address}');
+          debugPrint('latitude *********************🗝️ ${pickedData.latLong.latitude}');
+          debugPrint('logitude ********************* 🗝️${pickedData.latLong.longitude}');
+          debugPrint('address ********************* 🗝️${pickedData.address}');
            Navigator.of(context).pop();//navigate back
         }),
         );

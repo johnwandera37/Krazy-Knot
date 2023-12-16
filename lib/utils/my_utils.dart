@@ -15,6 +15,17 @@ class MyUtils {
     return formatter.format(timestamp.toLocal());
   }
 
+  String formatDateTime(String date) {
+  try {
+    final parsedDate = DateTime.parse(date);
+    final formattedDate = DateFormat('MMM dd yyyy hh:mm a').format(parsedDate);
+    return formattedDate;
+  } catch (e) {
+    // unexpected date format
+    return 'Invalid Date $date';
+  }
+}
+
   static int sum(int a, int b) {
     return a + b;
   }

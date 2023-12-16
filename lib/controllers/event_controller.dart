@@ -10,6 +10,8 @@ import '../utils/export_files.dart';
 class EventController extends GetxController {
   final events = <Event>[].obs; //capture events data
     final cancelledEvents = <Event>[].obs; // capture cancelled events data
+    final upcomingEvents = <Event>[].obs; // capture upcoming events data
+    final eventsAfter7Days = <Event>[].obs; // capture events after 7 days data from when they are scheduled
   final attendees = <Attendees>[].obs; //capture attendees data
   final MapPickerController mapPickerController =
       Get.put(MapPickerController()); //for location
@@ -29,6 +31,7 @@ class EventController extends GetxController {
   var attendeeNameStr = TextEditingController();
   var attendeePhoneNo = TextEditingController();
   var userId = ''.obs;
+ 
 
   @override
   void onInit() {
@@ -45,21 +48,42 @@ class EventController extends GetxController {
   }
 
   //getEvents
-  Future<void> fetchEvents(event_owner) async {
-
-    debugPrint('USER ID :::::  $event_owner');
+  Future<void> fetchEvents(eventOwner) async {
+    debugPrint('USER ID :::::  $eventOwner');
     try {
       //adfasdf
-      final data = await ApiService().fetchEventsData(event_owner);
-      debugPrint('$data');
-      // Convert the JSON data into Event objects using the model
+      final data = await ApiService().fetchEventsData(eventOwner);
       final eventList = (data['events'] as List)
           .map((eventData) => Event.fromJson(eventData))
           .toList();
-      events.value =
-          eventList; // Update the 'events' observable list with the fetched data
-         // Filter out cancelled events and update the 'cancelledEvents' observable list
+      events.value = eventList; // Update the 'events' observable list with the fetched data
+         
+    // Filter out cancelled events and update the 'cancelledEvents' observable list
     cancelledEvents.value = events.where((event) => event.eventStatus.toLowerCase() == 'cancelled').toList();
+
+    // Filter upcoming events that is to happen within a period of seven days
+      final now = DateTime.now();
+      final startOfWeek = DateTime(now.year, now.month, now.day);
+      final endOfWeek = startOfWeek.add(const Duration(days: 7));
+      upcomingEvents.value = events
+          .where((event) {
+            final eventDate = DateTime.parse(event.eventStartDate);
+            return eventDate.isAfter(startOfWeek) &&
+                eventDate.isBefore(endOfWeek) &&
+                event.eventStatus.toLowerCase() != 'cancelled';
+          })
+          .toList();
+      debugPrint('🔎🔎🔎 Upcoming Events: $upcomingEvents');
+
+      // Filter events scheduled past 7 days after the day they event was scheduled
+      eventsAfter7Days.value = events
+          .where((event) {
+            final eventDate = DateTime.parse(event.eventStartDate);
+            return eventDate.isAfter(endOfWeek) &&
+                event.eventStatus.toLowerCase() != 'cancelled';
+          })
+          .toList();
+      debugPrint('🎉🎉🎉Events After 7 Days: $eventsAfter7Days');
 
     } catch (e) {
       debugPrint('$e');
@@ -99,6 +123,7 @@ class EventController extends GetxController {
       Get.delete<EventController>();
       Get.back();
       fetchEvents(userId.value);
+      update();
 
       // Show success message as a snackbar
       Get.snackbar(
@@ -152,11 +177,11 @@ class EventController extends GetxController {
       };
 
       await ApiService().updateEvent(requestBody);
+       update();
       Get.delete<MapPickerController>();
       Get.delete<DateTimeController>();
       Get.delete<EventController>();
       Get.back();
-      fetchEvents(userId.value);
       debugPrint('Event updated successfully');
 
      Get.snackbar(
@@ -166,6 +191,7 @@ class EventController extends GetxController {
         backgroundColor: Colors.green,
         colorText: Colors.white,
       );
+      fetchEvents(userId.value);
 
     } catch (e) {
       debugPrint('$e');
@@ -199,6 +225,7 @@ class EventController extends GetxController {
 
       await ApiService().updateEventStatus(requestBody);
       fetchEvents(userId.value);
+      update();
       debugPrint('Event status updated successfully');
        Get.snackbar(
         'Success',
@@ -234,6 +261,7 @@ class EventController extends GetxController {
           .toList();
       attendees.value =
           attendeesList; // Update the 'attendees' observable list with the fetched data
+          update();
     } catch (e) {
       debugPrint('Error fetching attendees: $e');
  
@@ -260,6 +288,7 @@ class EventController extends GetxController {
     try {
       debugPrint('event_id is =========================> $event_id');
       await ApiService().addPeople(attendee);
+      update();
       // Show success message as a snackbar
       Get.snackbar(
         'Success',

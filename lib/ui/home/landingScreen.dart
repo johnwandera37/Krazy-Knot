@@ -15,12 +15,12 @@ class LandingPage extends StatefulWidget {
 
 class _LandingPageState extends State<LandingPage> {
   var _currentIndex = 0;
+  final EventController eventController = Get.put(EventController());
 
   @override
   void dispose() {
     super.dispose();
   }
-
   /// widget list
   final List<Widget> bottomBarPages = [
     EventTab(),

@@ -52,6 +52,7 @@ void openAnimatedDialog({
                   message = 'Status updated to ready';
                   debugPrint(
                       '######################################################################### nice this data for status was executed $new_status');
+                  
                 } else if (status.toLowerCase() == 'ready') {
                   new_status = 'Pending';
                   eventController.updateStatus(

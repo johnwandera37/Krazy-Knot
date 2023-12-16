@@ -5,49 +5,55 @@ import 'package:photomanager/utils/images.dart';
 import '../../../utils/export_files.dart';
 import 'package:intl/intl.dart';
 
-class EventTab extends StatelessWidget {
-  EventTab({super.key});
+class EventTab extends StatefulWidget {
+  const EventTab({super.key});
 
+  @override
+  State<EventTab> createState() => _EventTabState();
+}
+
+class _EventTabState extends State<EventTab> with WidgetsBindingObserver {
   final now = DateTime.now();
+   final EventController eventController = Get.put(EventController());
+   final ApiService apiService= Get.put(ApiService());
+
+   @override
+  void initState() {
+    super.initState();
+  fetchEventsOnResume();
+  WidgetsBinding.instance.addObserver(this);
+  
+  }
+
+    @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.resumed) {
+       fetchEventsOnResume();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     var screenHeight = Get.height;
     var screenWidth = Get.width;
-    final EventController eventController = Get.put(EventController());
-    // var profileRepo = Get.put(ProfileRepo(apiClient: Get.find()));
-    //using a function to filter events
-    // var profileController = Get.put(ProfileController(profileRepo: profileRepo));
-    // debugPrint('USER IDDE ::::::::::::: ${profileController.userInfo!.id}');
-    List<Event> filterFeaturedEvents(List<Event> allEvents) {
-      final now = DateTime.now();
-      final startOfWeek = DateTime(now.year, now.month, now.day);
-      final endOfWeek = startOfWeek.add(const Duration(days: 7));
-      // Filter the events that fall within the upcoming week
-      final featuredEvents = allEvents.where((event) {
-        final eventDate =
-            DateTime.parse(event.eventStartDate); // Parse the event date
-        return eventDate.isAfter(startOfWeek) &&
-            eventDate.isBefore(endOfWeek) &&
-            event.eventStatus.toLowerCase() != 'cancelled';
-      }).toList();
-      return featuredEvents;
-    }
+    // var events = eventController.events;
+    // var upcomingEvents = eventController.upcomingEvents;
+    // var otherEvents = eventController.eventsAfter7Days;
+    final List<Event> upcomingEvents = eventController.upcomingEvents;
+    final List<Event> otherEvents = eventController.eventsAfter7Days;
+    // debugPrint('📢📢 ${apiService.loadingData.value}');
 
-    List<Event> filterRemainingEvents(List<Event> allEvents) {
-      final now = DateTime.now();
-      final startOfWeek = DateTime(now.year, now.month, now.day);
-      final endOfWeek = startOfWeek.add(const Duration(days: 7));
-      final remainingEvents = allEvents.where((event) {
-        final eventDate =
-            DateTime.parse(event.eventStartDate); // Parse the event date
-        return eventDate.isAfter(endOfWeek) &&
-            event.eventStatus.toLowerCase() != 'cancelled';
-      }).toList();
-      return remainingEvents;
-    }
-
-    return Obx(() => Scaffold(
+    return 
+    // Obx(() => 
+    // GetX<EventController>(builder: (eventController) => 
+    Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
             elevation: 0,
@@ -65,19 +71,15 @@ class EventTab extends StatelessWidget {
             ),
              automaticallyImplyLeading: false,
           ),
-          body: RefreshIndicator(
+          body: 
+          Obx(() => 
+            apiService.loadingData.value?
+          const Center(
+            child: CircularProgressIndicator(
+            color: Colors.blue)):
+          RefreshIndicator(
             onRefresh: () async {
-              initUserId() async {
-                var controller = Get.find<ProfileController>();
-                var profileData = await controller.profileData();
-                debugPrint(
-                    'NEW USER IDDDD :::::::  ${controller.userInfo!.id}');
-                var user_id = controller.userInfo!.id;
-                return user_id;
-              }
-
-              var user = await initUserId();
-              eventController.fetchEvents(user);
+              fetchEventsOnResume();
             },
             child: ListView(
               padding: EdgeInsets.only(bottom: screenWidth * .2),
@@ -85,20 +87,6 @@ class EventTab extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // const Padding(
-                    //   padding: EdgeInsets.symmetric(vertical: 20),
-                    //   child: Center(
-                    //     child: Text(
-                    //       "My Events",
-                    //       style: TextStyle(
-                    //         fontSize: 20,
-                    //         fontWeight: FontWeight.bold,
-                    //         color: Colors.black,
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
-
                     // Upcoming Events Section
                     const Padding(
                       padding: EdgeInsets.symmetric(horizontal: 10),
@@ -112,9 +100,9 @@ class EventTab extends StatelessWidget {
                       ),
                     ),
                     sizedHeight(20),
-
+                    
                     // Upcoming Events Container
-                    filterFeaturedEvents(eventController.events).isEmpty
+                    upcomingEvents.isEmpty
                         ? Center(
                             child: SizedBox(
                               width: screenWidth * .8,
@@ -138,16 +126,15 @@ class EventTab extends StatelessWidget {
                               ),
                             ),
                           )
-                        : SizedBox(
+                        : 
+                        SizedBox(
                             height: screenHeight * 0.30,
                             child: ListView.builder(
                               scrollDirection: Axis.horizontal,
                               itemCount:
-                                  filterFeaturedEvents(eventController.events)
-                                      .length,
+                                  upcomingEvents.length,
                               itemBuilder: (BuildContext context, int index) {
-                                final event = filterFeaturedEvents(
-                                    eventController.events)[index];
+                                final event = upcomingEvents[index];
                                 return Container(
                                   width: screenWidth * .9,
                                   height: screenHeight * .20,
@@ -206,7 +193,7 @@ class EventTab extends StatelessWidget {
 
                     // Other Events Container
                     Container(
-                      child: filterRemainingEvents(eventController.events)
+                      child: otherEvents
                               .isEmpty
                           ? Center(
                               child: SizedBox(
@@ -233,11 +220,7 @@ class EventTab extends StatelessWidget {
                           : Wrap(
                               spacing: 20,
                               runSpacing: 35,
-                              children: filterRemainingEvents(
-                                      eventController.events)
-                                  .where((event) =>
-                                      event.eventStatus.toLowerCase() !=
-                                      "cancelled")
+                              children: otherEvents
                                   .map((event) => Center(
                                         child: SizedBox(
                                           width: screenWidth * .88,
@@ -294,6 +277,7 @@ class EventTab extends StatelessWidget {
                 ),
               ],
             ),
+          )
           ),
           floatingActionButton: FloatingActionButton(
             backgroundColor: Colors.blue,
@@ -305,7 +289,22 @@ class EventTab extends StatelessWidget {
               color: Colors.white,
             ),
           ),
-        ));
+        );
+        // );
+  }
+  
+  void fetchEventsOnResume() async{
+    var user = await initUserId();
+      eventController.fetchEvents(user);
+      debugPrint('Check data 😐😐 ${eventController.upcomingEvents}');
+  }
+  
+  initUserId()async {
+      var controller = Get.find<ProfileController>();
+      debugPrint(
+          'NEW USER ID 🙋‍♂️ :::::::  ${controller.userInfo!.id}');
+      var user_id = controller.userInfo!.id;
+      return user_id;
   }
 }
 
