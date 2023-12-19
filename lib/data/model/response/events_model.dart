@@ -28,8 +28,8 @@ class Event{
   final String eventVenue;
   final String eventDescription;
   final String eventStatus;
-  final String eventStartDate;
-  final String eventEndDate;
+  final DateTime eventStartDate;
+  final DateTime eventEndDate;
 
   Event({
     required this.id,
@@ -51,8 +51,8 @@ class Event{
     eventVenue: json['eventVenue'],
     eventDescription: json['eventDescription'],
     eventStatus: json['eventStatus'],
-    eventStartDate: json['eventStartDate'],
-    eventEndDate: json['eventEndDate'],
+    eventStartDate:  DateTime.parse(json['eventStartDate']),
+    eventEndDate:  DateTime.parse(json['eventEndDate']),
     );
   
     Map<String, dynamic> toJson() =>
