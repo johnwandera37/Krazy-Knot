@@ -1,9 +1,9 @@
 
 import 'dart:convert';
 
-EventModel supportModelFromJson(String str) => EventModel.fromJson(json.decode(str));
+EventModel eventModelFromJson(String str) => EventModel.fromJson(json.decode(str));
 
-String supportModelToJson(EventModel data) => json.encode(data.toJson());
+String eventModelToJson(EventModel data) => json.encode(data.toJson());
 
 class EventModel{
   List<Event> events;
