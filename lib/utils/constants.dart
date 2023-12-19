@@ -1,7 +1,7 @@
 abstract class Constants {
   static const appName = 'Knot Krazy';
 
-  static const noInternetMessage =
+  static const noInternetMessage = 
       'Connection to API server failed due to internet connection';
 
   static const welcomeStr = 'Welcome,';

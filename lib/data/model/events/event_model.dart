@@ -65,5 +65,3 @@ class Event extends Equatable {
         eventEndDate,
       ];
 }
-
-

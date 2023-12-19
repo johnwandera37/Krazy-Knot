@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import '../../controllers/profile_controller.dart';
 import '../../utils/export_files.dart';
 
-class CustomException implements Exception {
+class CustomException implements Exception { 
   final String message;
   
 
@@ -20,6 +20,10 @@ class CustomException implements Exception {
 class ApiService extends GetxController{
   final String baseUrl = Constants.baseUrl;
    var loadingData = false.obs;
+
+     final http.Client? httpClient;//optional param to use in mocking http requets
+
+      ApiService({this.httpClient});
 
 //get error message from backend
   String _extractErrorMessage(String responseBody) {

@@ -231,7 +231,7 @@ class _CreateEventState extends State<CreateEvent> {
                         btncolor: Colors.blue,
                         onTap: () async {
                           // eventController.createEvent(user);
-                           if (formValidator.validateFields(context: context, selectedDropdownValue: selectedDropdownValue)) {
+                           if (formValidator.validateFields( selectedDropdownValue: selectedDropdownValue, context: context)) {
               var user = await initUserId(); // Wait for the user ID
               eventController.createEvent(user);
               // await eventController.fetchEvents(user);
