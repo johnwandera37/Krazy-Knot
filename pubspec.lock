@@ -831,6 +831,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.0"
+  proste_bezier_curve:
+    dependency: "direct main"
+    description:
+      name: proste_bezier_curve
+      sha256: cb3d9071452a4584d21e630fd075d9da62a8d5a178b146f8104c364f0cc3643a
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.2"
   pub_semver:
     dependency: transitive
     description:

@@ -114,6 +114,7 @@ abstract class Constants {
   static const themeLight = 'Light';
   static const themeDark = 'Dark';
   static const token = 'token';
+  static const shopping = '';
 
   static const defaultCountryCode = '+254';
 
@@ -135,8 +136,13 @@ abstract class Constants {
   static const invitation = '/invitation';
 
   //EVENTS
-  static const getEvents = '/getEvents';
-  static const eventOwner = '/eventsOwner';
+  static const getEvents = 'getEvents';
+  static const eventOwner = 'eventOwner';
+  static const howdy = 'Howdy,';
+  static const createEvent = 'Create your new event here';
+  static const yourEvent = 'Your events';
+  static const createstr = 'Create';
+
 
 
   // ERRORS

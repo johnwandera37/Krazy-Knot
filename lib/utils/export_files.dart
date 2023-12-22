@@ -32,10 +32,15 @@ export 'package:photomanager/ui/attendees/attendees_form.dart';
 export 'package:photomanager/ui/attendees/guests.dart';
 export 'package:photomanager/ui/cancelledevents/cancelled_events.dart';
 export 'package:photomanager/ui/event_creation/widget/front_end_validations.dart';
+export 'package:photomanager/ui/home/tab/events_home_tab.dart';
 
 
 //Base
 export 'package:photomanager/ui/base/widgets/custom_dialog.dart';
+export 'package:photomanager/ui/base/widgets/bazzier.dart';
+
+//WIDGETS
+export 'package:photomanager/ui/home/tab/widgets/events_card.dart';
 
 
 // REPO
@@ -52,11 +57,13 @@ export 'package:photomanager/controllers/dateController.dart';//date
 export 'package:photomanager/controllers/event_controller.dart';//evet_controller
 export 'package:photomanager/controllers/edit_event_data_controller.dart';//edit event controller
 export 'package:photomanager/controllers/current_location_controller.dart';//current location controller
+export 'package:photomanager/controllers/events_controller.dart';//current location controller
 
 // MODEL
 export 'package:photomanager/data/model/events/event_model.dart';
 export 'package:photomanager/data/model/events/put_event.dart';
 export 'package:photomanager/data/model/events/attendees_model.dart';
+export 'package:photomanager/data/model/response/events_model.dart';
 
 export 'package:photomanager/ui/base/widgets/custom_loader.dart';
 export 'package:photomanager/ui/base/widgets/custom_input.dart';

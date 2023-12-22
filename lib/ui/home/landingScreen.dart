@@ -15,7 +15,7 @@ class LandingPage extends StatefulWidget {
 
 class _LandingPageState extends State<LandingPage> {
   var _currentIndex = 0;
-  final EventController eventController = Get.put(EventController());
+  // final EventController eventController = Get.put(EventController());
 
   @override
   void dispose() {
@@ -23,7 +23,8 @@ class _LandingPageState extends State<LandingPage> {
   }
   /// widget list
   final List<Widget> bottomBarPages = [
-    EventTab(),
+    // EventTab(),
+    HomeTabScreen(),
     const HomeTab(),
     ProfileTab(),
     const CancelledEvents(),
@@ -51,7 +52,7 @@ class _LandingPageState extends State<LandingPage> {
               body: bottomBarPages[_currentIndex],
               key: _scaffoldKey,
               extendBody: true,
-              endDrawer: Drawer(
+              drawer: Drawer(
                 child: ListView(
                   padding: EdgeInsets.zero,
                   children: <Widget>[
@@ -198,6 +199,7 @@ class _LandingPageState extends State<LandingPage> {
               ),
               appBar: AppBar(
                 elevation: 0,
+                centerTitle: true,
                 title: Text(
                   Constants.appName,
                   overflow: TextOverflow.ellipsis,
@@ -208,11 +210,33 @@ class _LandingPageState extends State<LandingPage> {
                     height: 1.3,
                   ),
                 ),
-                backgroundColor: HexColor("F7F7F7"),
-                actions: [
-                  const SizedBox(
-                    width: 6,
+                backgroundColor: HexColor('F8DFD4'),//HexColor("F7F7F7")//F8DFD4
+                toolbarHeight: Get.width*.2,
+                leading: InkWell(
+                  customBorder: CircleBorder(), 
+                  splashColor: Colors.white,
+                  borderRadius: BorderRadius.circular(15),
+                  onTap: () {
+                    _scaffoldKey.currentState?.openDrawer();
+                  },
+                  child: Container(
+                    margin: EdgeInsets.symmetric(horizontal: 5),
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.white,
+                    ),
+                    child: const Icon(
+                      Icons.menu,
+                      color: Colors.black,
+                      size: 30,
+                    ),
                   ),
+                ),
+
+                // actions: [
+                  // const SizedBox(
+                  //   width: 6,
+                  // ),
 
 
                   // IconButton(
@@ -227,20 +251,20 @@ class _LandingPageState extends State<LandingPage> {
                   // SizedBox(
                   //   width: 6,
                   // ),
-                  IconButton(
-                    icon: const Icon(
-                      Icons.menu,
-                      color: Colors.black,
-                      size: 35,
-                    ),
-                    onPressed: () {
-                      _scaffoldKey.currentState?.openEndDrawer();
-                    },
-                  ),
-                  const SizedBox(
-                    width: 15,
-                  )
-                ],
+                  // IconButton(
+                  //   icon: const Icon(
+                  //     Icons.menu,
+                  //     color: Colors.black,
+                  //     size: 30,
+                  //   ),
+                  //   onPressed: () {
+                  //     _scaffoldKey.currentState?.openEndDrawer();
+                  //   },
+                  // ),
+                  // const SizedBox(
+                  //   width: 15,
+                  // )
+                // ],
               ),
               // bottomNavigationBar: SalomonBottomBar(
               //   currentIndex: _currentIndex,

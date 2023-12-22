@@ -13,17 +13,17 @@ class EventsController extends GetxController{
   EventModel? _eventModel;
   EventModel? get eventModel => _eventModel;
 
-  RxBool loadingData = false.obs;
-  RxBool loadingTickets = false.obs;
+  RxBool loadingEvents = false.obs;
 
   Future<void> eventData() async{
+    loadingEvents(true);
     try{
     var userInfo = Get.find<ProfileController>().userInfo;
-
       Response response = await eventsRepo.getEventsApi(eventOwner: userInfo!.id);
       if(response.statusCode == 200){
+        loadingEvents(false);
+           debugPrint('🚌🚌🚌🚌 The getEvents Api has been excecuted and the folowing is the data: ');//${response.body}
         _eventModel = EventModel.fromJson(response.body);
-        debugPrint('🙋‍♂️🙋‍♂️🙋‍♂️🙋‍♂️$_eventModel');
       }else{
         ApiChecker.checkApi(response);
       }

@@ -1,4 +1,5 @@
 import 'package:photomanager/controllers/profile_controller.dart';
+import 'package:photomanager/data/repo/events_repo.dart';
 import 'package:photomanager/ui/base/widgets/custom_image.dart';
 import 'package:photomanager/utils/images.dart';
 
@@ -16,12 +17,16 @@ class _EventTabState extends State<EventTab> with WidgetsBindingObserver {
   final now = DateTime.now();
    final EventController eventController = Get.put(EventController());
    final ApiService apiService= Get.put(ApiService());
+   late final EventsController controller;
 
    @override
   void initState() {
     super.initState();
+    var eventsRepo = EventsRepo(apiClient: Get.find());
+     controller = Get.put(EventsController(eventsRepo: eventsRepo));
   fetchEventsOnResume();
   WidgetsBinding.instance.addObserver(this);
+  // controller.eventData();
   
   }
 
@@ -36,6 +41,8 @@ class _EventTabState extends State<EventTab> with WidgetsBindingObserver {
     super.didChangeAppLifecycleState(state);
     if (state == AppLifecycleState.resumed) {
        fetchEventsOnResume();
+       debugPrint('🤷‍♂️🤷‍♂️🤷‍♂️🤷‍♂️🤷‍♂️🤷‍♂️🤷‍♂️🤷‍♂️🤷‍♂️🤷‍♂️🤷‍♂️🤷‍♂️');
+      //  controller.eventData();
     }
   }
 

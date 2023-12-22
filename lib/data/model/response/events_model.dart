@@ -6,13 +6,13 @@ EventModel eventModelFromJson(String str) => EventModel.fromJson(json.decode(str
 String eventModelToJson(EventModel data) => json.encode(data.toJson());
 
 class EventModel{
-  List<Event> events;
+  List<EventCard> events;
   EventModel({
     required this.events,
   });
 
   factory EventModel.fromJson(Map<String, dynamic> json) => EventModel(
-    events: List<Event>.from(json["events"].map((x) => Event.fromJson(x))),
+    events: List<EventCard>.from(json["events"].map((x) => EventCard.fromJson(x))),
     );
 
  Map<String, dynamic> toJson() =>{
@@ -20,7 +20,7 @@ class EventModel{
  };
 }
 
-class Event{
+class EventCard{
   final String id;
   final String eventOwner;
   final String eventName;
@@ -31,7 +31,7 @@ class Event{
   final DateTime eventStartDate;
   final DateTime eventEndDate;
 
-  Event({
+  EventCard({
     required this.id,
     required this.eventOwner,
     required this.eventName,
@@ -43,16 +43,25 @@ class Event{
     required this.eventEndDate,
   });
 
-  factory Event.fromJson(Map<String, dynamic> json) => Event(
-    id: json['_id'],
-    eventOwner: json['eventOwner'],
-    eventName: json['eventName'],
-    eventType: json['eventType'],
-    eventVenue: json['eventVenue'],
-    eventDescription: json['eventDescription'],
-    eventStatus: json['eventStatus'],
-    eventStartDate:  DateTime.parse(json['eventStartDate']),
-    eventEndDate:  DateTime.parse(json['eventEndDate']),
+  factory EventCard.fromJson(Map<String, dynamic> json) => EventCard(
+    // id: json['_id'],
+    // eventOwner: json['eventOwner'],
+    // eventName: json['eventName'],
+    // eventType: json['eventType'],
+    // eventVenue: json['eventVenue'],
+    // eventDescription: json['eventDescription'],
+    // eventStatus: json['eventStatus'],
+    // eventStartDate:  DateTime.parse(json['eventStartDate']),
+    // eventEndDate:  DateTime.parse(json['eventEndDate']),
+     id: json['_id'] ?? '',
+    eventOwner: json['eventOwner'] ?? '',
+    eventName: json['eventName'] ?? '',
+    eventType: json['eventType'] ?? '',
+    eventVenue: json['eventVenue'] ?? '',
+    eventDescription: json['eventDescription'] ?? '',
+    eventStatus: json['eventStatus'] ?? '',
+    eventStartDate: json['eventStartDate'] != null ? DateTime.parse(json['eventStartDate']): DateTime.now(),
+    eventEndDate: json['eventEndDate'] != null ? DateTime.parse(json['eventEndDate']): DateTime.now(),
     );
   
     Map<String, dynamic> toJson() =>

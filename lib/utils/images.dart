@@ -47,6 +47,11 @@ class Images {
   static const String featured = 'assets/images/featured.png';
   static const String joinus = 'assets/images/join_us.png';
 
+  static const String shopping = 'assets/images/shopping.png';
+  static const String party= 'assets/images/party.png';
+  static const String charmbird= 'assets/images/charmbird.png';
+  static const String events = 'assets/images/events.png';
+
 
   // JSON
   static const String cardiogramJson = 'assets/json/cardiogram.json';  
