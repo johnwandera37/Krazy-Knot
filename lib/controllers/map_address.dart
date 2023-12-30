@@ -6,4 +6,8 @@ class MapPickerController extends GetxController {
   void setAddress(String newAddress) { 
     address.value = newAddress;
   }
+
+   void clearAddress() {
+    address.value = "";
+  }
 }

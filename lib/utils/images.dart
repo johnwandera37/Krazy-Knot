@@ -47,11 +47,21 @@ class Images {
   static const String featured = 'assets/images/featured.png';
   static const String joinus = 'assets/images/join_us.png';
 
-  static const String shopping = 'assets/images/shopping.png';
   static const String party= 'assets/images/party.png';
   static const String charmbird= 'assets/images/charmbird.png';
   static const String events = 'assets/images/events.png';
-
+  static const String busin = 'assets/images/busin.png';
+  static const String confetti = 'assets/images/confetti.png';
+  static const String createEvent = 'assets/images/create_event.png';
+  static const String editEvent = 'assets/images/edit.png';
+  static const String educ = 'assets/images/educ.png';
+  static const String entertainment = 'assets/images/entertainment.png';
+  static const String spot = 'assets/images/spot.png';
+  static const String tech = 'assets/images/tech.png';
+  static const String wed = 'assets/images/wed.png';
+  static const String unspecified= 'assets/images/unspecified.png';
+  static const String cancelledEvents= 'assets/images/cancel.png';
+  static const String detail= 'assets/images/detail.png';
 
   // JSON
   static const String cardiogramJson = 'assets/json/cardiogram.json';  

@@ -1,59 +1,57 @@
 import '../../../utils/export_files.dart';
 
-import 'package:flutter/material.dart';
-import 'package:get/get.dart'; // Import Get for Get.put
-
 class FormValidator {
-  final EventController eventController = Get.put(EventController());
-    final MapPickerController mapPickerController = Get.put(MapPickerController());
+  final EventsController eventcontroller = Get.find<EventsController>();
+  final MapPickerController mapPickerController = Get.put(MapPickerController());
+  final DateTimeController dateTimeController = Get.put(DateTimeController());
 
   bool validateFields({
     required BuildContext context,
     required String? selectedDropdownValue,
   }) {
     bool isValid = true;
-
-    // Validate Event Title
-    if (eventController.eventTitle.text.isEmpty) {
-      isValid = false;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Please enter an event title.'),
-        ),
-      );
+    DateTime currentTime = DateTime.now();
+    final DateTime startTime = dateTimeController.selectedDateTime.value;
+    final DateTime endTime = dateTimeController.selectedEndDateTime.value;
+    //All empty
+    if(eventcontroller.title.text.isEmpty && (selectedDropdownValue == null || selectedDropdownValue.isEmpty) && mapPickerController.address.value.isEmpty && eventcontroller.description.text.isEmpty){
+       isValid = false;
+     MyStyles().showSnackBar(messageText: 'Please fill all the event details.\nSelect the type\nConfirm location\nEnter your event description');
     }
-
-    // Validate Event Type
-    if (selectedDropdownValue == null || selectedDropdownValue.isEmpty) {
+    // Validate Event Title
+    else if (eventcontroller.title.text.isEmpty) {
       isValid = false;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Please select an event type.'),
-        ),
-      );
+      MyStyles().showSnackBar(messageText: 'Please enter event title');
+    }
+    // Validate Event Type
+    else if (selectedDropdownValue == null || selectedDropdownValue.isEmpty) {
+      isValid = false;
+      MyStyles().showSnackBar(messageText: 'Please select an event type');
     }
 
     // Validate Event Venue
-    if (mapPickerController.address.value.isEmpty) {
+    else if (mapPickerController.address.value.isEmpty) {
       isValid = false;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Please select event location.'),
-        ),
-      );
+      MyStyles().showSnackBar(messageText: 'Please select event location');
+    }
+        // Validate Date and Time
+    else if(startTime.isBefore(currentTime)){
+       isValid = false;
+      MyStyles().showSnackBar(messageText: 'Select a future date');
+    }    
+    else if (startTime.isAfter(endTime)) {
+      isValid = false;
+      MyStyles().showSnackBar(messageText: 'End date cannot be before the start date');
     }
 
-
     // Validate Event Description
-    if (eventController.eventDescription.text.isEmpty) {
+    else if (eventcontroller.description.text.isEmpty) {
       isValid = false;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Please enter an event description.'),
-        ),
-      );
+    MyStyles().showSnackBar(messageText: 'Please enter an event description');
     }
 
     return isValid;
   }
+
+
 }

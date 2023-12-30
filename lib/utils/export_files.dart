@@ -14,6 +14,7 @@ export 'package:photomanager/ui/base/widgets/custom_text.dart';
 export 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_notch_bottom_bar.dart';
 export 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 export 'package:hexcolor/hexcolor.dart';
+export  'package:share_plus/share_plus.dart';
 
 //UI
 export 'package:photomanager/ui/authentication/splashscreen.dart';
@@ -33,20 +34,29 @@ export 'package:photomanager/ui/attendees/guests.dart';
 export 'package:photomanager/ui/cancelledevents/cancelled_events.dart';
 export 'package:photomanager/ui/event_creation/widget/front_end_validations.dart';
 export 'package:photomanager/ui/home/tab/events_home_tab.dart';
+export 'package:photomanager/ui/event_details/event_info.dart';
+export 'package:photomanager/ui/event_details/widgets/attendeescircle.dart';
 
 
 //Base
 export 'package:photomanager/ui/base/widgets/custom_dialog.dart';
 export 'package:photomanager/ui/base/widgets/bazzier.dart';
+export 'package:photomanager/ui/base/widgets/iconstyle.dart';
+export 'package:photomanager/ui/base/widgets/switch.dart';
 
 //WIDGETS
 export 'package:photomanager/ui/home/tab/widgets/events_card.dart';
+export 'package:photomanager/ui/event_details/widgets/event_column.dart';
+export 'package:photomanager/ui/cancelledevents/widget/cancel.dart';
+export 'package:photomanager/ui/attendees/widget/attendeeslist.dart';
 
 
 // REPO
 export 'package:photomanager/data/repo/splash_repo.dart';
 export 'package:photomanager/data/repo/auth_repo.dart';
 export 'package:photomanager/data/repo/profile_repo.dart';
+export 'package:photomanager/data/repo/attendees_repo.dart';
+export 'package:photomanager/data/repo/events_repo.dart';
 
 // CONTROLLERS
 export 'package:photomanager/controllers/auth_controller.dart';
@@ -58,12 +68,15 @@ export 'package:photomanager/controllers/event_controller.dart';//evet_controlle
 export 'package:photomanager/controllers/edit_event_data_controller.dart';//edit event controller
 export 'package:photomanager/controllers/current_location_controller.dart';//current location controller
 export 'package:photomanager/controllers/events_controller.dart';//current location controller
+export 'package:photomanager/controllers/attendees_controller.dart';
 
 // MODEL
 export 'package:photomanager/data/model/events/event_model.dart';
 export 'package:photomanager/data/model/events/put_event.dart';
 export 'package:photomanager/data/model/events/attendees_model.dart';
 export 'package:photomanager/data/model/response/events_model.dart';
+export 'package:photomanager/data/model/response/edit_events_model.dart';
+export 'package:photomanager/data/model/response/attendees_model.dart';
 
 export 'package:photomanager/ui/base/widgets/custom_loader.dart';
 export 'package:photomanager/ui/base/widgets/custom_input.dart';

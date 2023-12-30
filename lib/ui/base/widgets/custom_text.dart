@@ -77,7 +77,7 @@ class CustomText extends StatelessWidget {
           headingStr,
           textAlign: textAlign,
           maxLines: maxLines ?? 3,
-          overflow: TextOverflow.ellipsis,
+          // overflow: TextOverflow.ellipsis,
           style: GoogleFonts.karla(
             color: Colors.black,
             fontSize: fontSize ?? 14,

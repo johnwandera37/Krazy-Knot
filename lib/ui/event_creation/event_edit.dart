@@ -2,6 +2,8 @@ import '../../../utils/export_files.dart';
 import '../../controllers/profile_controller.dart';
 import 'package:intl/intl.dart';
 
+import '../../data/repo/events_repo.dart';
+
 class EditEvent extends StatefulWidget {
   // const EditEvent({super.key});
   final String eventId;
@@ -9,8 +11,8 @@ class EditEvent extends StatefulWidget {
   final String type;
   final String venue;
   final String description;
-  final String startDate;
-  final String endDate;
+  final DateTime startDate;
+  final DateTime endDate;
   const EditEvent({
     required this.eventId,
     required this.title,
@@ -30,14 +32,16 @@ class EditEvent extends StatefulWidget {
 class _EditEventState extends State<EditEvent> {
   final MapPickerController mapPickerController =
       Get.put(MapPickerController());
-  late final ApiService apiService;
-  final EventController eventController =
-      Get.put(EventController()); //for the events api
+  // late final ApiService apiService;
+  // final EventController eventController =
+  //     Get.put(EventController()); //for the events api
+  var eventsRepo = EventsRepo(apiClient: Get.find());
+ 
   final DateTimeController dateTimeController =
       Get.put(DateTimeController()); //for the selected date variable
   final EventIdController eventIdController =
       Get.put(EventIdController()); //for PUT reqquest data
-  final RefreshLogic refreshLogic = RefreshLogic();
+  // final RefreshLogic refreshLogic = RefreshLogic();
    FormValidator formValidator = FormValidator();//validations
 
   //pre-filling
@@ -45,27 +49,27 @@ class _EditEventState extends State<EditEvent> {
   final TextEditingController eventDescriptionController = TextEditingController();
   late DateTime selectedStartDate;
   late DateTime selectedEndDate;
-   String? selectedDropdownValue;//drop down selection
+  String? selectedDropdownValue;//drop down selection
 
   @override
   void initState() {
     super.initState();
+    var eventcontroller = Get.put(EventsController(eventsRepo: eventsRepo));
 
-    apiService = ApiService(); //for the http APIs
-    eventIdController.setEventId(widget.eventId);
+    eventIdController.setEventId(widget.eventId);//setting event id
   //title pre-fill 
   eventTitleController.text = widget.title;
-  eventController.eventTitle = eventTitleController;
+  eventcontroller.title = eventTitleController;
   //description pre-fill 
     eventDescriptionController.text = widget.description;
-    eventController.eventDescription = eventDescriptionController;
+    eventcontroller.description = eventDescriptionController;
     //drop down pre-fill
     selectedDropdownValue = widget.type;
-    eventController.selectType.text = widget.type;
+    eventcontroller.selectType.text = widget.type;
   //date pre-fill
-    final DateFormat dateFormat = DateFormat("yyyy-MM-ddTHH:mm:ss.SSSZ");
-    selectedStartDate = dateFormat.parse(widget.startDate);
-    selectedEndDate = dateFormat.parse(widget.endDate);
+    // final DateFormat dateFormat = DateFormat("yyyy-MM-ddTHH:mm:ss.SSSZ");
+    selectedStartDate = widget.startDate; //dateFormat.parse(widget.startDate);
+    selectedEndDate = widget.endDate;//dateFormat.parse(widget.endDate);
     dateTimeController.updateSelectedDateTimeStart(selectedStartDate);
     dateTimeController.updateSelectedDateTimeEnd(selectedEndDate);
   }
@@ -77,7 +81,8 @@ class _EditEventState extends State<EditEvent> {
     'Technology',
     "Sports",
     "Business",
-    "Wedding"
+    "Wedding",
+    "Entertainment"
   ];
 
   //dte and time
@@ -86,209 +91,172 @@ class _EditEventState extends State<EditEvent> {
 
   void handleDropdownChange(String? value) {
     setState(() {
+      var eventcontroller = Get.put(EventsController(eventsRepo: eventsRepo));
       selectedDropdownValue = value;
-      eventController.selectType.text = value!;
+      eventcontroller.selectType.text = value!;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-       initUserId() async {
-                var controller = Get.find<ProfileController>();
-                var profileData = await controller.profileData();
-                debugPrint(
-                    'NEW USER IDDDD :::::::  ${controller.userInfo!.id}');
-                var user_id = controller.userInfo!.id;
-                return user_id;
-              }
-             var  user = initUserId();
+     var eventcontroller = Get.put(EventsController(eventsRepo: eventsRepo));
+      //  initUserId() async {
+      //           var controller = Get.find<ProfileController>();
+      //           var profileData = await controller.profileData();
+      //           debugPrint(
+      //               'NEW USER IDDDD :::::::  ${controller.userInfo!.id}');
+      //           var user_id = controller.userInfo!.id;
+      //           return user_id;
+      //         }
+      //        var  user = initUserId();
     return 
-    WillPopScope(
-          onWillPop: () async {
-        // Clear text editing controllers, map value and date value when back button is pressed
-      Get.delete<MapPickerController>();
-      Get.delete<DateTimeController>();
-        Get.delete<EventController>();
-        return true; // Allow back navigation
-      },
-      child: 
-      Obx(() => 
-      Scaffold(
-          backgroundColor: Colors.white,
-          appBar: AppBar(
-            elevation: 0,
-            backgroundColor: Colors.transparent,
-            iconTheme: const IconThemeData(color: Colors.black),
-            title: const Center(
-              child: Text(
-                "Edit Event",
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
-              ),
+    Obx(() => 
+    Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          iconTheme: const IconThemeData(color: Colors.black),
+          centerTitle: true,
+          title: const Text(
+            "Edit Event",
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
             ),
           ),
-          body: SingleChildScrollView(
-            child: Container(
-              margin: const EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  const Text(
-                    'Event Title',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        ),
+        body: SingleChildScrollView(
+          child: Container(
+            margin: const EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                TextField(
+                  decoration: InputDecoration(
+                    hintText: "Enter new event title",
+                      border: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black),
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
                   ),
-                  TextField(
-                    decoration: const InputDecoration(
-                      hintText: "Enter new event title",
-                      border: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                            color: Colors.black), // Specify the color here
+                  controller: eventcontroller.title,
+                ),
+                const SizedBox(height: 40),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      decoration: BoxDecoration(
+                           border: Border.all(
+                            color: Colors.grey,
+                            width: 1.0,
+                          ),
+                          borderRadius: BorderRadius.circular(10.0)
+                      ),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton<String>(
+                          isExpanded: true,
+                          hint: const Text('Select an event type'),
+                          value: selectedDropdownValue,
+                          items: dropdownItems.map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                          onChanged: handleDropdownChange,
+                        ),
                       ),
                     ),
-                    controller: eventController.eventTitle,
-                  ),
-                  const SizedBox(height: 40),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.only(bottom: 8),
-                        child: Text(
-                          'Event Type',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                          ),
-                        ),
+                  ],
+                ),
+                const SizedBox(height: 40),
+                InkWell(
+                  onTap: () => Get.to(const MapPicker()),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.grey,
+                        width: 1.0,
                       ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12),
-                        decoration: const BoxDecoration(
-                          border: Border(bottom: BorderSide(color: Colors.grey)),
-                        ),
-                        child: DropdownButtonHideUnderline(
-                          child: DropdownButton<String>(
-                            isExpanded: true,
-                            hint: const Text('Select an event type'),
-                            value: selectedDropdownValue,
-                            items: dropdownItems.map((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
-                            onChanged: handleDropdownChange,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 40),
-                  const Text(
-                    'Event Location',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 20),
-                  InkWell(
-                    onTap: () => Get.to(const MapPicker()),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      decoration: const BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 15),
-                              child: Text(
-                                mapPickerController.address.value.isEmpty
-                                    ? mapPickerController.address.value = widget.venue //location pre-fill
-                                    : mapPickerController.address.value,
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.black,
-                                ),
+                       borderRadius: BorderRadius.circular(10.0)
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 20),
+                            child: Text(
+                              mapPickerController.address.value.isEmpty
+                                  ? mapPickerController.address.value = widget.venue //location pre-fill
+                                  : mapPickerController.address.value,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                color: Colors.black,
                               ),
                             ),
                           ),
-                          const Icon(Icons.location_on,
-                              color: Colors
-                                  .black), // Changed the icon to location icon
-                        ],
-                      ),
+                        ),
+                        const Icon(Icons.location_on,
+                            color: Colors
+                                .black), // Changed the icon to location icon
+                      ],
                     ),
                   ),
-                  const SizedBox(height: 40),
-                  const Text(
-                    'From',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 20),
-                  DateTimePicker(
-                    initialDateTime: selectedStartDate,
-                    onChanged: (dateTime) {
-                      setState(() {
-                        selectedDateTime = dateTime;
-                        dateTimeController
-                            .updateSelectedDateTimeStart(selectedDateTime);
-                      });
-                    },
-                  ),
-                  const SizedBox(height: 20),
-                  const Text(
-                    'To',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 20),
-                  DateTimePicker(
-                    initialDateTime: selectedEndDate,
-                    onChanged: (dateTime) {
-                      setState(() {
-                        selectedDateTime = dateTime;
-                        dateTimeController
-                            .updateSelectedDateTimeEnd(selectedDateTime);
-                      });
-                    },
-                  ),
-                  const SizedBox(height: 40),
-                  const Text(
-                    'Event Description',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 20),
-                  InputField(
-                    hintText: "Enter new event description",
-                    maxLines: 5,
-                    controller: eventController.eventDescription,
-                  ),
-                  const SizedBox(height: 30),
-                  FractionallySizedBox(
-                    widthFactor: 0.6, // Set to 60% of the screen width
-                    child: Center(
-                      child: CustomButton(
-                        buttonStr: "Edit Event",
-                        onTap: () async {
-                          // await eventController.editEvent(user);
-                                   if (formValidator.validateFields(context: context, selectedDropdownValue: selectedDropdownValue)) {
-                              var user = await initUserId(); // Wait for the user ID
-                              eventController.editEvent(user);
-                                //  await eventController.fetchEvents(user);
-                              }
-                        },
-                      ),
+                ),
+               sizedHeight(30),
+                  const CustomText(headingStr: 'From', align: TextAlignOption.center,fontSize: 16, weight: TextWeight.bold,), 
+                const SizedBox(height: 20),
+                DateTimePicker(
+                  initialDateTime: selectedStartDate,
+                  onChanged: (dateTime) {
+                    setState(() {
+                      selectedDateTime = dateTime;
+                      dateTimeController
+                          .updateSelectedDateTimeStart(selectedDateTime);
+                    });
+                  },
+                ),
+                const SizedBox(height: 20),
+            const CustomText(headingStr: 'To', align: TextAlignOption.center,fontSize: 16, weight: TextWeight.bold,), 
+                const SizedBox(height: 20),
+                DateTimePicker(
+                  initialDateTime: selectedEndDate,
+                  onChanged: (dateTime) {
+                    setState(() {
+                      selectedDateTime = dateTime;
+                      dateTimeController
+                          .updateSelectedDateTimeEnd(selectedDateTime);
+                    });
+                  },
+                ),
+                const SizedBox(height: 40),
+                InputField(
+                  hintText: "Enter new event description",
+                  maxLines: 5,
+                  controller: eventcontroller.description,
+                ),
+                const SizedBox(height: 30),
+                FractionallySizedBox(
+                  widthFactor: 0.6, // Set to 60% of the screen width
+                  child: Center(
+                    child: CustomButton(
+                      btncolor: HexColor('FFAD84'),
+                      buttonStr: "Edit Event",
+                      onTap: () async {
+                        if (formValidator.validateFields(context: context, selectedDropdownValue: selectedDropdownValue)) {
+                        await eventcontroller.editEventData(context);
+                        await eventcontroller.eventData();
+                        }
+                      },
                     ),
-                  )
-                ],
-              ),
+                  ),
+                )
+              ],
             ),
           ),
         ),

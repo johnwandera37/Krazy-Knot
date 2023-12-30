@@ -19,6 +19,7 @@ class RouteHelper {
   static const String landing = Constants.landingRoute;
   static const String preview = Constants.previewRoute;
   static const String invitation = Constants.invitation;
+  static const String eventhometab = Constants.eventhometab;
 
   static getSplashRoute() => Constants.splashStr;
   static getLoginRoute() => Constants.loginStr;
@@ -34,6 +35,7 @@ class RouteHelper {
   static getProfileRoute() => Constants.profileStr;
   static getPreviewRoute() => Constants.previewStr;
   static getInvitation() => Constants.invitation;
+  static getEventsHomeTab() => Constants.eventhometab;
 
   static List<GetPage> routes = [
     GetPage(name: splash, page: () => const SplashScreen()),
@@ -44,5 +46,6 @@ class RouteHelper {
     GetPage(name: landing, page: () => const LandingPage()),
     GetPage(name: preview, page: () =>  PreviewScreen()),
     GetPage(name: invitation, page: () =>  const GuestRegistrationForm()),
+    GetPage(name: eventhometab, page: ()=> HomeTabScreen())
   ];
 }

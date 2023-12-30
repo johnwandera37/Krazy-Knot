@@ -9,4 +9,9 @@ class DateTimeController extends GetxController {
   void updateSelectedDateTimeEnd(DateTime newDateTime) {
     selectedEndDateTime.value = newDateTime;
   }
+
+   void clearDateTime() {
+     selectedDateTime.value = DateTime.now();
+   selectedEndDateTime.value = DateTime.now();
+  }
 }

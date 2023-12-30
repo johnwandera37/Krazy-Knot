@@ -13,6 +13,7 @@ class EventController extends GetxController {
     final upcomingEvents = <Event>[].obs; // capture upcoming events data
     final eventsAfter7Days = <Event>[].obs; // capture events after 7 days data from when they are scheduled
   final attendees = <Attendees>[].obs; //capture attendees data
+  
   final MapPickerController mapPickerController =
       Get.put(MapPickerController()); //for location
   final DateTimeController dateTimeController =
@@ -73,7 +74,7 @@ class EventController extends GetxController {
                 event.eventStatus.toLowerCase() != 'cancelled';
           })
           .toList();
-      debugPrint('🔎🔎🔎 Upcoming Events: $upcomingEvents');
+      // debugPrint('🔎🔎🔎 Upcoming Events: $upcomingEvents');
 
       // Filter events scheduled past 7 days after the day they event was scheduled
       eventsAfter7Days.value = events
@@ -83,7 +84,7 @@ class EventController extends GetxController {
                 event.eventStatus.toLowerCase() != 'cancelled';
           })
           .toList();
-      debugPrint('🎉🎉🎉Events After 7 Days: $eventsAfter7Days');
+      // debugPrint('🎉🎉🎉Events After 7 Days: $eventsAfter7Days');
 
     } catch (e) {
       debugPrint('$e');
@@ -118,12 +119,12 @@ class EventController extends GetxController {
 
     try {
       await ApiService().addEvent(event);
-      Get.delete<MapPickerController>();
-      Get.delete<DateTimeController>();
-      Get.delete<EventController>();
-      Get.back();
-      fetchEvents(userId.value);
-      update();
+      // Get.delete<MapPickerController>();
+      // Get.delete<DateTimeController>();
+      // Get.delete<EventController>();
+      // Get.back();
+      // fetchEvents(userId.value);
+      // update();
 
       // Show success message as a snackbar
       Get.snackbar(
@@ -177,11 +178,11 @@ class EventController extends GetxController {
       };
 
       await ApiService().updateEvent(requestBody);
-       update();
-      Get.delete<MapPickerController>();
-      Get.delete<DateTimeController>();
-      Get.delete<EventController>();
-      Get.back();
+      //  update();
+      // Get.delete<MapPickerController>();
+      // Get.delete<DateTimeController>();
+      // Get.delete<EventController>();
+      // Get.back();
       debugPrint('Event updated successfully');
 
      Get.snackbar(
@@ -248,7 +249,7 @@ class EventController extends GetxController {
     }
   }
 
-  //getEvents
+  //fetch members
   Future<void> fetchMembers(event_id) async {
     try {
       final data = await ApiService().fetchAttendeesData(event_id);
@@ -297,9 +298,9 @@ class EventController extends GetxController {
         backgroundColor: Colors.green,
         colorText: Colors.white,
       );
-      Get.delete<EventController>();
+      // Get.delete<EventController>();
       // Get.back();
-      Get.to(EventTab());
+      Get.to(const EventTab());
     } catch (e) {
       debugPrint('$e');
       // Show error message as a snackbar

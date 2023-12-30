@@ -19,7 +19,6 @@ class CustomException implements Exception {
 
 class ApiService extends GetxController{
   final String baseUrl = Constants.baseUrl;
-   var loadingData = false.obs;
 
      final http.Client? httpClient;//optional param to use in mocking http requets
 
@@ -40,25 +39,21 @@ class ApiService extends GetxController{
 
 //Fetch events
   Future<Map<String, dynamic>> fetchEventsData(event_owner) async {
-    loadingData.value = true;
-    debugPrint('👎👎 ${loadingData}');
     final uri = "${baseUrl}getEvents?eventOwner=$event_owner";
     final response = await http.get(Uri.parse(uri));
-    debugPrint("======================================> GET EVENT URL ${uri}");
+    // debugPrint("======================================> GET EVENT URL ${uri}");
 
     if (response.statusCode == 200) {
-      loadingData.value = false;
-      debugPrint('Data has been fetched bool in now 🚌 ${loadingData}');
       final data = jsonDecode(response.body);
-      debugPrint("======================================> this is my data");
-      debugPrint('$data');
-      debugPrint("====================================> this is my data");
+      // debugPrint("======================================> this is my data");
+      // debugPrint('$data');
+      // debugPrint("====================================> this is my data");
       return data;
     } else {
-      debugPrint('Event API Error: ${response.statusCode}');
+      debugPrint('OLD Event API Error: ${response.statusCode}');
       // Extract error message from response body
       String errorMessage = _extractErrorMessage(response.body);
-      throw CustomException('Failed to fetch events due to: $errorMessage');
+      throw CustomException('OLD: Failed to fetch events due to: $errorMessage');
       // return {'error': 'API Error: ${response.statusCode}'};
     }
   }
@@ -73,12 +68,12 @@ class ApiService extends GetxController{
           event.toJson()), //a 'toJson' method exists in the Event model
     );
     if (response.statusCode == 200) {
-      debugPrint('=====================>Event created successfully');
+      // debugPrint('=====================>Event created successfully');
     } else {
-      debugPrint('Failed to add an event');
+      // debugPrint('Failed to add an event');
       // Extract error message from response body
       String errorMessage = _extractErrorMessage(response.body);
-      throw CustomException('Failed to add event due to: $errorMessage');
+      throw CustomException('OLD: Failed to add event due to: $errorMessage');
     }
   }
 
@@ -93,13 +88,13 @@ class ApiService extends GetxController{
           updatedEventData), // Pass the updated data as the request body
     );
     if (response.statusCode == 200) {
-      debugPrint('=======================>Event updated successfully');
+      // debugPrint('=======================>Event updated successfully');
       debugPrint('$updatedEventData');
     } else {
-      debugPrint('Failed to update an event from api itself===============');
+      // debugPrint('Failed to update an event from api itself===============');
       // Extract error message from response body
       String errorMessage = _extractErrorMessage(response.body);
-      throw CustomException('Failed to update event due to: $errorMessage');
+      throw CustomException('OLD: Failed to update event due to: $errorMessage');
       // throw Exception('==================>Update event error code: ${response.body}');
     }
   }
@@ -117,13 +112,13 @@ class ApiService extends GetxController{
           updatedEventStatus), // Pass the updated data as the request body
     );
     if (response.statusCode == 200) {
-      debugPrint('=======================>Event updated successfully');
-      debugPrint('$updatedEventStatus');
+      // debugPrint('=======================>Event updated successfully');
+      // debugPrint('$updatedEventStatus');
     } else {
-      debugPrint('Failed to update an event from api itself===============');
+      // debugPrint('Failed to update an event from api itself===============');
       // Extract error message from response body
       String errorMessage = _extractErrorMessage(response.body);
-      throw CustomException('Failed to update event due to: $errorMessage');
+      throw CustomException('OLD: Failed to update event due to: $errorMessage');
       // throw Exception('==================>Update event error code: ${response.body}');
     }
   }
@@ -135,16 +130,16 @@ class ApiService extends GetxController{
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
-      debugPrint(
-          "======================================> this is my attendees' data");
-      debugPrint('$data');
-      debugPrint(
-          "====================================> this is my attendees' data");
+      // debugPrint(
+      //     "======================================> this is my attendees' data");
+      // debugPrint('$data');
+      // debugPrint(
+      //     "====================================> this is my attendees' data");
       return data;
     } else {
-      debugPrint('Attendees fetch API Error: ${response.statusCode}');
+      // debugPrint('Attendees fetch API Error: ${response.statusCode}');
       String errorMessage = _extractErrorMessage(response.body);
-      throw CustomException('Failed to fetch guests due to: $errorMessage');
+      throw CustomException('OLD: Failed to fetch guests due to: $errorMessage');
     }
   }
 
@@ -159,15 +154,16 @@ class ApiService extends GetxController{
           attendee.toJson()), //a 'toJson' method exists in the Event model
     );
     if (response.statusCode == 200) {
-      debugPrint(
-          '======================================================>Atteendee added successfully');
+      // debugPrint(
+      //     '======================================================>Atteendee added successfully');
     } else {
-      debugPrint('Failded to add the guest');
+      // debugPrint('Failded to add the guest');
       String errorMessage = _extractErrorMessage(response.body);
       throw CustomException('Failed to add guest due to: $errorMessage');
     }
   }
 
+//Old method, not used in new UI
   Future<Map<String, dynamic>> geteventLink(eventId) async {
     final uri = '${baseUrl}event/getLink?eventID=$eventId';
     final response = await http.get(Uri.parse(uri));

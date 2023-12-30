@@ -1,6 +1,8 @@
 import '../../../utils/export_files.dart';
 import 'package:share_plus/share_plus.dart';
 
+//THIS SCREEN IS NOT USED
+
 void popUpCard({
   required BuildContext context,
   String? eventId,
@@ -83,7 +85,7 @@ void popUpCard({
               mainAxisSize: MainAxisSize.min,
               children: [
                 const CustomText(
-                  headingStr: "Share a link to to invite guests to your event",
+                  headingStr: "Share a link to invite guests to your event",
                   fontSize: 15,
                 ),
                 sizedHeight(20),

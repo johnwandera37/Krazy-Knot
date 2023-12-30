@@ -4,6 +4,7 @@ import 'dart:convert';
 EventModel eventModelFromJson(String str) => EventModel.fromJson(json.decode(str));
 
 String eventModelToJson(EventModel data) => json.encode(data.toJson());
+// jsonEncode(event.toJson())
 
 class EventModel{
   List<EventCard> events;
@@ -44,15 +45,6 @@ class EventCard{
   });
 
   factory EventCard.fromJson(Map<String, dynamic> json) => EventCard(
-    // id: json['_id'],
-    // eventOwner: json['eventOwner'],
-    // eventName: json['eventName'],
-    // eventType: json['eventType'],
-    // eventVenue: json['eventVenue'],
-    // eventDescription: json['eventDescription'],
-    // eventStatus: json['eventStatus'],
-    // eventStartDate:  DateTime.parse(json['eventStartDate']),
-    // eventEndDate:  DateTime.parse(json['eventEndDate']),
      id: json['_id'] ?? '',
     eventOwner: json['eventOwner'] ?? '',
     eventName: json['eventName'] ?? '',
@@ -73,7 +65,7 @@ class EventCard{
       'eventVenue': eventVenue,
       'eventDescription': eventDescription,
       'eventStatus': eventStatus,
-      'eventStartDate': eventStartDate,
-      'eventEndDate': eventEndDate,
+      'eventStartDate': eventStartDate.toIso8601String(),
+      'eventEndDate': eventEndDate.toIso8601String(),
     };
 }

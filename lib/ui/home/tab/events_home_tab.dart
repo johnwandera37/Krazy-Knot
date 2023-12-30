@@ -50,7 +50,8 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
   }
 }
 
-    return Scaffold(
+    return 
+    Scaffold(
       backgroundColor: HexColor('FFFBF5'),
       body: 
       Stack(
@@ -83,7 +84,10 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
             sizedHeight(Get.width*.15),
             const CustomText(headingStr: Constants.createEvent, fontSize: 15,),
              sizedHeight(Get.width*.04),
-            CustomButton(buttonStr: Constants.createstr, btncolor: HexColor('FFAD84'), onTap: (){}),
+            CustomButton(
+              buttonStr: Constants.createstr, btncolor: HexColor('FFAD84'), onTap: (){
+              Get.to(const CreateEvent());
+            }),
             sizedHeight(Get.width*.15),
              Row(
                children: [
@@ -93,7 +97,7 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
              ),
            ]),
            ),
-              sizedHeight(Get.width*.075),
+              sizedHeight(Get.width*.05),
               Obx(() => 
                 Expanded(
                 child: 
@@ -103,11 +107,10 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
                     color: HexColor('87C4FF')
                   ),
                 )
-              : buildEventList(),
+              : 
+              buildEventList(),
             )
             ),
-        
-          sizedHeight(Get.width*.09)
           ],
         ),
         ],

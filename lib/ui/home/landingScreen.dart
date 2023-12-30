@@ -27,7 +27,7 @@ class _LandingPageState extends State<LandingPage> {
     HomeTabScreen(),
     const HomeTab(),
     ProfileTab(),
-    const CancelledEvents(),
+    // const CancelledEvents(),
     const ViewQrScreen()
   ];
   @override
@@ -165,15 +165,15 @@ class _LandingPageState extends State<LandingPage> {
                               )),
                       onTap: () => _onDrawerItemTap(2),
                     ),
-                    ListTile(
-                      leading: const Icon(Icons.cancel),
-                      title: CustomText(
-                          headingStr: 'Cancelled Events',
-                          onTap: () => _onDrawerItemTap(
-                                3,
-                              )),
-                      onTap: () => _onDrawerItemTap(3),
-                    ),
+                    // ListTile(
+                    //   leading: const Icon(Icons.cancel),
+                    //   title: CustomText(
+                    //       headingStr: 'Cancelled Events',
+                    //       onTap: () => _onDrawerItemTap(
+                    //             3,
+                    //           )),
+                    //   onTap: () => _onDrawerItemTap(3),
+                    // ),
                     ListTile(
                       leading: const Icon(Icons.qr_code),
                       title: CustomText(
@@ -181,7 +181,7 @@ class _LandingPageState extends State<LandingPage> {
                           onTap: () => _onDrawerItemTap(
                                 4,
                               )),
-                      onTap: () => _onDrawerItemTap(4),
+                      onTap: () => _onDrawerItemTap(3),
                     ),
                     ListTile(
                       leading: const Icon(
@@ -212,26 +212,7 @@ class _LandingPageState extends State<LandingPage> {
                 ),
                 backgroundColor: HexColor('F8DFD4'),//HexColor("F7F7F7")//F8DFD4
                 toolbarHeight: Get.width*.2,
-                leading: InkWell(
-                  customBorder: CircleBorder(), 
-                  splashColor: Colors.white,
-                  borderRadius: BorderRadius.circular(15),
-                  onTap: () {
-                    _scaffoldKey.currentState?.openDrawer();
-                  },
-                  child: Container(
-                    margin: EdgeInsets.symmetric(horizontal: 5),
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white,
-                    ),
-                    child: const Icon(
-                      Icons.menu,
-                      color: Colors.black,
-                      size: 30,
-                    ),
-                  ),
-                ),
+                leading: IconWidget(icon: Icons.menu, onTap: () { _scaffoldKey.currentState?.openDrawer(); }, )
 
                 // actions: [
                   // const SizedBox(

@@ -134,14 +134,29 @@ abstract class Constants {
   static const landingRoute = '/';
   static const previewRoute = '/preview';
   static const invitation = '/invitation';
+  static const eventhometab = '/event_home_tab';
 
-  //EVENTS
+  //EVENTS ROUTES
   static const getEvents = 'getEvents';
   static const eventOwner = 'eventOwner';
+  static const addEvent = 'addEvent';
+  static const editEvent = 'updateEvent';
+  static const updateEventStatus = 'updateEventStatus';
+  static const getPeople = 'getPeople';
+  static const eventId = 'eventId';
+  static const eventID = 'eventID';
+  static const addPeople = 'addPeople';
+  static const event = 'event';
+  static const getLink = '/getLink?';
+    
+
+  //EVENTS
   static const howdy = 'Howdy,';
   static const createEvent = 'Create your new event here';
   static const yourEvent = 'Your events';
   static const createstr = 'Create';
+  static const eventStatus = 'Event status';
+  static const eventType = 'Event type:';
 
 
 

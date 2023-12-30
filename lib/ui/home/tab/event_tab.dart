@@ -1,3 +1,6 @@
+//THIS CODE IS NOT USED, IT'S FOR THE OLD UI
+
+
 import 'package:photomanager/controllers/profile_controller.dart';
 import 'package:photomanager/data/repo/events_repo.dart';
 import 'package:photomanager/ui/base/widgets/custom_image.dart';
@@ -80,10 +83,6 @@ class _EventTabState extends State<EventTab> with WidgetsBindingObserver {
           ),
           body: 
           Obx(() => 
-            apiService.loadingData.value?
-          const Center(
-            child: CircularProgressIndicator(
-            color: Colors.blue)):
           RefreshIndicator(
             onRefresh: () async {
               fetchEventsOnResume();
@@ -441,16 +440,16 @@ Widget PopUpMenu({
       onSelected: (String choice) {
         // Handle the choice selected from the menu
         if (choice == 'Edit') {
-          Get.to(EditEvent(
-            eventId: eventId, 
-            title: title, 
-            type: type, 
-            venue: venue, 
-            description: description, 
-            startDate: startDate, 
-            endDate: endDate,
+          // Get.to(EditEvent(
+          //   eventId: eventId, 
+          //   title: title, 
+          //   type: type, 
+          //   venue: venue, 
+          //   description: description, 
+          //   startDate: startDate, 
+          //   endDate: endDate,
 
-            ));
+          //   ));
         } else if (choice == 'Update Status') {
           //this function event data that is fetched from getEvents
           openAnimatedDialog(

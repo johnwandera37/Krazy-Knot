@@ -7,7 +7,6 @@ import '../../utils/export_files.dart';
 
 class ApiClient extends GetxService {
   late String appBaseUrl = Constants.baseUrl;
-  // late String? eventsBaseUrl = Constants.eventsUrl;//events base url
   late SharedPreferences sharedPreferences;
   final int timeoutInSeconds = 30;
   // Dio dio = Dio();
@@ -18,7 +17,6 @@ class ApiClient extends GetxService {
   ApiClient({
     required this.appBaseUrl,
     required this.sharedPreferences,
-    // this.eventsBaseUrl,
   }) {
     debugPrint(
         " token.............................................${getUserToken()}");
@@ -76,10 +74,6 @@ class ApiClient extends GetxService {
         debugPrint('====> GetX Base URL: $appBaseUrl');
         debugPrint('====> GetX Call: $uri');
       }
-      //get owner id
-      String? userId = queryParams["user_id"];
-      debugPrint("User ID john: $userId");
-      //get owner id
       http.Response response = await http
           .get(
             Uri.parse(uri).replace(queryParameters: queryParams),
@@ -292,6 +286,39 @@ class ApiClient extends GetxService {
       );
     }
   }
+
+
+  //get error message from backend
+  String _extractErrorMessage(String responseBody) {
+    try {
+      Map<String, dynamic> jsonBody = json.decode(responseBody);
+      if (jsonBody.containsKey('error')) {
+        return jsonBody['error'];
+      }
+      return 'Unknown error occurred';
+    } catch (e) {
+      return 'Failed to parse error message';
+    }
+  }
+
+    Future<Map<String, dynamic>> geteventLink(eventId) async {
+    final uri = '${Constants.baseUrl}event/getLink?eventID=$eventId';
+    final response = await http.get(Uri.parse(uri));
+    debugPrint("======================================> 🔗🔗🔗 GET EVENT URL ${uri}");
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      debugPrint('${data}');
+      return data;
+    } else {
+      debugPrint('Event API Error: ${response.statusCode}');
+      // Extract error message from response body
+      String errorMessage = _extractErrorMessage(response.body);
+      throw CustomException('Failed to fetch events due to: $errorMessage');
+      // return {'error': 'API Error: ${response.statusCode}'};
+    }
+  }
+
 
   // Future<Response> postFormData(String apiUrl,
   //     {required FormData formData}) async {
