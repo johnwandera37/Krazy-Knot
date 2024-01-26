@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:photomanager/controllers/profile_controller.dart';
-import 'package:photomanager/data/repo/events_repo.dart';
+import 'package:photomanager/data/repo/events_repo.dart'; 
 import '../utils/export_files.dart';
 
 class AttendeesController extends GetxController{
@@ -18,6 +18,7 @@ class AttendeesController extends GetxController{
   AttendeesModel? get attendeesModel => _attendeesModel;
 
   RxBool loadingAttendeesData = false.obs;
+    var guestNumber = 0.obs;
 
 
 //fetch attendees
@@ -29,8 +30,18 @@ class AttendeesController extends GetxController{
       Response response = await attendeesRepo.getAttendeesApi(eventId: eventId);
       if(response.statusCode == 200){
         loadingAttendeesData(false);
-           debugPrint('😃😃😃 The getAttendees Api has been excecuted and the following is the data: ${response.body}');//${response.body}
+           debugPrint('😃😃😃 The getAttendees Api has been excecuted and the following is the data: ${response.body}');
         _attendeesModel = AttendeesModel.fromJson(response.body);
+
+      // Get the list of guests from the response body
+      var guests = _attendeesModel?.attendee;
+      
+      // Get the number of attendees
+      int numberOfAttendees = guests!.length;
+      debugPrint('Guest number 🔢🔢 = $numberOfAttendees');
+      eventIdController.updateTotalUsers(numberOfAttendees);//update number of attendees invited
+      guestNumber.value = numberOfAttendees;//another var for attendees number
+
       }else{
         ApiChecker.checkApi(response);
           MyStyles().showSnackBar(

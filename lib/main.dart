@@ -5,6 +5,7 @@ void main() async {
   setPathUrlStrategy();
   WidgetsFlutterBinding.ensureInitialized();
   await di.init();
+  await GetStorage.init();
   
   runApp(const MyApp());
 }

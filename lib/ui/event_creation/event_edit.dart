@@ -112,11 +112,13 @@ class _EditEventState extends State<EditEvent> {
     return 
     Obx(() => 
     Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: HexColor('FBF9F1'),
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.transparent,
-          iconTheme: const IconThemeData(color: Colors.black),
+          leading: IconWidget(icon:Icons.arrow_back, bacIconColor: HexColor('F8DFD4'), onTap: (){
+              Get.back();
+        }),
           centerTitle: true,
           title: const Text(
             "Edit Event",
@@ -127,7 +129,14 @@ class _EditEventState extends State<EditEvent> {
             ),
           ),
         ),
-        body: SingleChildScrollView(
+        body: 
+           eventcontroller.loadingEditedEvent.value?
+            Center(
+                    child: CircularProgressIndicator(
+                      color: HexColor('87C4FF')
+                    ),
+                  ):
+        SingleChildScrollView(
           child: Container(
             margin: const EdgeInsets.all(20),
             child: Column(
@@ -212,6 +221,7 @@ class _EditEventState extends State<EditEvent> {
                   const CustomText(headingStr: 'From', align: TextAlignOption.center,fontSize: 16, weight: TextWeight.bold,), 
                 const SizedBox(height: 20),
                 DateTimePicker(
+                  color: HexColor('FBF9F1'),
                   initialDateTime: selectedStartDate,
                   onChanged: (dateTime) {
                     setState(() {
@@ -225,6 +235,7 @@ class _EditEventState extends State<EditEvent> {
             const CustomText(headingStr: 'To', align: TextAlignOption.center,fontSize: 16, weight: TextWeight.bold,), 
                 const SizedBox(height: 20),
                 DateTimePicker(
+                   color: HexColor('FBF9F1'),
                   initialDateTime: selectedEndDate,
                   onChanged: (dateTime) {
                     setState(() {
@@ -239,6 +250,7 @@ class _EditEventState extends State<EditEvent> {
                   hintText: "Enter new event description",
                   maxLines: 5,
                   controller: eventcontroller.description,
+                  color:  HexColor('FBF9F1'),
                 ),
                 const SizedBox(height: 30),
                 FractionallySizedBox(

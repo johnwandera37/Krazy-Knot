@@ -15,6 +15,7 @@ export 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_not
 export 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 export 'package:hexcolor/hexcolor.dart';
 export  'package:share_plus/share_plus.dart';
+export 'package:get_storage/get_storage.dart';
 
 //UI
 export 'package:photomanager/ui/authentication/splashscreen.dart';

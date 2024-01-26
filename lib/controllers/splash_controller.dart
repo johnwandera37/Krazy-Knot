@@ -8,15 +8,21 @@ class SplashController extends GetxController implements GetxService {
   final SplashRepo splashRepo;
   SplashController({required this.splashRepo});
 
+  var eventsRepo = EventsRepo(apiClient: Get.find());
+
   var authController = Get.find<AuthController>(); 
   var profileController = Get.find<ProfileController>();
   final LocationController locationController = Get.put(LocationController());
+
 
   @override
   void onInit() {
     route();
     initSharedData();
     fetchLongLat();
+    // final eventcontroller = Get.put(EventsController(eventsRepo: eventsRepo));
+    // eventcontroller.updateStatusBasedOnEndDate();//update passed events
+  
     super.onInit();
   }
 

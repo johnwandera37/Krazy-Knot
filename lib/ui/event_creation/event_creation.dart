@@ -45,13 +45,13 @@ class _CreateEventState extends State<CreateEvent> {
     return 
       Obx(() => 
       Scaffold(
-          backgroundColor: Colors.white,
+          backgroundColor: HexColor('FBF9F1'),
           appBar: AppBar(
             elevation: 0,
             backgroundColor: Colors.transparent,
             iconTheme: const IconThemeData(color: Colors.black),
             centerTitle: true,
-            leading:   IconWidget(icon:  Icons.arrow_back, onTap: (){
+            leading:  IconWidget(icon:Icons.arrow_back, bacIconColor: HexColor('F8DFD4'), onTap: (){
               Get.back();
         }),
             title: const Text(
@@ -63,7 +63,14 @@ class _CreateEventState extends State<CreateEvent> {
               ),
             ),
           ),
-          body: SingleChildScrollView(
+          body: 
+          eventcontroller.loadingCreatedEvent.value?
+                Center(
+                        child: CircularProgressIndicator(
+                          color: HexColor('87C4FF')
+                        ),
+                ):
+          SingleChildScrollView(
             child: Container(
               margin: const EdgeInsets.all(20),
               child: Column(
@@ -148,6 +155,7 @@ class _CreateEventState extends State<CreateEvent> {
                   const CustomText(headingStr: 'From', align: TextAlignOption.center,fontSize: 16, weight: TextWeight.bold,), 
                   const SizedBox(height: 20),
                   DateTimePicker(
+                     color: HexColor('FBF9F1'),
                     initialDateTime: selectedDateTime,
                     onChanged: (dateTime) {
                       setState(() {
@@ -160,6 +168,7 @@ class _CreateEventState extends State<CreateEvent> {
                    const CustomText(headingStr: 'To', align: TextAlignOption.center,fontSize: 16, weight: TextWeight.bold,), 
                   const SizedBox(height: 20),
                   DateTimePicker(
+                     color: HexColor('FBF9F1'),
                     initialDateTime: selectedDateTime,
                     onChanged: (dateTime) {
                       setState(() {
@@ -173,21 +182,19 @@ class _CreateEventState extends State<CreateEvent> {
                     hintText: "Enter event description",
                     maxLines: 5,
                     controller: eventcontroller.description,
+                     color: HexColor('FBF9F1'),
                   ),
                   const SizedBox(height: 30),
-                  FractionallySizedBox(
-                    widthFactor: 0.6, // Set to 60% of the screen width
-                    child: Center(
-                      child: CustomButton(
-                        buttonStr: "Create Event",
-                        btncolor: HexColor('FFAD84'),
-                        onTap: () async {
-                           if (formValidator.validateFields( selectedDropdownValue: selectedDropdownValue, context: context)) { 
-                            await eventcontroller.postEventData(context);//create event
-                            await eventcontroller.eventData();//fetch event
-                          }
-                        },
-                      ),
+                  Center(
+                    child: CustomButton(
+                      buttonStr: "Create Event",
+                      btncolor: HexColor('FFAD84'),
+                      onTap: () async {
+                         if (formValidator.validateFields( selectedDropdownValue: selectedDropdownValue, context: context)) { 
+                          await eventcontroller.postEventData(context);//create event
+                          await eventcontroller.eventData();//fetch event
+                        }
+                      },
                     ),
                   )
                 ],
@@ -203,8 +210,9 @@ class InputField extends StatelessWidget {
   final String? hintText;
   final int? maxLines;
   final TextEditingController? controller;
+  final Color? color;
 
-  const InputField({this.hintText, this.maxLines, this.controller});
+  const InputField({super.key, this.hintText, this.maxLines, this.controller, this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -215,7 +223,7 @@ class InputField extends StatelessWidget {
         hintText: hintText,
         border: const OutlineInputBorder(),
         filled: true,
-        fillColor: Colors.white,
+        fillColor: color ?? Colors.white,
       ),
     );
   }

@@ -13,7 +13,7 @@ class MyUtils {
 
     Color getStatusColor(String status) {
     switch (status.toLowerCase()) {
-      case "Pending":
+      case "Pending": 
         return Colors.grey;
       case "cancelled":
         return Colors.red;
@@ -116,9 +116,10 @@ Widget helperTextFunction(
     return helperText(text: 'This event is happening right now!', status: status);
   }
   else if(endDate.isBefore(DateTime.now())){
-    return status.toLowerCase() == 'cancelled'?
-    helperText(text: 'This event has been cancelled, you can revive it and change the event values', status: status):
-    helperText(text: 'This event has passed, you can recreate this event by editing the event values!', status: status);
+    return helperText(text: 'This event has passed, you can recreate this event by editing the event values!', status: status);
+  }
+  else if(status.toLowerCase() == 'cancelled'){
+    return  helperText(text: 'This event has been cancelled, you can revive it and change the event values', status: status);
   }
   else{
     return helperText(text: 'Ensure your event status is set to ready and scheduled to a future date', status: status);
@@ -145,6 +146,39 @@ child: CustomText(headingStr: text, align: TextAlignOption.center, fontSize: 16,
       'Entertainment': Images.entertainment,
     };
   
+
+  //show info if neither switch nor revive button
+  void handleinfo(String eventStatus, BuildContext context){
+      showCustomDialog(
+    context: context,
+    title: "Event in progress",
+    content: "This event has already started, if you wish to change the status of this event you have to cancel the event",
+    actions: [
+     Center(
+       child: TextButton(
+                child: const Text('Ok'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+     ),
+    ],
+  );
+  }
+
+
+   // hanlde status update;
+  //  void handleSwitchChanged(String currentStatus, String eventid) async {
+  //   var statuscheck =currentStatus.toLowerCase();
+  //   String newStatus = statuscheck == 'ready' ? 'Pending' : 'Ready';
+
+  //   debugPrint('Switch toggled✂️✂️: $newStatus');
+  //   try{
+  //     await eventcontroller.editEventStatus(eventStatus: newStatus, eventid: eventid);
+  //   }catch(e){
+  //     debugPrint('😟😟😟 handleSwitchChange on status error: $e');
+  //   }
+  // }
 
 
 //   String formatDateTime(String date) {

@@ -2,7 +2,7 @@ import 'package:photomanager/controllers/profile_controller.dart';
 import 'package:photomanager/data/repo/events_repo.dart';
 import 'package:photomanager/utils/export_files.dart';
 import 'package:photomanager/utils/images.dart';
-
+ 
 class HomeTabScreen extends StatefulWidget{
   @override
   State<HomeTabScreen> createState() => _HomeTabScreenState();
@@ -16,6 +16,7 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
   Widget build(BuildContext context) {
     var eventcontroller = Get.put(EventsController(eventsRepo: eventsRepo));
     eventcontroller.eventData();
+    eventcontroller.updateStatusBasedOnEndDate();
 
   Widget buildEventList(){
   if(eventcontroller.eventModel == null || eventcontroller.eventModel!.events.isEmpty){
@@ -59,7 +60,7 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
           ClipPath(
             clipper: CustomSelfClipper2(),
             child: Container(
-              height: Get.width*.7,
+              height: Get.height*.37,//Get.width*.7
               decoration: BoxDecoration(
                 color: HexColor("F8DFD4")),
             ),
@@ -67,7 +68,7 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
              Positioned(
               right: 15,
               top: Get.width*.07,
-              child: Image.asset(Images.events,height:  210,),
+              child: Image.asset(Images.events,height:  Get.width*.5,),//210
             ),
 
         Column(
@@ -97,7 +98,6 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
              ),
            ]),
            ),
-              sizedHeight(Get.width*.05),
               Obx(() => 
                 Expanded(
                 child: 

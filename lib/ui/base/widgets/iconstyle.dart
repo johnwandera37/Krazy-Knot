@@ -3,13 +3,15 @@ import 'package:photomanager/utils/export_files.dart';
 class IconWidget extends StatelessWidget {
   final IconData icon;
   final VoidCallback onTap;
-  final Color? iconColor;
+  final Color?iconColor;
+  final Color? bacIconColor;
 
   const IconWidget({
     Key? key,
     required this.icon,
     required this.onTap,
     this.iconColor,
+    this.bacIconColor
   }) : super(key: key);
 
   @override
@@ -22,9 +24,9 @@ class IconWidget extends StatelessWidget {
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 10),
         padding: EdgeInsets.all(3),
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: Colors.white,
+          color: bacIconColor ??Colors.white,
         ),
         child: Icon(
           icon,

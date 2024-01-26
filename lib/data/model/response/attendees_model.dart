@@ -33,7 +33,7 @@ class AttendeesCard{
   //from json to string
   factory AttendeesCard.fromJson(Map<String, dynamic> json) {
     return AttendeesCard(
-    eventId: json['eventId'] ?? '',
+    eventId: json['_id'] ?? '',//eventId
     attendeeName: json['attendeeName'] ?? '',
     attendeePhone: json['attendeePhone'] ?? '',
     );
@@ -41,7 +41,7 @@ class AttendeesCard{
   //to json
     Map<String, dynamic> toJson() {
     return {
-      'eventId': eventId,
+      '_id': eventId,
       'attendeeName': attendeeName,
       'attendeePhone': attendeePhone,
     };

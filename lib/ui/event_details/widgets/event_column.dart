@@ -1,24 +1,11 @@
 // event_widgets.dart
 
-import 'package:photomanager/utils/export_files.dart';
+import 'package:photomanager/utils/export_files.dart'; 
 
 class EventColumn {
     final eventcontroller = Get.find<EventsController>();
-      final EventIdController eventIdController =
-      Get.put(EventIdController());
-     var attendeesRepo = AttendeesRepo(apiClient: Get.find());
-  // hanlde status update;
-   void handleSwitchChanged(String currentStatus) async {
-    var statuscheck =currentStatus.toLowerCase();
-    String newStatus = statuscheck == 'ready' ? 'Pending' : 'Ready';
-
-    debugPrint('Switch toggled✂️✂️: $newStatus');
-    try{
-      await eventcontroller.editEventStatus(eventStatus: newStatus);
-    }catch(e){
-      debugPrint('😟😟😟 handleSwitchChange on status error: $e');
-    }
-  }
+    var attendeesRepo = AttendeesRepo(apiClient: Get.find());
+ 
 
   Widget eventColumn({
     required id,
@@ -29,12 +16,12 @@ class EventColumn {
     required DateTime end,
     required String location,
     required String description,
-    required BuildContext? context
+    required BuildContext? context,
   }) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(children: [
-            UsersCircle(numberOfUsers: eventIdController.numberOfAttendees.value, type: type,), // attendeescontroller.attendeesModel?.attendee.length ?? 0
+            UsersCircle(numberOfUsers: attendeescontroller.attendeesModel!.attendee.length, type: type,),
             sizedWidth(8),
             Container(
               padding: EdgeInsets.all(10),
@@ -64,41 +51,49 @@ class EventColumn {
           Row(children: [
            Icon(Icons.fiber_manual_record, size: 16, color: MyUtils().getStatusColor(status.toLowerCase())),
            sizedWidth(6),
-           CustomText(headingStr: ' $status'),
+          eventcontroller.loadingEditedStatus.value?
+          CircularProgressIndicator(
+            color: HexColor('87C4FF')
+          )
+          : CustomText(headingStr: ' $status'),
           ],),
 
           const Spacer(),
 
-          if(status.toLowerCase() == 'ready' || status.toLowerCase() == 'pending')
-            CustomSwitch(onChanged: (value) {
-            handleSwitchChanged(status);
-          }
+          if((status.toLowerCase() == 'ready' || status.toLowerCase() == 'pending') && start.isAfter(DateTime.now()))
+            CustomSwitch(
+              eventId: id,
           )
-          else
+          // else if((start.isBefore(DateTime.now()) && end.isAfter(DateTime.now())))
+          else if(status.toLowerCase() == 'cancelled' || status.toLowerCase() == 'passed')
             CustomButton(buttonStr: 'Revive', btncolor: HexColor('FFAD84'),
             onTap: (){
               reviveEvent(status, context!);
             })
+          else
+          IconWidget(icon: Icons.info, onTap: (){
+            MyUtils().handleinfo(status, context!);
+           })  
 
             ],)
           ]
         ),
           sizedHeight(10),
           eventContainer(rows:[
-            eventRow(text: title, iconData: Icons.assignment_turned_in_outlined),
+            eventRow(text: title, iconData: Icons.event),
             sizedHeight(10),
-            eventRow(text: '${Constants.eventType} $type', iconData: Icons.event_note_outlined),
+            eventRow(text: '${Constants.eventType} $type', iconData: Icons.type_specimen_rounded),
             sizedHeight(10),
             eventRow(
                 text: '${MyUtils().formatDateTime(start)} - ${MyUtils().formatDateTime(end)}',
-                iconData: Icons.access_time_rounded),
+                iconData: Icons.access_time_filled),
           ]),
           sizedHeight(10),
           eventContainer(rows: [
             eventRow(text: location, iconData: Icons.location_on)
           ]),
           sizedHeight(10),
-          eventContainer(rows: [eventRow(text: description, iconData: Icons.description_outlined)],),
+          eventContainer(rows: [eventRow(text: description, iconData: Icons.description)],),
         ],
       );
 
@@ -108,9 +103,9 @@ class EventColumn {
   EdgeInsetsGeometry? padding,}
   ) => Container(
         decoration: BoxDecoration(
-          color: HexColor('ECF2FF'),
           borderRadius: BorderRadius.circular(10),
-        ),
+           color:Colors.grey.withOpacity(0.15)
+  ),
          padding: padding ?? EdgeInsets.all(20),
         child: Column(
           children: [
@@ -125,10 +120,14 @@ class EventColumn {
   }) =>
       Row(
         children: [
-          Icon(
-            iconData,
-            color: HexColor('45474B'),
-            size: 30,
+            CircleAvatar(
+            backgroundColor: Colors.white,
+            radius: 14,
+            child: Icon(
+              iconData,
+              color: Colors.black,
+              size: 24,
+            ),
           ),
           sizedWidth(10),
           Expanded(

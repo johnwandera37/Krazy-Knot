@@ -1,6 +1,7 @@
 import 'dart:convert';
 // import 'dart:html' as html;
 import 'package:flutter/gestures.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -163,11 +164,11 @@ launchURL(String query) async {
       children: [
         Center(
           child: Text(
-            '${eventData['eventName'] ?? 'Event Title Comes here'}',
+            '${eventData['eventName'] ?? 'Event Title'}',
             style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: Colors.black54,
+              color: Colors.black,
             ),
           ),
         ),
@@ -228,7 +229,7 @@ launchURL(String query) async {
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 16,
-              color: Colors.blue,
+              color: Colors.black,
             ),
           ),
         ),
@@ -250,7 +251,7 @@ launchURL(String query) async {
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 16,
-              color: Colors.blue,
+              color: Colors.black,
             ),
           ),
         ),
@@ -273,7 +274,7 @@ launchURL(String query) async {
             },
             style: ButtonStyle(
               padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                const EdgeInsets.symmetric(horizontal: 40),
+                const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
               ),
             ),
             child: const Text('Accept Invitation'),
@@ -288,6 +289,9 @@ launchURL(String query) async {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+         systemOverlayStyle: SystemUiOverlayStyle(
+              statusBarColor: HexColor('F8DFD4'),
+            ),
         elevation: 0,
         backgroundColor: Colors.transparent,
         iconTheme: const IconThemeData(color: Colors.white),
@@ -295,9 +299,10 @@ launchURL(String query) async {
           child: Text(
             "Event Invitation",
             style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.w500,
               color: Colors.black,
+               fontWeight: FontWeight.w500,
+                fontSize: 20,
+                height: 1.3,
             ),
           ),
         ),
@@ -319,7 +324,7 @@ launchURL(String query) async {
                     "Join our event by completing the form below",
                     style: TextStyle(
                       fontSize: 16,
-                      color: Colors.grey,
+                      color: Colors.black,
                     ),
                   ),
                 ],

@@ -4,65 +4,61 @@ final eventWidgets = EventColumn();
 final EventIdController eventIdController = Get.put(EventIdController());//make event id availability in the state
 final eventcontroller = Get.find<EventsController>();
 
-var eventsRepo = AttendeesRepo(apiClient: Get.find());
-final attendeescontroller = Get.put(AttendeesController(attendeesRepo: eventsRepo));
+final attendeescontroller = Get.find<AttendeesController>();
+ 
 
 // late final AttendeesLink attendeesLink;
 
-class EventDetails extends StatelessWidget{
+class EventDetails extends StatelessWidget{ 
   final String id;
-  final String status;
-  final String name;
-  final String type;
-  final String location;
-  final DateTime startDate;
-  final DateTime endDate;
-  final String eventDescription;
-
-
+  
    const EventDetails({super.key,
     required this.id,
-    required this.status,
-    required this.name,
-    required this.type,
-    required this.location,
-    required this.startDate,
-    required this.endDate,
-    required this.eventDescription,
   });
 
   @override
   Widget build(BuildContext context) {
-    eventIdController.setEventId(id);
-       String eventTypeImage = MyUtils().eventTypeImages[type] ?? Images.unspecified;
+    eventIdController.setEventId(id);//now the id is passed directly to the status update function no need for this, but still useful
+    
+    return 
+    GetBuilder<EventsController>(
+      builder: (eventscontroller){
+        //get events by id
+          EventCard? event = eventscontroller.eventModel?.events.firstWhere((element) => element.id == id,
+          // orElse: () => null,
+          );
+    String eventTypeImage = MyUtils().eventTypeImages[event!.eventType] ?? Images.unspecified;//updates the image of a specific event in event details
     return 
     Scaffold(
       appBar: AppBar(
         elevation: 0,
         centerTitle: true,
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: const IconThemeData(color: Colors.black),
         backgroundColor: HexColor('F8DFD4'),
-        title: CustomText(headingStr: 'Event Details', fontSize: 18, weight: TextWeight.bold,),
+        title: const CustomText(headingStr: 'Event Details', fontSize: 18, weight: TextWeight.bold,),
+         toolbarHeight: Get.width*.2,
         leading: IconWidget(icon: Icons.arrow_back, onTap: () {
           eventcontroller.clearForm();
           Get.back();},),
         actions: [
           //Edit events
           IconWidget(icon: Icons.edit, onTap: (){
+          
                Get.to(EditEvent(
-                      eventId: id,
-                      title: name, 
-                      type: type, 
-                      venue: location, 
-                      startDate: startDate, 
-                      endDate: endDate, 
-                      description: eventDescription,
-                      ));
+                      eventId: id,//The event id does not change unlike the other details
+                      title: event.eventName, 
+                      type: event.eventType, 
+                      venue: event.eventVenue, 
+                      startDate: event.eventStartDate, 
+                      endDate: event.eventEndDate, 
+                      description: event.eventDescription,
+                      )
+                      );      
           }),
         //Cancel events     
-        if(status.toLowerCase() != 'cancelled')
+        if(event.eventStatus.toLowerCase() != 'cancelled')
          IconWidget(icon:  Icons.delete_forever, onTap: (){
-          eventCancel(context: context, status: status);
+          eventCancel(context: context, status: event.eventStatus);
         })
         ],
       ),
@@ -92,13 +88,13 @@ class EventDetails extends StatelessWidget{
              Padding(
             padding: EdgeInsets.symmetric(horizontal: 20),
              child: 
-             eventWidgets.eventColumn(title: name, type: type, start: startDate, end: endDate, location: location, description: eventDescription, status: status, id: id, context: context)
+             eventWidgets.eventColumn(title: event.eventName, type: event.eventType, start: event.eventStartDate, end: event.eventEndDate, location: event.eventVenue, description: event.eventDescription, status: event.eventStatus, id: id, context: context, )
             
              ),
              sizedHeight(Get.width*.1),
-             if(status.toLowerCase() == 'ready' && endDate.isAfter(DateTime.now()))
+             if(event.eventStatus.toLowerCase() == 'ready' && event.eventStartDate.isAfter(DateTime.now()))
              CustomButton(buttonStr: 'Invite Members', btncolor: HexColor('FFAD84'), onTap: () async{
-                await attendeescontroller.getTheLink(); // Wait for getTheLink to complete
+                await attendeescontroller.getTheLink(); // Wait for getTheLink to complete, create a progress widget as it waits
 
                 final AttendeesLink? attendeesLink = attendeescontroller.attendeesLinkModel?.link.isNotEmpty == true
                 ? attendeescontroller.attendeesLinkModel!.link.first
@@ -113,13 +109,16 @@ class EventDetails extends StatelessWidget{
                   }
              })
              else 
-              MyUtils().helperTextFunction(status: status, startDate: startDate, endDate: endDate),
+              MyUtils().helperTextFunction(status: event.eventStatus, startDate: event.eventStartDate, endDate: event.eventEndDate),
               sizedHeight(Get.width*.1)
             ],
           ),
         ),
         ],
       )
+    );
+
+    },
     );
   }
 }

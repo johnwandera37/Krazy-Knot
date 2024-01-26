@@ -4,10 +4,12 @@ import 'package:intl/intl.dart';
 class DateTimePicker extends StatefulWidget {
   final ValueChanged<DateTime>? onChanged;
   final DateTime initialDateTime;
+  final Color?color;
 
   DateTimePicker({
     required this.initialDateTime,
     this.onChanged,
+    this.color
   });
 
   @override
@@ -27,7 +29,8 @@ class _DateTimePickerState extends State<DateTimePicker> {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: _selectedDateTime,
-      firstDate: DateTime.now(),
+      // firstDate: DateTime.now(),
+      firstDate: DateTime(1900), 
       lastDate: DateTime(2101),
     );
 
@@ -79,6 +82,7 @@ class _DateTimePickerState extends State<DateTimePicker> {
           child: inputDec(
             dateTimevalue: dateFormat.format(_selectedDateTime),
             labelText: 'Date',
+            color: widget.color,
             onTap: () {
               _selectDate(context);
             },
@@ -92,6 +96,7 @@ class _DateTimePickerState extends State<DateTimePicker> {
           child: inputDec(
             dateTimevalue: timeFormat.format(_selectedDateTime),
             labelText: 'Time',
+            color: widget.color,
             onTap: () {
               _selectTime(context);
             },
@@ -110,12 +115,13 @@ Widget inputDec({
   required String labelText,
   required VoidCallback onTap,
   required VoidCallback onTextTap,
+  final Color? color
 }) =>
     InkWell(
       onTap: onTap,
       child: InputDecorator(
         decoration: InputDecoration(
-          fillColor: Colors.white,
+          fillColor: color ?? Colors.white,
           filled: true,
           labelText: labelText,
           border: OutlineInputBorder(),

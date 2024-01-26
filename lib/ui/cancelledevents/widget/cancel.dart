@@ -5,12 +5,27 @@ void eventCancel({
   required BuildContext context,
   required String status,
 }) {
-  String dialogContent = 'You are about to cancel this event';
+  String dialogContent = status.toLowerCase() == "passed" ?
+  "You can only cancel events whose status is Ready or Pending"
+  :'You are about to cancel this event';
   showCustomDialog(
     context: context,
-    title: "CANCEL EVENT",
+    title: status.toLowerCase() == "passed" ? "WARNING":"CANCEL EVENT",
     content: dialogContent,
-    actions: [
+    actions: 
+    status.toLowerCase() == 'passed'
+    ? [
+        Center(
+          child: TextButton(
+            child: const Text('Ok'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ),
+      ]
+    :
+    [
      TextButton(
               child: const Text('No'),
               onPressed: () {
@@ -24,12 +39,12 @@ void eventCancel({
                  final eventcontroller = Get.find<EventsController>();
                 final String newStatus;
                 if (status.toLowerCase() == 'pending' ||
-                    status.toLowerCase() == 'ready') {
+                    status.toLowerCase() == 'ready'
+                    ) {
                   newStatus = 'Cancelled';
                   eventcontroller.editEventStatus(eventStatus: newStatus);
                 }
                 Navigator.of(context).pop();
-              MyStyles().showSnackBar(messageText: 'Event has been cancelled!');
               },
             ),
     ],
@@ -39,7 +54,7 @@ void eventCancel({
 //handle reviving
   void reviveEvent(String revStatus, BuildContext context) async{
       try{
-        String dialogContent = 'You are about to restore this event';
+        String dialogContent = 'You are about to restore this event ensure you update the dates too and any other necessary changes';
   showCustomDialog(
     context: context,
     title: "RESTORE EVENT",
@@ -56,18 +71,17 @@ void eventCancel({
               child: const Text('Yes'),
               onPressed: () async{
               final eventcontroller = Get.find<EventsController>();
-              if(revStatus.toLowerCase() == 'cancelled'){
+              if(revStatus.toLowerCase() == 'cancelled'|| revStatus.toLowerCase() == 'passed'){
                 String newRevivedStr = 'Pending';
                 await eventcontroller.editEventStatus(eventStatus: newRevivedStr);
               }
-
               Navigator.of(context).pop();
-              MyStyles().showSnackBar(messageText: 'Event has been revived!');
               },
             ),
     ],
   );
     }catch(e){
       debugPrint('😟😟😟 Reving on status error: $e');
+      MyStyles().showSnackBar(messageText: 'Erro occured: $e');
     }
   }

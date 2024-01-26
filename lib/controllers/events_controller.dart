@@ -32,6 +32,7 @@ class EventsController extends GetxController{
   EventModel? get eventModel => _eventModel;
 
   RxBool loadingEvents = false.obs;
+   RxBool loadingCreatedEvent = false.obs;
   RxBool loadingEditedEvent = false.obs;
   RxBool loadingEditedStatus = false.obs;
 
@@ -43,7 +44,7 @@ class EventsController extends GetxController{
       Response response = await eventsRepo.getEventsApi(eventOwner: userInfo!.id);
       if(response.statusCode == 200){
         loadingEvents(false);
-           debugPrint('🚌🚌🚌🚌 The getEvents Api has been excecuted and the following is the data: ');//${response.body}
+           debugPrint('🚌🚌🚌🚌 The getEvents Api has been excecuted and the following is the data: ');
         _eventModel = EventModel.fromJson(response.body);
       }else{
         ApiChecker.checkApi(response);
@@ -62,6 +63,7 @@ class EventsController extends GetxController{
 
 //create events
  Future<void> postEventData(BuildContext context) async{
+  loadingCreatedEvent(true);
   final DateTime startTime = dateTimeController.selectedDateTime.value;
   final DateTime endTime = dateTimeController.selectedEndDateTime.value;
     try{
@@ -78,7 +80,7 @@ class EventsController extends GetxController{
     );
       Response response =  await eventsRepo.postEventsApi(event);
         if(response.statusCode == 200){
-          loadingEditedEvent(false);
+          loadingCreatedEvent(false);
           debugPrint('🚀🚀🚀 The postEventsApi has been executed successfully.');
             MyStyles().showSnackBarGreen(messageText: "Event has been created successful");
            clearForm();
@@ -92,6 +94,7 @@ class EventsController extends GetxController{
       debugPrint("Error: $e");
       MyStyles().showSnackBar(messageText: "Error: $e");
     }finally{
+      loadingCreatedEvent(false);
       update();
     }
   }
@@ -130,7 +133,7 @@ class EventsController extends GetxController{
             Navigator.pop(context);
         }else{
           ApiChecker.checkApi(response);
-          MyStyles().showSnackBar(messageText: "Failed to dit this event");
+          MyStyles().showSnackBar(messageText: "Failed to edit this event");
         }
        update();
     }catch (e){
@@ -144,8 +147,9 @@ class EventsController extends GetxController{
 
 
   //Edit event's status
-  Future<void> editEventStatus({required String eventStatus}) async{
-  String eventId = eventIdController.eventId.value;
+  Future<void> editEventStatus({required String eventStatus, String? eventid}) async{
+    loadingEditedStatus(true);
+   String eventId = eventid ?? eventIdController.eventId.value;
     try{
       final edit = EditEventStatus(
       eventId: eventId,
@@ -158,9 +162,12 @@ class EventsController extends GetxController{
       };
       Response response =  await eventsRepo. editEventStatusApi(requestBody);
         if(response.statusCode == 200){
+           loadingEditedStatus(false);
            debugPrint('😐😐😐 The editStatusApi has been executed successfully.');
-            await MyStyles().showSnackBarGreen(messageText: "Status updated to $eventStatus");
+
             await eventData();
+            await MyStyles().showSnackBarGreen(messageText: "Status updated to $eventStatus");
+            
         }else{
           ApiChecker.checkApi(response);
           MyStyles().showSnackBar(messageText: "Failed to edit this event's status");
@@ -170,7 +177,43 @@ class EventsController extends GetxController{
       debugPrint("Error: $e");
       MyStyles().showSnackBar(messageText: "Error: $e");
     }finally{
+      loadingEditedStatus(false);
       update(); 
+    }
+  }
+
+  
+  //Automatically update events status to Passed
+  Future<void> updateStatusBasedOnEndDate() async {
+    try {
+      // Fetch all events
+      await eventData();
+      // Get the current date and time
+      DateTime currentDate = DateTime.now();
+
+      
+    // List to store events that need status update
+    List<EventCard> eventsToUpdate = [];
+
+      // Check end dates and collect events that need status update
+    for (EventCard event in _eventModel!.events) {
+      if (event.eventEndDate.isBefore(currentDate) &&
+          (event.eventStatus.toLowerCase() != 'cancelled') &&
+          (event.eventStatus.toLowerCase() != 'passed')) {
+        eventsToUpdate.add(event);
+      }
+    }
+    debugPrint('Number of events to update 🤨🤨: ${eventsToUpdate.length}');
+
+      // Update status for each event
+      for (EventCard event in eventsToUpdate) {
+        debugPrint('Updating status for event 🤨🤨 ${event.id}');
+         debugPrint('Updating status for event 🤨🤨 ${event.eventName}');
+         debugPrint('Updating status for event 🤨🤨 ${event.eventStatus}');
+        await editEventStatus(eventStatus: 'Passed', eventid: event.id);
+      }
+    } catch (e) {
+      debugPrint('Error updating event statuses based on end date: $e');
     }
   }
 

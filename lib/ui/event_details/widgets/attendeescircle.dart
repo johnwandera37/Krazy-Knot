@@ -45,7 +45,7 @@ class CirclePainter extends CustomPainter {
     // Draw the text (number of users) in the center of the circle
     TextSpan span = TextSpan(
       style: const TextStyle(
-        color: Colors.blue,
+        color: Colors.black,
         fontSize: 20.0,
         fontWeight: FontWeight.bold,
       ),

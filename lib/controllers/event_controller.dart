@@ -248,7 +248,7 @@ class EventController extends GetxController {
       );
     }
   }
-
+ 
   //fetch members
   Future<void> fetchMembers(event_id) async {
     try {
