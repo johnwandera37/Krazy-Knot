@@ -115,7 +115,7 @@ Widget helperTextFunction(
   if(startDate.isBefore(DateTime.now()) && endDate.isAfter(DateTime.now())){
     return helperText(text: 'This event is happening right now!', status: status);
   }
-  else if(endDate.isBefore(DateTime.now())){
+  else if(endDate.isBefore(DateTime.now()) && status.toLowerCase() != 'cancelled'){
     return helperText(text: 'This event has passed, you can recreate this event by editing the event values!', status: status);
   }
   else if(status.toLowerCase() == 'cancelled'){
